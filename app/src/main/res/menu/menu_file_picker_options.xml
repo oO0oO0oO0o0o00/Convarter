@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@android:drawable/ic_menu_rotate"
+        android:onClick="refresh"
+        android:title="Refresh"
+        app:showAsAction="always" />
+
+    <item
+        android:onClick="sortby"
+        android:title="@string/filepicker_sortby"
+        app:showAsAction="never" />
+</menu>

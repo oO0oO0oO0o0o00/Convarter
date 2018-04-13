@@ -1,0 +1,67 @@
+<resources>
+    <string name="app_name">Convarter</string>
+    <array name="main_list">
+        <item>Edit gamemap with javascript</item>
+        <item>Settings</item>
+        <item>About</item>
+    </array>
+    <string name="setup_nextstep">Next</string>
+    <string name="setup_finish">Go</string>
+    <string name="setup_cancel">Cancel</string>
+    <string name="setup_cancelconfirm">Cancel?</string>
+    <string name="setup_fmaps_title0">Select a MinecraftPE game map:</string>
+    <string name="setup_fmaps_nomap">Can\'t find any game maps in MinecraftPE\'s external maps folder. Have you set MinecraftPE to use external storage?</string>
+    <string name="setup_fmaps_nomap_explain">To let MinecraftPE use external storage, open it, click \"Settings\" from it\'s home screen, select \"Profile\" on the left panel, then scroll down the right pane and chang \"File Storage Location\" to \"External\".</string>
+    <string name="setup_fmaps_nofolder">MinecraftPE\'s gamemap folder can\'t be found. Have you really installed MinecraftPE from Play Store or Amazon?</string>
+    <string name="setup_fmaps_noperm">It seems that Convarter was not permitted to read or write external storage. In order to use, please go to Settings or phone management apps to allow Convarter to use permission \"Storage\".</string>
+    <string name="setup_fmaps_date_unknown">Unknown</string>
+    <string name="setup_fmaps_lastplayed">Last played: %1$s</string>
+    <string name="setup_fjs_nojs">You haven\'t imported any scripts yet~ Click the \"Add\" button to add one~</string>
+    <string name="setup_fjs_about">Convarter can directly detect any scripts under /sdcard/%1$s. Just place scripts there, then you won\'t need to import.</string>
+    <string name="setup_fjs_addfile">Pick from storage</string>
+    <string name="setup_fjs_addclip">Import from clipboard</string>
+    <string name="filepicker_parentdir">Up..</string>
+    <string name="filepicker_sortby">Sort by...</string>
+    <string name="filepicker_refresh">Refresh</string>
+    <array name="filepicker_sortby_list">
+        <item>Name</item>
+        <item>Newer first</item>
+        <item>Older first</item>
+    </array>
+    <string name="setup_fjs_importhowto">How to import it...</string>
+    <string name="setup_fjs_importhowtoexplain">By selecting \"Copy\", the chosen script will be copied to Convarter\'s library, then any loss or damage to the orginal file won\'t influence the copied script.\n\nBy selecting \"Link\", Convarter will only remember where the script is, and read it out right before every time you use it. In this way, you don\'t have to re-import it after editing it.\n\nWell just click \"Copy\" if you didn\'t get it...</string>
+    <string name="setup_fjs_btncopy">Copy</string>
+    <string name="setup_fjs_btnlink">Link</string>
+    <string name="setup_fjs_importhowto_content">By clicking \"Copy\", the selected script will be copied to Convarter\'s library. By clicking \"Link\" it would be linked to.</string>
+    <string name="setup_fjs_importhowto_showmore">What\'s the difference?</string>
+    <string name="setup_fjs_delete">Delete</string>
+    <string name="setup_js_delconfirm">Delete this script from Convarter?</string>
+    <string name="setup_fjs_tips">Tips</string>
+    <string name="setup_fjs_errcantread">Failed: file can\'t be read.</string>
+    <string name="setup_fjs_errdir">Failed: scripts directory can\'t be created.</string>
+    <string name="setup_fjs_errcpy">Failed: file can\'t be copied.</string>
+    <string name="setup_fjs_succ">Successfully imported.</string>
+    <string name="setup_fjs_errwtf">Well you don\'t need to import it :(</string>
+    <string name="setup_fjs_title">Select a Javascript</string>
+    <string name="runjs_title_running">In progress...</string>
+    <string name="runjs_title_failed">😥Failed..</string>
+    <string name="runjs_title_succ">😘 Finished~</string>
+    <string name="runjs_input_prompt">Please enter something:</string>
+    <string name="runjs_input_hint">Then click Enter</string>
+    <string name="runjs_btnenter">Enter</string>
+    <string name="runjs_logcat_firstline">Script output will be shown here.\n</string>
+    <string name="runjs_btnclose">Close</string>
+    <string name="runjs_erropendb">Error: can\'t load database /db from selected gamemap.</string>
+    <string name="runjs_erropendat">Error: can\'t open level.dat of the gamemap.</string>
+    <string name="runjs_errsavedb">Error: Progress can\'t be saved to /db.</string>
+    <string name="runjs_errsavedat">Error: level.dat can\'t be modified.</string>
+    <string name="runjs_abort_msg">Stop the script and return?</string>
+    <string name="global_yes">Yes</string>
+    <string name="global_no">No</string>
+    <string name="setup_fjso_cachetitle">Max cached Chunks:</string>
+    <string name="setup_fjso_chunkexplain">A \"Chunk\" in Minecraft is a certain region of gamemap containing all blocks within, both width and length (x and z directions) are 16, and height varies between 16~256 depending how tall you build. They are stored in your device\'s storage. Some of them can be temporarily stored in memory to accelerate read and write operations. We can store an amount of chunks up to the limit you set above. If the number is too much the app will crash, if it\'s too little the process will be very slow. Usually you should leave the default value unchanged.</string>
+    <string name="setup_fjso_title">Other settings...</string>
+    <string name="global_dontaskagain">Don\'t ask again.</string>
+    <string name="settings_noask_jsothers">Don\'t ask for \"others\" options of javascript</string>
+    <string name="settings_noask_seljs">Don\'t show help dialog when enters javascript picker</string>
+</resources>
