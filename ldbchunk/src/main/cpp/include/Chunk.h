@@ -128,8 +128,11 @@ private:
 
     ////Init.
 
-    //////Entrance.
-    void loadSubchunk(unsigned char which);
+    void loadSubchunks(unsigned char top);
+
+    //////Load a subchunk.
+    //////Returns if subchunk's loaded or generated.
+    bool loadSubchunk(unsigned char which);
 
     //////For paletted format.
     void doLoadPalettedSubchunk(const unsigned char which, const char *buffer);

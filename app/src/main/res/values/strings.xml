@@ -60,8 +60,11 @@
     <string name="global_no">No</string>
     <string name="setup_fjso_cachetitle">Max cached Chunks:</string>
     <string name="setup_fjso_chunkexplain">A \"Chunk\" in Minecraft is a certain region of gamemap containing all blocks within, both width and length (x and z directions) are 16, and height varies between 16~256 depending how tall you build. They are stored in your device\'s storage. Some of them can be temporarily stored in memory to accelerate read and write operations. We can store an amount of chunks up to the limit you set above. If the number is too much the app will crash, if it\'s too little the process will be very slow. Usually you should leave the default value unchanged.</string>
-    <string name="setup_fjso_title">Other settings...</string>
+    <string name="setup_fjso_title">Advanced</string>
     <string name="global_dontaskagain">Don\'t ask again.</string>
-    <string name="settings_noask_jsothers">Don\'t ask for \"others\" options of javascript</string>
+    <string name="settings_noask_jsothers">Don\'t show advanced options of javascript</string>
     <string name="settings_noask_seljs">Don\'t show help dialog when enters javascript picker</string>
+    <string name="setup_fjso_opttitle">Optimization level of javascript:</string>
+    <string name="setup_fjso_optnoopt">Level -1: no optimization</string>
+    <string name="setup_fjso_optlvl">Level %1$d</string>
 </resources>

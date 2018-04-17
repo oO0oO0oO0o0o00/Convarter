@@ -1,2 +1,2 @@
-include ':app', ':SimpleNBT', ':ldbchunk'
+include ':app', ':SimpleNBT', ':ldbchunk', ':rhino'
 

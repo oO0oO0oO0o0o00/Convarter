@@ -14,20 +14,25 @@ import rbq2012.convarter.R;
 public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSeekBarChangeListener {
 
     final static public String PREF_KEY_CACHE_CHUNKS = "cache_chunks_max";
+    final static public String PREF_KEY_OPTIMIZATION = "optimization_javascript";
     final static public String PREF_KEY_NOASK_JSOTHERS = "no_ask_js_others";
 
-    private TextView m_tv_number;
-    private SeekBar m_sbar;
+    private TextView m_tv_number, m_tv_level;
+    private SeekBar m_sbar, m_sbar2;
     private CheckBox m_chk;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_config_jsothers, null, false);
+        View root = inflater.inflate(R.layout.fragment_config_jsadv, null, false);
         m_tv_number = root.findViewById(R.id.text);
+        m_tv_level = root.findViewById(R.id.text2);
         m_sbar = root.findViewById(R.id.seek);
         m_sbar.setOnSeekBarChangeListener(this);
-        m_sbar.setProgress(64);
+        m_sbar2 = root.findViewById(R.id.seek2);
+        m_sbar2.setOnSeekBarChangeListener(this);
+        m_sbar.setProgress(48);
+        m_sbar2.setProgress(3);
         m_chk = root.findViewById(R.id.checkbox);
         return root;
     }
@@ -41,8 +46,19 @@ public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSe
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-        m_tv_number.setText(Integer.toString(i));
-        getConfiguration().putInt(PREF_KEY_CACHE_CHUNKS, i);
+        switch (seekBar.getId()) {
+            case R.id.seek:
+                i += 16;
+                m_tv_number.setText(Integer.toString(i));
+                getConfiguration().putInt(PREF_KEY_CACHE_CHUNKS, i);
+                break;
+            case R.id.seek2:
+                i -= 1;
+                if (i == -1) m_tv_level.setText(R.string.setup_fjso_optnoopt);
+                else m_tv_level.setText(getString(R.string.setup_fjso_optlvl, i));
+                getConfiguration().putInt(PREF_KEY_OPTIMIZATION, i);
+                break;
+        }
     }
 
     @Override

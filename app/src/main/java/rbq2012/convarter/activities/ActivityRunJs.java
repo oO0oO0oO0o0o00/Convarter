@@ -15,6 +15,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.faendir.rhino_android.ForceQuitException;
+import com.faendir.rhino_android.RhinoAndroidHelper;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.mozilla.javascript.Context;
@@ -59,6 +62,9 @@ import rbq2012.convarter.R;
 import rbq2012.convarter.configguide.FragmentBase;
 import rbq2012.ldbchunk.DB;
 import rbq2012.ldbchunk.Names;
+
+import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_CACHE_CHUNKS;
+import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_OPTIMIZATION;
 
 /**
  * Created by barco on 2018/3/14.
@@ -153,7 +159,9 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         File script_file = new File(root, Constants.FNAME_MINECRAFTPE_SCRIPTS);
         script_file = new File(script_file, script);
         script = FileUtil.readTextFile(script_file);
-        m_thread = new JsThread(handler, map_file, script);
+        m_thread = new JsThread(handler, map_file, script,
+                intent.getIntExtra(PREF_KEY_CACHE_CHUNKS, 64),
+                intent.getIntExtra(PREF_KEY_OPTIMIZATION, 2));
         m_thread.start();
     }
 
@@ -249,11 +257,15 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         private String script;
         private GameMapVersion version;
         private FlatWorldLayers.Layers layers;
+        private int max_cached_chunks;
+        private int optimization_script;
 
-        public JsThread(MeowHandler handler, File map_dir, String script) {
+        public JsThread(MeowHandler handler, File map_dir, String script, int max_cached_chunks, int optimization_script) {
             this.handler = handler;
             this.map_dir = map_dir;
             this.script = script;
+            this.max_cached_chunks = max_cached_chunks;
+            this.optimization_script = optimization_script;
         }
 
         private JSONObject iter(CompoundMap map) throws JSONException {
@@ -402,7 +414,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
 
             db.setLayers(layers.getLayers());
 
-            db.setMaxChunksCount(64);
+            db.setMaxChunksCount(max_cached_chunks);
 
 //            for (int i = 0; i < 256; i++) {
 //                db.setTile(1360 + i, 5, 19, 0, i, 0);
@@ -417,9 +429,10 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
 
             ///Run script
             try {
-                InterruptableContextFactory.init();
-                Context ctx = new InterruptableContextFactory().enterContext();
-                ctx.setOptimizationLevel(-1);
+                //InterruptableContextFactory.init();
+                org.mozilla.javascript.Context ctx = new RhinoAndroidHelper(ActivityRunJs.this).enterContext();
+                //new InterruptableContextFactory().enterContext();
+                ctx.setOptimizationLevel(optimization_script);
                 Script script = ctx.compileString(this.script, "script", 0, null);
                 this.script = null;
                 ScriptableObject scope = ctx.initStandardObjects(new MeowScope(), false);
@@ -489,6 +502,12 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             public void setTile(int x, int y, int z, int id, int data) {
                 db.setTile(x, y, z, 0, id, data);
             }
+
+            @JSFunction
+            public void setData(int x, int y, int z, int data) {
+                db.setData(x, y, z, 0, data);
+            }
+
 
             @JSFunction
             public Object dbget(String key) {
@@ -588,7 +607,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
 
 }
 
-class InterruptableContextFactory extends ContextFactory {
+/*class InterruptableContextFactory extends ContextFactory {
 
     private static boolean initialized = false;
 
@@ -614,7 +633,4 @@ class InterruptableContextFactory extends ContextFactory {
         cx.setInstructionObserverThreshold(1000);
         return cx;
     }
-}
-
-class ForceQuitException extends Error {
-}
+}*/

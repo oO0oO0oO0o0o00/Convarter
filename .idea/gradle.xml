@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/SimpleNBT" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/ldbchunk" />
+            <option value="$PROJECT_DIR$/rhino" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/SimpleNBT/SimpleNBT.iml" filepath="$PROJECT_DIR$/SimpleNBT/SimpleNBT.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/ldbchunk/ldbchunk.iml" filepath="$PROJECT_DIR$/ldbchunk/ldbchunk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rhino/rhino.iml" filepath="$PROJECT_DIR$/rhino/rhino.iml" />
     </modules>
   </component>
 </project>

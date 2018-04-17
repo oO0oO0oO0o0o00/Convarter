@@ -8,6 +8,7 @@ import rbq2012.convarter.R;
 import rbq2012.convarter.activities.ActivityRunJs;
 
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_CACHE_CHUNKS;
+import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_OPTIMIZATION;
 
 public class ActivityJs extends ActivityBase {
 
@@ -22,6 +23,7 @@ public class ActivityJs extends ActivityBase {
                 if (no_page_2) {
                     setContinueBtnFinish();
                     configuration.putInt(PREF_KEY_CACHE_CHUNKS, 64);
+                    configuration.putInt(PREF_KEY_OPTIMIZATION, 2);
                 }
                 break;
             case 1:

@@ -109,7 +109,7 @@ BedrockChunk::BedrockChunk(leveldb::DB *database, mapkey_t key, leveldb::ReadOpt
     memset(flags, 0, sizeof(flags));
 }
 
-void BedrockChunk::loadSubchunk(unsigned char which) {
+bool BedrockChunk::loadSubchunk(unsigned char which) {
     LOGE_LS("Loading subchunk %d", which);
     char key[10];
     memcpy(key, karrbase, sizeof(karrbase));
@@ -138,6 +138,7 @@ void BedrockChunk::loadSubchunk(unsigned char which) {
                 //Unsupported format.
                 break;
         }
+        return true;
     } else if (status.IsNotFound()) {
         PalettedSubChunk *sch = new PalettedSubChunk;
         subchunks[which].paletted = sch;
@@ -148,9 +149,19 @@ void BedrockChunk::loadSubchunk(unsigned char which) {
         sch->sticks = new uint32_t[128];
         memset(sch->sticks, 0, 128 * 4);
         SET_SUBCHUNK_VER(which, 8);
-        SET_SUBCHUNK_MODIFIED(which);
+        return false;
     } else {//Db error
-        //WTF??
+        return false;
+    }
+}
+
+void BedrockChunk::loadSubchunks(unsigned char top) {
+    //If we gonna create a subchunk all subchunks below have to exist.
+    //Mojang said so.
+    if (loadSubchunk(top))return;
+    for (unsigned char i = top - 1; i != 0xff; i--) {
+        if (GET_SUBCHUNK_VER(i) != 0)break;//Means all those below or equal to i exists.
+        if (!this->loadSubchunk(i))SET_SUBCHUNK_MODIFIED(i);//Generated subchunks shall be saved.
     }
 }
 
@@ -215,7 +226,7 @@ void BedrockChunk::doLoadAlignedSubchunk(const unsigned char which, const char *
 
 unsigned char BedrockChunk::getTile(unsigned char x, unsigned char y, unsigned char z) {
     unsigned char sub = y >> 4;
-    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunk(sub);
+    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunks(sub);
     switch (GET_SUBCHUNK_VER(sub)) {
         case 0:
             return 0;
@@ -228,7 +239,7 @@ unsigned char BedrockChunk::getTile(unsigned char x, unsigned char y, unsigned c
 
 unsigned char BedrockChunk::getData(unsigned char x, unsigned char y, unsigned char z) {
     unsigned char sub = y >> 4;
-    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunk(sub);
+    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunks(sub);
     switch (GET_SUBCHUNK_VER(sub)) {
         case 0:
             return 0;
@@ -246,7 +257,7 @@ void BedrockChunk::setTile(unsigned char x, unsigned char y, unsigned char z, un
 void BedrockChunk::setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
                            unsigned char data) {
     unsigned char sub = y >> 4;
-    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunk(sub);
+    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunks(sub);
     switch (GET_SUBCHUNK_VER(sub)) {
         case 0:
             return;
@@ -264,7 +275,7 @@ void BedrockChunk::setTile(unsigned char x, unsigned char y, unsigned char z, un
 
 void BedrockChunk::setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) {
     unsigned char sub = y >> 4;
-    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunk(sub);
+    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunks(sub);
     switch (GET_SUBCHUNK_VER(sub)) {
         case 0:
             return;

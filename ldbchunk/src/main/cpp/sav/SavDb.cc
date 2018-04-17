@@ -113,7 +113,10 @@ SavDb::~SavDb() {
 byte SavDb::getTile(int32_t x, int32_t y, int32_t z, uint32_t dim) {
     mapkey_t key = TO_MAPKEY(x, z, dim);
     chunk_li *item = getChunkItem(key);
-    return item->val->getTile(x & 0xff, y, z & 0xff);
+    byte ret = item->val->getTile(x & 0xf, y, z & 0xf);
+    makeNewest(item);
+    LOGE_OP("getTile at (%d,%d,%d)", x, y, z);
+    return ret;
 }
 
 void SavDb::setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id, byte data) {
@@ -121,6 +124,7 @@ void SavDb::setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id, byte
     chunk_li *item = getChunkItem(key);
     item->val->setTile(x & 0xf, y, z & 0xf, id, data);
     makeNewest(item);
+    item->flag = CHUNK_LI_DIRTY;
     LOGE_OP("setTile at (%d,%d,%d)", x, y, z);
 }
 
@@ -129,11 +133,21 @@ void SavDb::setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id) {
 }
 
 byte SavDb::getData(int32_t x, int32_t y, int32_t z, uint32_t dim) {
-    return 0;
+    mapkey_t key = TO_MAPKEY(x, z, dim);
+    chunk_li *item = getChunkItem(key);
+    byte ret = item->val->getData(x & 0xf, y, z & 0xf);
+    makeNewest(item);
+    LOGE_OP("getData at (%d,%d,%d)", x, y, z);
+    return ret;
 }
 
 void SavDb::setData(int32_t x, int32_t y, int32_t z, uint32_t dim, byte data) {
-
+    mapkey_t key = TO_MAPKEY(x, z, dim);
+    chunk_li *item = getChunkItem(key);
+    item->val->setData(x & 0xf, y, z & 0xf, data);
+    makeNewest(item);
+    item->flag = CHUNK_LI_DIRTY;
+    LOGE_OP("setData at (%d,%d,%d)", x, y, z);
 }
 
 chunk_li *SavDb::getChunkItem(mapkey_t key) {
@@ -182,19 +196,20 @@ chunk_li *SavDb::loadChunk(mapkey_t key) {
         default:
             chunk = new BedrockChunk(database, key, readOptions);
     }
-    if (status.IsNotFound()) {
-        chunk->generateFlatLayers(&layers);
-    }
     chunk_li *li = new chunk_li;
     li->key = key;
     li->val = chunk;
+    if (status.IsNotFound()) {
+        chunk->generateFlatLayers(&layers);
+        li->flag = CHUNK_LI_DIRTY;
+    }
     int crc = getCrc16(&key);
     chunk_li *h = chunks[crc];
     if (h == nullptr)chunks[crc] = li;
-    else
-        for (; h->next != nullptr; h = h->next) {
-            h->next = li;
-        }
+    else {
+        while (h->next != nullptr)h = h->next;
+        h->next = li;
+    }
     chunk_lru_li *wrapper = new chunk_lru_li{li, mru, nullptr};
     li->sorter = wrapper;
     if (mru != nullptr)mru->next = wrapper;
@@ -246,7 +261,7 @@ void SavDb::releaseLeastRecentUsedChunk() {
 
     //Save it.
     chunk_li *li = lru->item;
-    li->val->save();
+    if (li->flag == CHUNK_LI_DIRTY)li->val->save();
 
     //Delete chunk.
     delete li->val;
@@ -267,7 +282,9 @@ void SavDb::releaseLeastRecentUsedChunk() {
     delete li;
 
     //Delete lru_li.
-    lru = lru->next;
+    chunk_lru_li *next = lru->next;
+    delete lru;
+    lru = next;
     lru->prev = nullptr;
 
     //Done.
@@ -276,15 +293,16 @@ void SavDb::releaseLeastRecentUsedChunk() {
 }
 
 void SavDb::makeNewest(chunk_li *li) {
-    li->flag = CHUNK_LI_DIRTY;
     chunk_lru_li *wrapper = li->sorter;
     if (mru == wrapper) {
         LOGE_OP("Current chunk already newest.");
         return;
     }
+    if (lru == wrapper)lru = wrapper->next;
     if (wrapper->prev != nullptr) wrapper->prev->next = wrapper->next;
     if (wrapper->next != nullptr) wrapper->next->prev = wrapper->prev;
     wrapper->prev = mru;
+    mru->next = wrapper;
     wrapper->next = nullptr;
     mru = wrapper;
     LOGE_OP("Chunk made newest.");
@@ -293,7 +311,10 @@ void SavDb::makeNewest(chunk_li *li) {
 void SavDb::flush() {
     LOGE_LS("Flushing cached chunks...");
     for (chunk_lru_li *i = lru, *j; i != nullptr; i = j) {
-        i->item->val->save();
+        if (i->item->flag == CHUNK_LI_DIRTY) {
+            LOGE_LS("Saving chunk (%d,%d).", i->item->key.x_div16, i->item->key.z_div16);
+            i->item->val->save();
+        }
         j = i->next;
         delete i->item->val;
         delete i->item;
