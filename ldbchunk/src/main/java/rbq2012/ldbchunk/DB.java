@@ -85,6 +85,10 @@ public final class DB {
         nativeSetData(ptr, x, y, z, dimension, data);
     }
 
+    public void chflat(byte[] layers) {
+        nativeChflat(ptr, layers);
+    }
+
     ////////
     //Test
 
@@ -113,7 +117,9 @@ public final class DB {
 
     private static native void nativeTest(long ptr);
 
-    {
+    private static native void nativeChflat(long ptr, byte[] bnew);
+
+    static {
         System.loadLibrary("ldbchunkjni");
     }
 

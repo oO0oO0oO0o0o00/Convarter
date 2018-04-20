@@ -24,9 +24,30 @@
 
         <activity android:name=".configguide.ActivityJs" />
 
+        <activity android:name=".configguide.ActivityFlat" />
+
         <activity android:name=".activities.ActivityFilePicker"></activity>
 
-        <activity android:name=".activities.ActivityRunJs"></activity>
+        <activity
+            android:name=".activities.ActivityCreateLevel"
+            android:label="@string/act_title_createlevel"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".activities.ActivityRunJs"
+            android:label="@string/act_title_runjs"></activity>
+
+        <activity
+            android:name=".activities.ActivityModifyFlat"
+            android:label="@string/act_title_moflat"></activity>
+
+        <activity
+            android:name=".activities.DialogEditLayer"
+            android:theme="@style/DialogTheme" />
+
+        <activity
+            android:name=".activities.DialogPickBlock"
+            android:theme="@style/DialogTheme" />
 
     </application>
 

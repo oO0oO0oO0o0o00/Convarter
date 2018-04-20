@@ -1,5 +1,7 @@
 package rbq2012.convarter.configguide;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -29,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rbq2012.convarter.R;
+import rbq2012.convarter.activities.ActivityCreateLevel;
 
 import static android.text.format.DateUtils.FORMAT_SHOW_DATE;
 import static android.text.format.DateUtils.FORMAT_SHOW_TIME;
@@ -41,8 +44,15 @@ import static rbq2012.convarter.Constants.*;
 
 public class FragmentSelMap extends FragmentBase {
 
+    static private final int REQ_CODE_CREATELEVEL = 2012;
+
     private GameMapsListAdapter m_list_adapter = null;
     private boolean m_first_resume = true;
+    private boolean m_allow_create = false;
+
+    public void enableCreate() {
+        m_allow_create = true;
+    }
 
     @Nullable
     @Override
@@ -68,13 +78,26 @@ public class FragmentSelMap extends FragmentBase {
         //
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQ_CODE_CREATELEVEL:
+                if (resultCode != Activity.RESULT_OK) break;
+                String path = data.getStringExtra(ActivityCreateLevel.INTENT_KEY_PATH);
+                m_list_adapter.setSeldir(path);
+                getConfiguration().putString(CONF_MAPDIR, path);
+                break;
+        }
+    }
+
     private class GameMapsListAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
 
-        private List<MapInfo> maps = null;
-        private LayoutInflater inflater = null;
-        private View[] list_or_emptyviews = null;
+        private List<MapInfo> maps;
+        private LayoutInflater inflater;
+        private View[] list_or_emptyviews;
         private int select_index = -1;
         private View select_view = null;
+        private String force_seldir = null;
 
         //0: Have maps;		1: No maps, have folder;
         // 2: No folder;	3: No permission;
@@ -97,6 +120,10 @@ public class FragmentSelMap extends FragmentBase {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            if (m_allow_create && i == 0) {
+                startActivityForResult(new Intent(getActivity(), ActivityCreateLevel.class), REQ_CODE_CREATELEVEL);
+                return;
+            }
             if (select_index == i) return;
             view.findViewById(R.id.entry_selmark).setVisibility(View.VISIBLE);
             if (select_view != null)
@@ -109,19 +136,31 @@ public class FragmentSelMap extends FragmentBase {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            ViewGroup root = (ViewGroup) inflater.inflate(R.layout.entry_config_fmaps_list, viewGroup, false);
-            LinearLayout t = (LinearLayout) root.getChildAt(0);
-            TextView tv = (TextView) t.getChildAt(0);
-            MapInfo info = maps.get(i);
-            tv.setText(info.name);
-            tv = (TextView) t.getChildAt(1);
-            tv.setText(info.last_played_time);
-            tv = (TextView) t.getChildAt(2);
-            tv.setText(info.path);
-            if (select_index == i) {
-                root.getChildAt(1).setVisibility(View.VISIBLE);
+            ViewGroup root;
+
+            //If it's for creating new.
+            if (m_allow_create && i == 0) {
+                root = (ViewGroup) inflater.inflate(R.layout.entry_config_fmaps_create, viewGroup, false);
+            } else {
+                root = (ViewGroup) inflater.inflate(R.layout.entry_config_fmaps_list, viewGroup, false);
+                LinearLayout t = (LinearLayout) root.getChildAt(0);
+                TextView tv = (TextView) t.getChildAt(0);
+                MapInfo info = getItem(i);
+                tv.setText(info.name);
+                tv = (TextView) t.getChildAt(1);
+                tv.setText(info.last_played_time);
+                tv = (TextView) t.getChildAt(2);
+                tv.setText(info.path);
+                if (select_index == i) {
+                    root.getChildAt(1).setVisibility(View.VISIBLE);
+                    select_view = root;
+                }
             }
             return root;
+        }
+
+        public void setSeldir(String path) {
+            force_seldir = path;
         }
 
         private void gotoState(int state) {
@@ -133,44 +172,67 @@ public class FragmentSelMap extends FragmentBase {
             notifyDataSetChanged();
         }
 
+        //Called after activity resumed. User may modify game maps during which.
         public void update() {
+
+            //Back up current scroll value and selected item.
             ListView lv = (ListView) list_or_emptyviews[0];
             int scroll = lv.getScrollY();
             String seldir = null;
             if (select_index != -1) seldir = maps.get(select_index).path;
+            if (force_seldir != null) seldir = force_seldir;
+
+            //Clear.
             maps.clear();
+
+            //Load game maps.
             File dir = Environment.getExternalStorageDirectory();
             dir = new File(dir, PATH_MINECRAFTPE_DIR);
             dir = new File(dir, FNAME_MINECRAFTPE_MAPS);
-            if (!dir.isDirectory()) {//No dir
+
+            //No dir
+            if (!dir.isDirectory()) {
                 gotoState(2);
                 setCanContinue(false);
                 return;
             }
+
+            //No perm.
             File[] files = dir.listFiles();
-            if (files == null) {//No perm.
+            if (files == null) {
                 gotoState(3);
                 setCanContinue(false);
                 return;
             }
+
+            //Add dummy entry if enabled create new.
+            if (m_allow_create) maps.add(new MapInfo());
+
+            //Filter only "valid" map folders.
             List<File> files_mc = new ArrayList<>();
             for (File f : files) {
                 if (new File(f, "level.dat").isFile()) {
                     files_mc.add(f);
                 }
             }
-            if (files_mc.size() == 0) {
+
+            //If no maps and can't create.
+            if (files_mc.size() == 0 && !m_allow_create) {
                 gotoState(1);
                 setCanContinue(false);
                 return;
             }
+
+            //Load maps' name & last playe time.
             int new_index = -1;
             for (int i = 0, size = files_mc.size(); i < size; i++) {
                 File f = files_mc.get(i);
                 String path = f.getName();
                 String name = null;
                 String time;
+
                 try {
+                    //Prefer name in levelname.txt.
                     File dat = new File(f, "levelname.txt");
                     if (dat.isFile()) {
                         FileReader fr = new FileReader(dat);
@@ -178,6 +240,8 @@ public class FragmentSelMap extends FragmentBase {
                         name = br.readLine();
                         br.close();
                     }
+
+                    //Read from level.dat.
                     dat = new File(f, "level.dat");
                     FileInputStream fis = new FileInputStream(dat);
                     BufferedInputStream bis = new BufferedInputStream(fis);
@@ -185,23 +249,34 @@ public class FragmentSelMap extends FragmentBase {
                     NBTInputStream nis = new NBTInputStream(bis, false, ByteOrder.LITTLE_ENDIAN);
                     CompoundTag tag = (CompoundTag) nis.readTag();
                     CompoundMap map = tag.getValue();
+
+                    //Set name if not set yet from levelname.txt. Set last played time.
                     if (name == null) name = ((StringTag) map.get("LevelName")).getValue();
                     long ltime = ((LongTag) map.get("LastPlayed")).getValue() * 1000;
-                    //Date date = new Date(ltime);
                     time = DateUtils.formatDateTime(getActivity(), ltime, FORMAT_SHOW_DATE | FORMAT_SHOW_TIME);
                     bis.close();
                 } catch (Exception e) {
+                    //Don't crash for one or more failed gamemaps.
                     e.printStackTrace();
                     name = path;
                     time = getString(R.string.setup_fmaps_date_unknown);
                 }
+
+                //Create a structure and add to list.
                 MapInfo info = new MapInfo(
                         name, path, getString(R.string.setup_fmaps_lastplayed, time)
                 );
                 maps.add(info);
+
+                //See if it's the previously selected map.
                 if (path.equals(seldir)) new_index = i;
             }
+
+            //Try recover previous selection.
             select_index = new_index;
+            if (m_allow_create) select_index++;
+
+            //Finished.
             gotoState(0);
             lv.setScrollY(scroll);
             if (select_index == -1) setCanContinue(false);
@@ -227,6 +302,14 @@ public class FragmentSelMap extends FragmentBase {
         public String path;
         public String last_played_time;
 
+        //Used to create dummy entry.
+        public MapInfo() {
+            name = null;
+            path = null;
+            last_played_time = null;
+        }
+
+        //Used to create valid entry.
         public MapInfo(String name, String path, String last_played_time) {
             this.name = name;
             this.path = path;

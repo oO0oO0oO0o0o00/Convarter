@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.spout.nbt.StringTag;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,21 +24,18 @@ public final class FlatWorldLayers {
 
     public static final String JSON_KEY_BIOME_ID = "biome_id";
     public static final String JSON_KEY_BLOCK_LAYERS = "block_layers";
-    static private FlatWorldLayers instance = null;
 
     static public Layers newFlatWorldLayers(LevelDat dat) {
-        if (instance == null) instance = new FlatWorldLayers();
-        return instance.new BedrockLayers(dat);
+        return new BedrockLayers(dat);
     }
 
     static public Layers newFlatWorldLayers(DB database) {
-        if (instance == null) instance = new FlatWorldLayers();
-        return instance.new PocketLayers(database);
+        return new PocketLayers(database);
     }
 
-    public abstract class Layers {
+    static public abstract class Layers {
 
-        protected List<Byte> list;
+        protected List<Layer> list;
 
         abstract public void load();
 
@@ -45,7 +43,9 @@ public final class FlatWorldLayers {
 
         abstract public byte getBiomeId();
 
-        abstract public byte[] getLayers();
+        abstract public byte[] getLayersForNativeUse();
+
+        abstract public int getItemsCount();
 
         abstract public void deleteLayerAt(int index);
 
@@ -63,18 +63,30 @@ public final class FlatWorldLayers {
 
         abstract public void addLayerAt(int index, byte id, byte data, byte count);
 
+        public List<Layer> getLayersForControl() {
+            return list;
+        }
+
         abstract public void save();
 
+        @Override
+        abstract public Layers clone();
     }
 
-    final private class BedrockLayers extends Layers {
+    static final private class BedrockLayers extends Layers {
 
         private LevelDat dat;
         private byte biome_id;
 
+        private BedrockLayers(BedrockLayers src) {
+            dat = src.dat;
+            biome_id = src.biome_id;
+            list = src.list;
+        }
+
         public BedrockLayers(LevelDat dat) {
             this.dat = dat;
-            list = new ArrayList<>(256);
+            list = new ArrayList<>(64);
             load();
         }
 
@@ -101,9 +113,11 @@ public final class FlatWorldLayers {
                 list.clear();
                 for (int i = 0, lim = jarr.length(); i < lim; i++) {
                     JSONObject obj = jarr.getJSONObject(i);
-                    list.add((byte) Names.resolve(obj.getString("block_name")));
-                    list.add((byte) obj.getInt("block_data"));
-                    list.add((byte) obj.getInt("count"));
+                    Layer layer = new Layer();
+                    layer.id = (byte) Names.resolve(obj.getString("block_name"));
+                    layer.data = (byte) obj.getInt("block_data");
+                    layer.count = (byte) obj.getInt("count");
+                    list.add(layer);
                 }
             } catch (JSONException e) {
             }
@@ -120,76 +134,83 @@ public final class FlatWorldLayers {
         }
 
         @Override
-        public byte[] getLayers() {
+        public byte[] getLayersForNativeUse() {
             int len = list.size();
-            byte[] bytes = new byte[len];
-            for (int i = 0; i < len; i++) {
-                bytes[i] = list.get(i);
+            byte[] bytes = new byte[len * 3];
+            for (int i = 0, j = 0; i < len; i++) {
+                Layer layer = list.get(i);
+                bytes[j] = layer.id;
+                j++;
+                bytes[j] = layer.data;
+                j++;
+                bytes[j] = layer.count;
+                j++;
             }
             return bytes;
         }
 
         @Override
+        public int getItemsCount() {
+            return list.size();
+        }
+
+        @Override
         public void deleteLayerAt(int index) {
-            int lim = list.size() - 3;
-            for (int i = index * 3; i < lim; i++) {
-                list.set(i, list.get(i + 3));
+            int lim = list.size() - 1;
+            for (int i = index; i < lim; i++) {
+                list.set(i, list.get(i + 1));
             }
-            list.remove(lim + 2);
-            list.remove(lim + 1);
             list.remove(lim);
         }
 
         @Override
         public byte getLayerIdAt(int index) {
-            return list.get(index * 3);
+            return list.get(index).id;
         }
 
         @Override
         public byte getLayerDataAt(int index) {
-            return list.get(index * 3 + 1);
+            return list.get(index).data;
         }
 
         @Override
         public byte getLayerCountAt(int index) {
-            return list.get(index * 3 + 2);
+            return list.get(index).count;
         }
 
         @Override
         public void setLayerIdAt(int index, byte id) {
-            list.set(index * 3, id);
+            list.get(index).id = id;
         }
 
         @Override
         public void setLayerDataAt(int index, byte data) {
-            list.set(index * 3 + 1, data);
+            list.get(index).data = data;
         }
 
         @Override
         public void setLayerCountAt(int index, byte count) {
-            list.set(index * 3 + 2, count);
+            list.get(index).count = count;
         }
 
         @Override
         public void addLayerAt(int index, byte id, byte data, byte count) {
             int lim = list.size();
-            int base = index * 3;
+            int base = index;
+            Layer layer = new Layer();
+            layer.id = id;
+            layer.data = data;
+            layer.count = count;
             if (base >= lim) {
-                list.add(id);
-                list.add(data);
-                list.add(count);
+                list.add(layer);
                 return;
             }
-            list.add(list.get(lim - 3));
-            list.add(list.get(lim - 2));
             list.add(list.get(lim - 1));
             lim -= 3;
             for (int i = base; i < lim; i++) {
-                list.set(i + 3, list.get(i));
+                list.set(i + 1, list.get(i));
             }
-            list.set(base, id);
-            list.set(base, data);
-            list.set(base, count);
+            list.set(base, layer);
         }
 
         @Override
@@ -197,27 +218,38 @@ public final class FlatWorldLayers {
             try {
                 JSONObject jso = new JSONObject();
                 jso.put(JSON_KEY_BIOME_ID, biome_id);
-                int jarrlen = list.size() / 3;
+                int jarrlen = list.size();
                 JSONArray jarr = new JSONArray();
                 for (int i = 0; i < jarrlen; i++) {
-                    int base = i * 3;
                     JSONObject obj = new JSONObject();
-                    obj.put("block_name", "minecraft:air");
-                    obj.put("block_data", list.get(base + 1));
-                    obj.put("count", list.get(base + 2));
+                    Layer layer = list.get(i);
+                    obj.put("block_name", "minecraft:" + Names.getName(layer.id));
+                    obj.put("block_data", layer.data);
+                    obj.put("count", layer.count);
                     jarr.put(i, obj);
                 }
                 jso.put(JSON_KEY_BLOCK_LAYERS, jarr);
+                jso.put("encoding_version", 4);
+                jso.put("structure_options", null);
+                FileUtil.writeTextFile(new File("/sdcard/#aaa8/aaa.txt"), jso.toString(4));
                 dat.getRoot().getValue().put(
                         new StringTag("FlatWorldLayers", jso.toString(4)));
+
                 dat.save();
             } catch (Exception why) {
+                why.printStackTrace();
             }
+        }
+
+        @Override
+        public BedrockLayers clone() {
+            BedrockLayers layers = new BedrockLayers(this);
+            return layers;
         }
     }
 
     //Not supported yet.
-    final private class PocketLayers extends Layers {
+    static final private class PocketLayers extends Layers {
 
         private DB database;
 
@@ -242,8 +274,13 @@ public final class FlatWorldLayers {
         }
 
         @Override
-        public byte[] getLayers() {
+        public byte[] getLayersForNativeUse() {
             return null;
+        }
+
+        @Override
+        public int getItemsCount() {
+            return 0;
         }
 
         @Override
@@ -290,6 +327,17 @@ public final class FlatWorldLayers {
         public void save() {
             //
         }
+
+        @Override
+        public Layers clone() {
+            return null;
+        }
+    }
+
+    static public class Layer {
+        public byte id;
+        public byte data;
+        public byte count;
     }
 
 }

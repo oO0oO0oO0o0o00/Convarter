@@ -140,6 +140,8 @@ public:
     void flush();
 
     void setLayers(unsigned int length, unsigned char *data);
+
+    void changeFlatLayers(int length, unsigned char *layers);
 };
 
 #endif //CONVARTER_SAVDB_H

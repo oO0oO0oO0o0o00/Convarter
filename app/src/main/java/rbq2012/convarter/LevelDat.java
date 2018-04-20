@@ -58,6 +58,7 @@ public final class LevelDat {
         BufferedOutputStream bos = null;
         try {
             fos = new FileOutputStream(file);
+            bos = new BufferedOutputStream(fos);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

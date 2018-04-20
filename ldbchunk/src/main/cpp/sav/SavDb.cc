@@ -331,5 +331,9 @@ void SavDb::setMaxChunksCount(uint16_t limit) {
     LOGE_LR("Current limit of cached chunks count is %d.", limit);
 }
 
+void SavDb::changeFlatLayers(int length,unsigned char layers[]){
+    //
+}
+
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////

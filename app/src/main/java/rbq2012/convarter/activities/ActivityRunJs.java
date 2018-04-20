@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,32 +20,22 @@ import com.faendir.rhino_android.RhinoAndroidHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeJavaArray;
-import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Script;
-import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.WrappedException;
 import org.mozilla.javascript.annotations.JSFunction;
 import org.spout.nbt.CompoundMap;
 import org.spout.nbt.CompoundTag;
-import org.spout.nbt.IntTag;
 import org.spout.nbt.Tag;
-import org.spout.nbt.stream.NBTInputStream;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
-import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -58,6 +47,7 @@ import rbq2012.convarter.FileUtil;
 import rbq2012.convarter.FlatWorldLayers;
 import rbq2012.convarter.GameMapVersion;
 import rbq2012.convarter.LevelDat;
+import rbq2012.convarter.MCUtils;
 import rbq2012.convarter.R;
 import rbq2012.convarter.configguide.FragmentBase;
 import rbq2012.ldbchunk.DB;
@@ -391,14 +381,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             //////  End Test Code
 
             ///Version detect
-            {
-                int stver = ((IntTag) dat.getRoot().getValue().get("StorageVersion")).getValue();
-                if (4 >= stver) version = GameMapVersion.VERSION_POCKET;
-                else if (7 <= stver) version = GameMapVersion.VERSION_BEDROCK;
-                else if (dat.getRoot().getValue().containsKey("FlatWorldLayers"))
-                    version = GameMapVersion.VERSION_BEDROCK;
-                else version = GameMapVersion.VERSION_POCKET;
-            }
+            version = MCUtils.versionDetect(dat);
 
             ///Load flat world layers
             {
@@ -410,11 +393,12 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
                 } else layers = FlatWorldLayers.newFlatWorldLayers(db);
             }
 
+            //Set flat layers and cache size.
+            db.setLayers(layers.getLayersForNativeUse());
+            db.setMaxChunksCount(max_cached_chunks);
+
             ///Test code****************************************************************************
 
-            db.setLayers(layers.getLayers());
-
-            db.setMaxChunksCount(max_cached_chunks);
 
 //            for (int i = 0; i < 256; i++) {
 //                db.setTile(1360 + i, 5, 19, 0, i, 0);
@@ -430,7 +414,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             ///Run script
             try {
                 //InterruptableContextFactory.init();
-                org.mozilla.javascript.Context ctx = new RhinoAndroidHelper(ActivityRunJs.this).enterContext();
+                Context ctx = new RhinoAndroidHelper(ActivityRunJs.this).enterContext();
                 //new InterruptableContextFactory().enterContext();
                 ctx.setOptimizationLevel(optimization_script);
                 Script script = ctx.compileString(this.script, "script", 0, null);
@@ -606,31 +590,3 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
     }
 
 }
-
-/*class InterruptableContextFactory extends ContextFactory {
-
-    private static boolean initialized = false;
-
-    public static void init() {
-        if (!initialized) {
-            ContextFactory.initGlobal(new InterruptableContextFactory());
-            initialized = true;
-        }
-    }
-
-    @Override
-    protected void observeInstructionCount(Context context, int i) {
-        super.observeInstructionCount(context, i);
-        if (Thread.currentThread().isInterrupted()) {
-            throw new ForceQuitException();
-        }
-    }
-
-    @Override
-    protected Context makeContext() {
-        Context cx = super.makeContext();
-        //set a number of instructions here
-        cx.setInstructionObserverThreshold(1000);
-        return cx;
-    }
-}*/

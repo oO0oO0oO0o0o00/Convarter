@@ -67,6 +67,10 @@ static void nativeTest(JNIEnv *env, jclass clazz, jlong ptr) {
     LOGE("Test done.");
 }
 
+static void nativeChflat(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray bnew) {
+    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+};
+
 static JNINativeMethod sMethods[] =
     {
         {"nativeOpen",              "(Ljava/lang/String;)J", (void *) nativeOpen},
@@ -77,7 +81,8 @@ static JNINativeMethod sMethods[] =
         {"nativeSetData",           "(JIIIII)V",             (void *) nativeSetData},
         {"nativeSetMaxChunksCount", "(JI)V",                 (void *) nativeSetMaxChunksCount},
         {"nativeClose",             "(J)V",                  (void *) nativeClose},
-        {"nativeTest",              "(J)V",                  (void *) nativeTest}
+        {"nativeTest",              "(J)V",                  (void *) nativeTest},
+        {"nativeChflat",            "(J[B)V",                (void *) nativeChflat}
     };
 
 int register_rbq2012_ldbchunk_DB(JNIEnv *env) {

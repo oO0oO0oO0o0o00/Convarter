@@ -2,6 +2,7 @@
     <string name="app_name">Convarter</string>
     <array name="main_list">
         <item>Edit gamemap with javascript</item>
+        <item>Edit flat world layers</item>
         <item>Settings</item>
         <item>About</item>
     </array>
@@ -58,6 +59,8 @@
     <string name="runjs_abort_msg">Stop the script and return?</string>
     <string name="global_yes">Yes</string>
     <string name="global_no">No</string>
+    <string name="global_confirm">Confirm</string>
+    <string name="global_cancel">Cancel</string>
     <string name="setup_fjso_cachetitle">Max cached Chunks:</string>
     <string name="setup_fjso_chunkexplain">A \"Chunk\" in Minecraft is a certain region of gamemap containing all blocks within, both width and length (x and z directions) are 16, and height varies between 16~256 depending how tall you build. They are stored in your device\'s storage. Some of them can be temporarily stored in memory to accelerate read and write operations. We can store an amount of chunks up to the limit you set above. If the number is too much the app will crash, if it\'s too little the process will be very slow. Usually you should leave the default value unchanged.</string>
     <string name="setup_fjso_title">Advanced</string>
@@ -67,4 +70,33 @@
     <string name="setup_fjso_opttitle">Optimization level of javascript:</string>
     <string name="setup_fjso_optnoopt">Level -1: no optimization</string>
     <string name="setup_fjso_optlvl">Level %1$d</string>
+    <string name="act_title_runjs">Javascript</string>
+    <string name="act_title_moflat">Modify flat world layers</string>
+    <string name="setup_fmaps_create">Create new game map</string>
+    <string name="act_title_createlevel">Create new level</string>
+    <string name="createlevel_name">Name:</string>
+    <string name="createlevel_explain">This will create an empty flat game map in creative mode. You can then modify flat layers.</string>
+    <string name="createlevel_namehint">My world</string>
+    <string name="global_succ">Done.</string>
+    <string name="editlayers_override">Override existing areas (won\'t break your buildings)</string>
+    <string name="editlayers_entry_text">%1$dx %2$s</string>
+    <string name="editlayers_entry_text2">%1$d:%2$d %3$s</string>
+    <string name="global_lang">default</string>
+    <string name="editlayers_help">Drag block icon to sort, click to edit.</string>
+    <string name="editlayers_cantdelete">There should be at least three layers.</string>
+    <string name="editlayers_title_add">Add a layer</string>
+    <string name="editlayers_title_edit">Edit this layer</string>
+    <string name="editlayer_id">Block ID:</string>
+    <string name="editlayer_data">Data(0~15):</string>
+    <string name="editlayer_count">Amount:</string>
+    <string name="editlayer_pick">Pick...</string>
+    <string name="editlayer_err_id">Block ID should be 0~255.</string>
+    <string name="editlayer_err_data">Block data should be 0~15.</string>
+    <string name="editlayer_note_amount">Amount of all blocks should be 0~255, make sure it won\'t exceed the limit.</string>
+    <string name="editlayer_err_amount">Amount of block should be larger than 0.</string>
+    <string name="pickblock_hint">ID or name...</string>
+    <string name="editlayer_diahelp_title">How to...</string>
+    <string name="editlayer_diahelp_text">It\'s easy to use, just as shown above.</string>
+    <string name="global_noresult">No result.</string>
+    <string name="pickblock_entry_detail">ID: %1$d, %2$s</string>
 </resources>

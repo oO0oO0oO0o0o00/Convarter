@@ -7,7 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 import static android.content.res.AssetManager.ACCESS_BUFFER;
@@ -91,6 +93,37 @@ public final class FileUtil {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static void copyStream(InputStream stream, OutputStream out) throws IOException {
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = stream.read(buf)) != -1) {
+            out.write(buf, 0, len);
+        }
+    }
+
+    public static boolean extractAsset(AssetManager mgr, String name, int mode, File out) {
+        InputStream is = null;
+        FileOutputStream fos = null;
+        boolean ret = false;
+        try {
+            is = mgr.open(name, AssetManager.ACCESS_BUFFER);
+            fos = new FileOutputStream(out);
+            FileUtil.copyStream(is, fos);
+            ret = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (is != null) is.close();
+        } catch (Exception e) {
+        }
+        try {
+            if (fos != null) fos.close();
+        } catch (Exception e) {
+        }
+        return ret;
     }
 
 }
