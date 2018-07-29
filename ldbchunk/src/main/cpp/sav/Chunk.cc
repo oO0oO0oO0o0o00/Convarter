@@ -45,18 +45,44 @@ Chunk::Chunk(leveldb::DB *database, mapkey_t key, leveldb::ReadOptions &readOpti
 
 void Chunk::generateFlatLayers(qustr *layers) {
     unsigned char y = 0;
+
+    //For each layer item.
     for (int i = 0, lim = layers->length; i < lim; i += 3) {
+
+        //For each y in the layer.
         for (int j = 0, lim2 = layers->str[i + 2]; j < lim2; j++) {
             unsigned char id = layers->str[i];
             unsigned char data = layers->str[i + 1];
+
+            //For each x and z.
             for (unsigned char x = 0; x < 16; x++) {
                 for (unsigned char z = 0; z < 16; z++) {
                     setTile(x, y, z, id, data);
+                    y++;
                 }
             }
         }
-        y += layers->str[i + 2];
     }
+}
+
+void Chunk::chflat(qustr old, qustr nwe) {
+
+    unsigned char y = 0;
+
+    //Unfold layers.
+
+    //First count their sizes.
+    int sold = 0, snew = 0;
+    for (int i = 2; i < old.length; i += 3) {
+        sold += old.str[i];
+    }
+    for (int i = 2; i < nwe.length; i += 3) {
+        snew += nwe.str[i];
+    }
+
+    //For the common part
+
+    //
 }
 
 

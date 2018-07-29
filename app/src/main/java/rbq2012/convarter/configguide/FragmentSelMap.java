@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Checkable;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -125,9 +126,9 @@ public class FragmentSelMap extends FragmentBase {
                 return;
             }
             if (select_index == i) return;
-            view.findViewById(R.id.entry_selmark).setVisibility(View.VISIBLE);
             if (select_view != null)
-                select_view.findViewById(R.id.entry_selmark).setVisibility(View.INVISIBLE);
+                ((Checkable) select_view).setChecked(false);//findViewById(R.id.entry_selmark).setVisibility(View.INVISIBLE);
+            ((Checkable) view).setChecked(true);//findViewById(R.id.entry_selmark).setVisibility(View.VISIBLE);
             select_index = i;
             select_view = view;
             getConfiguration().putString(CONF_MAPDIR, getItem(i).path);
@@ -136,25 +137,21 @@ public class FragmentSelMap extends FragmentBase {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-            ViewGroup root;
+            View root;
 
             //If it's for creating new.
             if (m_allow_create && i == 0) {
-                root = (ViewGroup) inflater.inflate(R.layout.entry_config_fmaps_create, viewGroup, false);
+                root = inflater.inflate(R.layout.entry_config_fmaps_create, viewGroup, false);
             } else {
-                root = (ViewGroup) inflater.inflate(R.layout.entry_config_fmaps_list, viewGroup, false);
-                LinearLayout t = (LinearLayout) root.getChildAt(0);
-                TextView tv = (TextView) t.getChildAt(0);
+                root = inflater.inflate(R.layout.entry_config_fmaps_list, viewGroup, false);
+                TextView tv = root.findViewById(R.id.text);
                 MapInfo info = getItem(i);
                 tv.setText(info.name);
-                tv = (TextView) t.getChildAt(1);
+                tv = root.findViewById(R.id.text1);
                 tv.setText(info.last_played_time);
-                tv = (TextView) t.getChildAt(2);
+                tv = root.findViewById(R.id.text2);
                 tv.setText(info.path);
-                if (select_index == i) {
-                    root.getChildAt(1).setVisibility(View.VISIBLE);
-                    select_view = root;
-                }
+                if (select_index == i) ((Checkable) root).setChecked(true);
             }
             return root;
         }

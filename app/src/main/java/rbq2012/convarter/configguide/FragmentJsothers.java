@@ -6,20 +6,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import rbq2012.convarter.R;
 
-public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSeekBarChangeListener {
+import static rbq2012.convarter.Constants.SPREF_KEY_NOASK_JSOTHERS;
+
+public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
 
     final static public String PREF_KEY_CACHE_CHUNKS = "cache_chunks_max";
     final static public String PREF_KEY_OPTIMIZATION = "optimization_javascript";
-    final static public String PREF_KEY_NOASK_JSOTHERS = "no_ask_js_others";
+    final static public String PREF_KEY_GENERATE_FLAT_LAYERS = "gen_flat";
 
     private TextView m_tv_number, m_tv_level;
     private SeekBar m_sbar, m_sbar2;
-    private CheckBox m_chk;
+    private CheckBox m_chk, m_chk_genflat;
 
     @Nullable
     @Override
@@ -34,13 +37,15 @@ public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSe
         m_sbar.setProgress(48);
         m_sbar2.setProgress(3);
         m_chk = root.findViewById(R.id.checkbox);
+        m_chk_genflat = root.findViewById(R.id.checkbox1);
+        m_chk_genflat.setOnCheckedChangeListener(this);
         return root;
     }
 
     @Override
     public void onContinue() {
         if (m_chk.isChecked()) {
-            getPref().edit().putBoolean(PREF_KEY_NOASK_JSOTHERS, true).apply();
+            getPref().edit().putBoolean(SPREF_KEY_NOASK_JSOTHERS, true).apply();
         }
     }
 
@@ -69,4 +74,8 @@ public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSe
     public void onStopTrackingTouch(SeekBar seekBar) {
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        getConfiguration().putBoolean(PREF_KEY_GENERATE_FLAT_LAYERS, b);
+    }
 }

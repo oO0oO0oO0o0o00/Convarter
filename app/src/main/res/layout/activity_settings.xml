@@ -12,6 +12,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            android:onClick="onClickResetNoAsks"
             android:orientation="horizontal"
             android:paddingBottom="20dp"
             android:paddingLeft="15dp"
@@ -22,12 +24,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/settings_noask_seljs" />
-
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:text="@string/settings_noask_reset" />
 
         </LinearLayout>
 
@@ -52,7 +49,7 @@
                 android:text="@string/settings_noask_jsothers" />
 
             <CheckBox
-                android:id="@+id/checkbox1"
+                android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 

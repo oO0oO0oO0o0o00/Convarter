@@ -5,5 +5,5 @@ package rbq2012.convarter;
  */
 
 public enum GameMapVersion {
-    VERSION_BEDROCK, VERSION_POCKET, VERSION_TOOOLD;
+    VERSION_1_2, VERSION_1_0, VERSION_0_15, VERSION_TOOOLD;
 }

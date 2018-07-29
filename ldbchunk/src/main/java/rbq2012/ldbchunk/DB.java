@@ -40,7 +40,7 @@ public final class DB {
     //Direct leveldb access
 
     public byte[] get(byte[] key) {
-        return new byte[]{0};
+        return nativeGetRaw(ptr, key);
     }
 
     public void delete(byte[] key) {
@@ -48,11 +48,11 @@ public final class DB {
     }
 
     public void put(byte[] key, byte[] value) {
-        return;
+        nativePutRaw(ptr, key, value);
     }
 
     public Iterator iterator() {
-        return new Iterator();
+        return new Iterator(nativeIterator(ptr));
     }
 
     ////////
@@ -118,6 +118,12 @@ public final class DB {
     private static native void nativeTest(long ptr);
 
     private static native void nativeChflat(long ptr, byte[] bnew);
+
+    private static native byte[] nativeGetRaw(long ptr, byte[] key);
+
+    private static native void nativePutRaw(long ptr, byte[] key, byte[] value);
+
+    private static native long nativeIterator(long dbPtr);
 
     static {
         System.loadLibrary("ldbchunkjni");

@@ -331,8 +331,41 @@ void SavDb::setMaxChunksCount(uint16_t limit) {
     LOGE_LR("Current limit of cached chunks count is %d.", limit);
 }
 
-void SavDb::changeFlatLayers(int length,unsigned char layers[]){
-    //
+void SavDb::changeFlatLayers(unsigned int length, unsigned char layers[]) {
+    leveldb::Iterator *iter = database->NewIterator(readOptions);
+    iter->SeekToFirst();
+    qustr qlayers = qustr{length, layers};
+    while (iter->Valid()) {
+        leveldb::Slice key = iter->key();
+        if ((key.size() == 9) && key[8] == 118) {
+            const char *kch = key.ToString().c_str();
+            mapkey_t mkey = mapkey_t{((int32_t *) kch)[0], ((int32_t *) kch)[1], 0};
+            chunk_li *li = loadChunk(mkey);
+            li->val->chflat(this->layers, qlayers);
+            releaseLeastRecentUsedChunk();
+        }
+        iter->Next();
+    }
+}
+
+leveldb::Iterator *SavDb::iterator() {
+    return database->NewIterator(readOptions);
+}
+
+qstr SavDb::getRaw(qstr key) {
+    std::string val;
+    database->Get(readOptions, leveldb::Slice(key.str, key.length), &val);
+    unsigned int vlen = val.length();
+    char *buf = new char[vlen];
+    memcpy(buf, val.c_str(), vlen);
+    qstr a{vlen, buf};
+    return a;
+}
+
+void SavDb::putRaw(qstr key, qstr value) {
+    database->Put(leveldb::WriteOptions(),
+                  leveldb::Slice(key.str, key.length),
+                  leveldb::Slice(value.str, value.length));
 }
 
 //

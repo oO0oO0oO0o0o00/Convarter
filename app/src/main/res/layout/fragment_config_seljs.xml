@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,26 +8,22 @@
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent" />
 
     <com.github.clans.fab.FloatingActionMenu
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         fab:menu_animationDelayPerItem="0"
-        fab:menu_colorNormal="#FFB805"
-        fab:menu_colorPressed="#F2AB00"
-        fab:menu_colorRipple="#D99200"
-        fab:menu_labels_hideAnimation="@anim/jump_to_down"
-        fab:menu_labels_showAnimation="@anim/jump_from_down"
-        fab:menu_labels_style="@style/MenuLabelsStyle">
+        fab:menu_labels_hideAnimation="@anim/jump_to_down">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/frag_addfile"
-            style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"
@@ -36,7 +31,6 @@
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/frag_addclip"
-            style="@style/MenuButtonsStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_edit"

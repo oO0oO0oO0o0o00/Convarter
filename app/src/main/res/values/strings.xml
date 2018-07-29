@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Convarter</string>
     <array name="main_list">
-        <item>Edit gamemap with javascript</item>
-        <item>Edit flat world layers</item>
+        <item>Edit Gamemap With Javascript</item>
+        <item>Customize Flat Worlds</item>
         <item>Settings</item>
-        <item>About</item>
+        <item>About (Dont Click)</item>
+        <item>Test Toolss</item>
     </array>
     <string name="setup_nextstep">Next</string>
     <string name="setup_finish">Go</string>
@@ -12,7 +13,7 @@
     <string name="setup_cancelconfirm">Cancel?</string>
     <string name="setup_fmaps_title0">Select a MinecraftPE game map:</string>
     <string name="setup_fmaps_nomap">Can\'t find any game maps in MinecraftPE\'s external maps folder. Have you set MinecraftPE to use external storage?</string>
-    <string name="setup_fmaps_nomap_explain">To let MinecraftPE use external storage, open it, click \"Settings\" from it\'s home screen, select \"Profile\" on the left panel, then scroll down the right pane and chang \"File Storage Location\" to \"External\".</string>
+    <string name="setup_fmaps_nomap_explain" translatable="false">To let MinecraftPE use external storage, open it, click \"Settings\" from it\'s home screen, select \"Profile\" on the left panel, then scroll down the right pane and chang \"File Storage Location\" to \"External\".</string>
     <string name="setup_fmaps_nofolder">MinecraftPE\'s gamemap folder can\'t be found. Have you really installed MinecraftPE from Play Store or Amazon?</string>
     <string name="setup_fmaps_noperm">It seems that Convarter was not permitted to read or write external storage. In order to use, please go to Settings or phone management apps to allow Convarter to use permission \"Storage\".</string>
     <string name="setup_fmaps_date_unknown">Unknown</string>
@@ -30,13 +31,13 @@
         <item>Older first</item>
     </array>
     <string name="setup_fjs_importhowto">How to import it...</string>
-    <string name="setup_fjs_importhowtoexplain">By selecting \"Copy\", the chosen script will be copied to Convarter\'s library, then any loss or damage to the orginal file won\'t influence the copied script.\n\nBy selecting \"Link\", Convarter will only remember where the script is, and read it out right before every time you use it. In this way, you don\'t have to re-import it after editing it.\n\nWell just click \"Copy\" if you didn\'t get it...</string>
-    <string name="setup_fjs_btncopy">Copy</string>
-    <string name="setup_fjs_btnlink">Link</string>
-    <string name="setup_fjs_importhowto_content">By clicking \"Copy\", the selected script will be copied to Convarter\'s library. By clicking \"Link\" it would be linked to.</string>
-    <string name="setup_fjs_importhowto_showmore">What\'s the difference?</string>
+    <string name="setup_fjs_importhowtoexplain" translatable="false">By selecting \"Copy\", the chosen script will be copied to Convarter\'s library, then any loss or damage to the orginal file won\'t influence the copied script.\n\nBy selecting \"Link\", Convarter will only remember where the script is, and read it out right before every time you use it. In this way, you don\'t have to re-import it after editing it.\n\nWell just click \"Copy\" if you didn\'t get it...</string>
+    <string name="setup_fjs_btncopy" translatable="false">Copy</string>
+    <string name="setup_fjs_btnlink" translatable="false">Link</string>
+    <string name="setup_fjs_importhowto_content" translatable="false">By clicking \"Copy\", the selected script will be copied to Convarter\'s library. By clicking \"Link\" it would be linked to.</string>
+    <string name="setup_fjs_importhowto_showmore" translatable="false">What\'s the difference?</string>
     <string name="setup_fjs_delete">Delete</string>
-    <string name="setup_js_delconfirm">Delete this script from Convarter?</string>
+    <string name="setup_js_delconfirm">Delete this script?</string>
     <string name="setup_fjs_tips">Tips</string>
     <string name="setup_fjs_errcantread">Failed: file can\'t be read.</string>
     <string name="setup_fjs_errdir">Failed: scripts directory can\'t be created.</string>
@@ -66,7 +67,7 @@
     <string name="setup_fjso_title">Advanced</string>
     <string name="global_dontaskagain">Don\'t ask again.</string>
     <string name="settings_noask_jsothers">Don\'t show advanced options of javascript</string>
-    <string name="settings_noask_seljs">Don\'t show help dialog when enters javascript picker</string>
+    <string name="settings_noask_reset">Reset all \"Don\'t show again\"s</string>
     <string name="setup_fjso_opttitle">Optimization level of javascript:</string>
     <string name="setup_fjso_optnoopt">Level -1: no optimization</string>
     <string name="setup_fjso_optlvl">Level %1$d</string>
@@ -79,10 +80,10 @@
     <string name="createlevel_namehint">My world</string>
     <string name="global_succ">Done.</string>
     <string name="editlayers_override">Override existing areas (won\'t break your buildings)</string>
-    <string name="editlayers_entry_text">%1$dx %2$s</string>
-    <string name="editlayers_entry_text2">%1$d:%2$d %3$s</string>
+    <string name="editlayers_entry_text" translatable="false">%1$dx %2$s</string>
+    <string name="editlayers_entry_text2" translatable="false">%1$d:%2$d %3$s</string>
     <string name="global_lang">default</string>
-    <string name="editlayers_help">Drag block icon to sort, click to edit.</string>
+    <string name="editlayers_help">"Click to edit. Drag block icon to sort, "</string>
     <string name="editlayers_cantdelete">There should be at least three layers.</string>
     <string name="editlayers_title_add">Add a layer</string>
     <string name="editlayers_title_edit">Edit this layer</string>
@@ -92,11 +93,23 @@
     <string name="editlayer_pick">Pick...</string>
     <string name="editlayer_err_id">Block ID should be 0~255.</string>
     <string name="editlayer_err_data">Block data should be 0~15.</string>
-    <string name="editlayer_note_amount">Amount of all blocks should be 0~255, make sure it won\'t exceed the limit.</string>
+    <string name="editlayer_note_amount">Amount of all blocks should be 0~128, make sure it won\'t exceed the limit.</string>
     <string name="editlayer_err_amount">Amount of block should be larger than 0.</string>
     <string name="pickblock_hint">ID or name...</string>
     <string name="editlayer_diahelp_title">How to...</string>
     <string name="editlayer_diahelp_text">It\'s easy to use, just as shown above.</string>
     <string name="global_noresult">No result.</string>
     <string name="pickblock_entry_detail">ID: %1$d, %2$s</string>
+    <string name="editlayer_done">Done.</string>
+    <string name="test_title">Test Tools</string>
+    <string name="runjs_nonflat">This is not a flat world, layers are not loaded. Editing this type of game map may leave huge holes as we won\'t generate terrian.</string>
+    <string name="runjs_flatloaded">Flat world layers loaded.</string>
+    <string name="runjs_flatcorrupt">This is a flat world but we failed loading flat layers.</string>
+    <string name="editlayers_nonflat">This is not a flat map at all.</string>
+    <string name="editlayers_corrupt">Failed loading flat layers.</string>
+    <string name="setup_fjs_genflat">Generate flat layers for new chunks</string>
+    <string name="pickblock_title">Pick A Block</string>
+    <string name="main_welcome">Hello~ This app is still an experimental one, and may not work on game maps that are too old or too new, Please backup your game maps before using! And we may add features such as 3D visual editing in the future, well who knows~ Meow~</string>
+    <string name="editlayers_loading">Loading...</string>
+    <string name="editlayers_waitloaded">Please wait until layers loaded.</string>
 </resources>

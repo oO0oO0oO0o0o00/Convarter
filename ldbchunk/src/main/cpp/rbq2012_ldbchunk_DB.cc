@@ -5,6 +5,7 @@
 #include <jni.h>
 #include <ldbchunkjni.h>
 #include <SavDb.h>
+#include <qstr.h>
 
 static jlong nativeOpen(JNIEnv *env, jclass clazz, jstring dbpath) {
     const char *path = env->GetStringUTFChars(dbpath, 0);
@@ -15,7 +16,9 @@ static jlong nativeOpen(JNIEnv *env, jclass clazz, jstring dbpath) {
 
 static void nativeRegisterLayers(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray data) {
     SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    db->setLayers(env->GetArrayLength(data), (unsigned char *) env->GetByteArrayElements(data, 0));
+    jbyte *buf = env->GetByteArrayElements(data, 0);
+    db->setLayers(env->GetArrayLength(data), (unsigned char *) buf);
+    env->ReleaseByteArrayElements(data, buf, JNI_ABORT);
 }
 
 static jint nativeGetTile(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim) {
@@ -69,7 +72,41 @@ static void nativeTest(JNIEnv *env, jclass clazz, jlong ptr) {
 
 static void nativeChflat(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray bnew) {
     SavDb *db = reinterpret_cast<SavDb *>(ptr);
-};
+    jbyte *buf = env->GetByteArrayElements(bnew, 0);
+    //db->changeFlatLayers(env->GetArrayLength(bnew),(unsigned char *)buf);
+    env->ReleaseByteArrayElements(bnew, buf, JNI_ABORT);
+}
+
+static jbyteArray nativeGetRaw(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray key) {
+    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    jbyte *buf = env->GetByteArrayElements(key, 0);
+    qstr k{(unsigned int) env->GetArrayLength(key), (char *) buf};
+    qstr v = db->getRaw(k);
+    jbyteArray jba = env->NewByteArray(v.length);
+    env->SetByteArrayRegion(jba, 0, v.length, (jbyte *) v.str);
+    delete v.str;
+    env->ReleaseByteArrayElements(key, buf, JNI_ABORT);
+    return jba;
+}
+
+static void
+nativePutRaw(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray key, jbyteArray value) {
+    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    jbyte *kb, *vb;
+    kb = env->GetByteArrayElements(key, 0);
+    vb = env->GetByteArrayElements(value, 0);
+    qstr k{(unsigned int) env->GetArrayLength(key), (char *) kb};
+    qstr v{(unsigned int) env->GetArrayLength(value),
+           (char *) vb};
+    db->putRaw(k, v);
+    env->ReleaseByteArrayElements(key, kb, JNI_ABORT);
+    env->ReleaseByteArrayElements(value, vb, JNI_ABORT);
+}
+
+static jlong nativeIterator(JNIEnv *env, jclass clazz, jlong ptr) {
+    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    return reinterpret_cast<jlong>(db->iterator());
+}
 
 static JNINativeMethod sMethods[] =
     {
@@ -82,7 +119,10 @@ static JNINativeMethod sMethods[] =
         {"nativeSetMaxChunksCount", "(JI)V",                 (void *) nativeSetMaxChunksCount},
         {"nativeClose",             "(J)V",                  (void *) nativeClose},
         {"nativeTest",              "(J)V",                  (void *) nativeTest},
-        {"nativeChflat",            "(J[B)V",                (void *) nativeChflat}
+        {"nativeChflat",            "(J[B)V",                (void *) nativeChflat},
+        {"nativeIterator",          "(J)J",                  (void *) nativeIterator},
+        {"nativeGetRaw",            "(J[B)[B",               (void *) nativeGetRaw},
+        {"nativePutRaw",            "(J[B[B)V",              (void *) nativePutRaw}
     };
 
 int register_rbq2012_ldbchunk_DB(JNIEnv *env) {

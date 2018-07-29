@@ -7,6 +7,7 @@
     <application
         android:name=".MyApp"
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -26,7 +27,7 @@
 
         <activity android:name=".configguide.ActivityFlat" />
 
-        <activity android:name=".activities.ActivityFilePicker"></activity>
+        <activity android:name=".activities.ActivityFilePicker" />
 
         <activity
             android:name=".activities.ActivityCreateLevel"
@@ -35,11 +36,11 @@
 
         <activity
             android:name=".activities.ActivityRunJs"
-            android:label="@string/act_title_runjs"></activity>
+            android:label="@string/act_title_runjs" />
 
         <activity
             android:name=".activities.ActivityModifyFlat"
-            android:label="@string/act_title_moflat"></activity>
+            android:label="@string/act_title_moflat" />
 
         <activity
             android:name=".activities.DialogEditLayer"
@@ -47,6 +48,15 @@
 
         <activity
             android:name=".activities.DialogPickBlock"
+            android:label="@string/pickblock_title"
+            android:theme="@style/DialogTheme" />
+
+        <activity
+            android:name=".activities.ActivityTest"
+            android:label="@string/test_title" />
+
+        <activity
+            android:name=".test.ActivityMapPicker"
             android:theme="@style/DialogTheme" />
 
     </application>

@@ -63,6 +63,13 @@
             android:layout_marginBottom="15dp" />
 
         <CheckBox
+            android:id="@+id/checkbox1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/setup_fjs_genflat" />
+
+        <CheckBox
             android:id="@+id/checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -141,7 +141,13 @@ public:
 
     void setLayers(unsigned int length, unsigned char *data);
 
-    void changeFlatLayers(int length, unsigned char *layers);
+    void changeFlatLayers(unsigned int length, unsigned char *layers);
+
+    qstr getRaw(qstr key);
+
+    void putRaw(qstr key, qstr value);
+
+    leveldb::Iterator *iterator();
 };
 
 #endif //CONVARTER_SAVDB_H

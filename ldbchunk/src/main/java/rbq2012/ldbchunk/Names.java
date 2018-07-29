@@ -3,6 +3,7 @@ package rbq2012.ldbchunk;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +49,8 @@ public final class Names {
 
     static public void loadBlockNames(String jsonText) {
         if (block_names != null) return;
+        //android.util.Log.e("123", jsonText);
+        //jsonText = new String(jsonText.getBytes(Charset.forName("UTF-8")));
         try {
             JSONObject jso = new JSONObject(jsonText);
             JSONArray jarr = jso.getJSONArray("blocks");

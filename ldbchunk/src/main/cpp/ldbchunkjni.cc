@@ -8,6 +8,8 @@ extern int register_rbq2012_ldbchunk_DB(JNIEnv *env);
 
 extern int register_rbq2012_ldbchunk_Names(JNIEnv *env);
 
+extern int register_rbq2012_ldbchunk_Iterator(JNIEnv *env);
+
 jint
 throwException(JNIEnv *env) {
     const char *exceptionClass;
@@ -31,6 +33,7 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
     register_rbq2012_ldbchunk_DB(env);
     register_rbq2012_ldbchunk_Names(env);
+    register_rbq2012_ldbchunk_Iterator(env);
 
     return JNI_VERSION_1_6;
 }

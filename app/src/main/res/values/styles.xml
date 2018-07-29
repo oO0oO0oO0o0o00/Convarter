@@ -6,28 +6,35 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorText</item>
+        <!---item name="android:textColorPrimary">@color/colorAccent</-item-->
+        <item name="android:windowBackground">@color/colorMcBg</item>
+        <item name="android:checkboxStyle">@style/AppCheckBoxStyle</item>
+        <item name="android:buttonStyle">@style/AppButtonStyle</item>
+        <item name="alertDialogTheme">@style/DialogTheme</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowBackground">@drawable/mcdialog_bg</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/colorDialogText</item>
+        <item name="android:textColor">@color/colorDialogText</item>
+        <item name="android:checkboxStyle">@style/AppCheckBoxStyle</item>
+        <item name="android:buttonStyle">@style/AppButtonStyle</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="windowMinWidthMajor">72%</item>
+        <item name="windowMinWidthMinor">65%</item>
     </style>
 
-    <style name="MenuLabelsStyle">
-        <item name="android:background">@drawable/fab_label_background</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:maxLines">2</item>
-        <item name="android:ellipsize">end</item>
-
+    <style name="AppCheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="android:textColor">@color/colorText</item>
     </style>
 
-    <style name="MenuButtonsStyle">
-        <item name="fab_size">mini</item>
-        <item name="fab_colorNormal">#FFB805</item>
-        <item name="fab_colorPressed">#F2AB00</item>
-        <item name="fab_colorRipple">#D99200</item>
+    <style name="AppButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/sel_wid_mcbtn_bg</item>
+        <item name="android:textColor">@color/sel_wid_mcbtn_textcolor</item>
     </style>
 
 </resources>

@@ -4,1673 +4,1912 @@
             "id": "0",
             "name": "air",
             "readables": {
-                "default": "Air"
+                "default": "Air",
+                "zh_cn": "空气"
             }
         },
         {
             "id": "1",
             "name": "stone",
             "readables": {
-                "default": "Stone"
+                "default": "Stone",
+                "zh_cn": "石头"
             }
         },
         {
             "id": "2",
             "name": "grass",
             "readables": {
-                "default": "Grass Block"
+                "default": "Grass Block",
+                "zh_cn": "草方块"
             }
         },
         {
             "id": "3",
             "name": "dirt",
             "readables": {
-                "default": "Dirt"
+                "default": "Dirt",
+                "zh_cn": "泥土"
             }
         },
         {
             "id": "4",
             "name": "cobblestone",
             "readables": {
-                "default": "Cobblestone"
+                "default": "Cobblestone",
+                "zh_cn": "圆石"
             }
         },
         {
             "id": "5",
             "name": "planks",
             "readables": {
-                "default": "Wood Planks"
+                "default": "Wood Planks",
+                "zh_cn": "木板"
             }
         },
         {
             "id": "6",
             "name": "sapling",
             "readables": {
-                "default": "Sapling"
+                "default": "Sapling",
+                "zh_cn": "树苗"
             }
         },
         {
             "id": "7",
             "name": "bedrock",
             "readables": {
-                "default": "Bedrock"
+                "default": "Bedrock",
+                "zh_cn": "基岩"
             }
         },
         {
             "id": "8",
             "name": "flowing_water",
             "readables": {
-                "default": "Water"
+                "default": "Water",
+                "zh_cn": "水"
             }
         },
         {
             "id": "9",
             "name": "water",
             "readables": {
-                "default": "Stationary Water"
+                "default": "Stationary Water",
+                "zh_cn": "静止的水"
             }
         },
         {
             "id": "10",
             "name": "flowing_lava",
             "readables": {
-                "default": "Lava"
+                "default": "Lava",
+                "zh_cn": "岩浆"
             }
         },
         {
             "id": "11",
             "name": "lava",
             "readables": {
-                "default": "Stationary Lava"
+                "default": "Stationary Lava",
+                "zh_cn": "静止的岩浆"
             }
         },
         {
             "id": "12",
             "name": "sand",
             "readables": {
-                "default": "Sand"
+                "default": "Sand",
+                "zh_cn": "沙子"
             }
         },
         {
             "id": "13",
             "name": "gravel",
             "readables": {
-                "default": "Gravel"
+                "default": "Gravel",
+                "zh_cn": "沙砾"
             }
         },
         {
             "id": "14",
             "name": "gold_ore",
             "readables": {
-                "default": "Gold Ore"
+                "default": "Gold Ore",
+                "zh_cn": "金矿"
             }
         },
         {
             "id": "15",
             "name": "iron_ore",
             "readables": {
-                "default": "Iron Ore"
+                "default": "Iron Ore",
+                "zh_cn": "铁矿"
             }
         },
         {
             "id": "16",
             "name": "coal_ore",
             "readables": {
-                "default": "Coal Ore"
+                "default": "Coal Ore",
+                "zh_cn": "煤矿"
             }
         },
         {
             "id": "17",
             "name": "log",
             "readables": {
-                "default": "Wood"
+                "default": "Wood",
+                "zh_cn": "木头"
             }
         },
         {
             "id": "18",
             "name": "leaves",
             "readables": {
-                "default": "Leaves"
+                "default": "Leaves",
+                "zh_cn": "树叶"
             }
         },
         {
             "id": "19",
             "name": "sponge",
             "readables": {
-                "default": "Sponge"
+                "default": "Sponge",
+                "zh_cn": "海绵"
             }
         },
         {
             "id": "20",
             "name": "glass",
             "readables": {
-                "default": "Glass"
+                "default": "Glass",
+                "zh_cn": "玻璃"
             }
         },
         {
             "id": "21",
             "name": "lapis_ore",
             "readables": {
-                "default": "Lapis Lazuli Ore"
+                "default": "Lapis Lazuli Ore",
+                "zh_cn": "青金石矿"
             }
         },
         {
             "id": "22",
             "name": "lapis_block",
             "readables": {
-                "default": "Lapis Lazuli Block"
+                "default": "Lapis Lazuli Block",
+                "zh_cn": "青金石"
             }
         },
         {
             "id": "23",
             "name": "dispenser",
             "readables": {
-                "default": "Dispenser"
+                "default": "Dispenser",
+                "zh_cn": "发射器"
             }
         },
         {
             "id": "24",
             "name": "sandstone",
             "readables": {
-                "default": "Sandstone"
+                "default": "Sandstone",
+                "zh_cn": "沙石"
             }
         },
         {
             "id": "25",
             "name": "noteblock",
             "readables": {
-                "default": "Note Block"
+                "default": "Note Block",
+                "zh_cn": "笔记"
             }
         },
         {
             "id": "26",
             "name": "bed",
             "readables": {
-                "default": "Bed"
+                "default": "Bed",
+                "zh_cn": "床"
             }
         },
         {
             "id": "27",
             "name": "golden_rail",
             "readables": {
-                "default": "Powered Rail"
+                "default": "Powered Rail",
+                "zh_cn": "动力铁轨"
             }
         },
         {
             "id": "28",
             "name": "detector_rail",
             "readables": {
-                "default": "Detector Rail"
+                "default": "Detector Rail",
+                "zh_cn": "检测铁轨"
             }
         },
         {
             "id": "29",
             "name": "sticky_piston",
             "readables": {
-                "default": "Sticky Piston"
+                "default": "Sticky Piston",
+                "zh_cn": "粘性活塞"
             }
         },
         {
             "id": "30",
             "name": "web",
             "readables": {
-                "default": "Cobweb"
+                "default": "Cobweb",
+                "zh_cn": "蜘蛛网"
             }
         },
         {
             "id": "31",
             "name": "tallgrass",
             "readables": {
-                "default": "Tall Grass"
+                "default": "Tall Grass",
+                "zh_cn": "高草"
             }
         },
         {
             "id": "32",
             "name": "deadbush",
             "readables": {
-                "default": "Dead Bush"
+                "default": "Dead Bush",
+                "zh_cn": "枯树"
             }
         },
         {
             "id": "33",
             "name": "piston",
             "readables": {
-                "default": "Piston"
+                "default": "Piston",
+                "zh_cn": "活塞"
             }
         },
         {
             "id": "34",
             "name": "pistonarmcollision",
             "readables": {
-                "default": "Piston Head"
+                "default": "Piston Head",
+                "zh_cn": "活塞头"
             }
         },
         {
             "id": "35",
             "name": "wool",
             "readables": {
-                "default": "Wool"
+                "default": "Wool",
+                "zh_cn": "羊毛"
             }
         },
         {
             "id": "37",
             "name": "yellow_flower",
             "readables": {
-                "default": "Dandelion"
+                "default": "Dandelion",
+                "zh_cn": "黄花"
             }
         },
         {
             "id": "38",
             "name": "red_flower",
             "readables": {
-                "default": "Flower"
+                "default": "Flower",
+                "zh_cn": "花"
             }
         },
         {
             "id": "39",
             "name": "brown_mushroom",
             "readables": {
-                "default": "Brown Mushroom"
+                "default": "Brown Mushroom",
+                "zh_cn": "棕蘑菇"
             }
         },
         {
             "id": "40",
             "name": "red_mushroom",
             "readables": {
-                "default": "Red Mushroom"
+                "default": "Red Mushroom",
+                "zh_cn": "红蘑菇"
             }
         },
         {
             "id": "41",
             "name": "gold_block",
             "readables": {
-                "default": "Block of Gold"
+                "default": "Block of Gold",
+                "zh_cn": "金块"
             }
         },
         {
             "id": "42",
             "name": "iron_block",
             "readables": {
-                "default": "Block of Iron"
+                "default": "Block of Iron",
+                "zh_cn": "铁块"
             }
         },
         {
             "id": "43",
             "name": "double_stone_slab",
             "readables": {
-                "default": "Double Stone Slab"
+                "default": "Double Stone Slab",
+                "zh_cn": "双石半砖"
             }
         },
         {
             "id": "44",
             "name": "stone_slab",
             "readables": {
-                "default": "Stone Slab"
+                "default": "Stone Slab",
+                "zh_cn": "石半砖"
             }
         },
         {
             "id": "45",
             "name": "brick_block",
             "readables": {
-                "default": "Bricks"
+                "default": "Bricks",
+                "zh_cn": "砖"
             }
         },
         {
             "id": "46",
             "name": "tnt",
             "readables": {
-                "default": "TNT"
+                "default": "TNT",
+                "zh_cn": "TNT"
             }
         },
         {
             "id": "47",
             "name": "bookshelf",
             "readables": {
-                "default": "Bookshelf"
+                "default": "Bookshelf",
+                "zh_cn": "书架"
             }
         },
         {
             "id": "48",
             "name": "mossy_cobblestone",
             "readables": {
-                "default": "Moss Stone"
+                "default": "Moss Stone",
+                "zh_cn": "苔石"
             }
         },
         {
             "id": "49",
             "name": "obsidian",
             "readables": {
-                "default": "Obsidian"
+                "default": "Obsidian",
+                "zh_cn": "黑曜石"
             }
         },
         {
             "id": "50",
             "name": "torch",
             "readables": {
-                "default": "Torch"
+                "default": "Torch",
+                "zh_cn": "火把"
             }
         },
         {
             "id": "51",
             "name": "fire",
             "readables": {
-                "default": "Fire"
+                "default": "Fire",
+                "zh_cn": "火"
             }
         },
         {
             "id": "52",
             "name": "mob_spawner",
             "readables": {
-                "default": "Monster Spawner"
+                "default": "Monster Spawner",
+                "zh_cn": "刷怪笼"
             }
         },
         {
             "id": "53",
             "name": "oak_stairs",
             "readables": {
-                "default": "Oak Wood Stairs"
+                "default": "Oak Wood Stairs",
+                "zh_cn": "木楼梯"
             }
         },
         {
             "id": "54",
             "name": "chest",
             "readables": {
-                "default": "Chest"
+                "default": "Chest",
+                "zh_cn": "箱子"
             }
         },
         {
             "id": "55",
             "name": "redstone_wire",
             "readables": {
-                "default": "Redstone Wire"
+                "default": "Redstone Wire",
+                "zh_cn": "红石线"
             }
         },
         {
             "id": "56",
             "name": "diamond_ore",
             "readables": {
-                "default": "Diamond Ore"
+                "default": "Diamond Ore",
+                "zh_cn": "钻石矿"
             }
         },
         {
             "id": "57",
             "name": "diamond_block",
             "readables": {
-                "default": "Block of Diamond"
+                "default": "Block of Diamond",
+                "zh_cn": "钻石块"
             }
         },
         {
             "id": "58",
             "name": "crafting_table",
             "readables": {
-                "default": "Crafting Table"
+                "default": "Crafting Table",
+                "zh_cn": "工作台"
             }
         },
         {
             "id": "59",
             "name": "wheat",
             "readables": {
-                "default": "Crops"
+                "default": "Crops",
+                "zh_cn": "小麦"
             }
         },
         {
             "id": "60",
             "name": "farmland",
             "readables": {
-                "default": "Farmland"
+                "default": "Farmland",
+                "zh_cn": "耕地"
             }
         },
         {
             "id": "61",
             "name": "furnace",
             "readables": {
-                "default": "Furnace"
+                "default": "Furnace",
+                "zh_cn": "熔炉"
             }
         },
         {
             "id": "62",
             "name": "lit_furnace",
             "readables": {
-                "default": "Burning Furnace"
+                "default": "Burning Furnace",
+                "zh_cn": "燃烧的熔炉"
             }
         },
         {
             "id": "63",
             "name": "standing_sign",
             "readables": {
-                "default": "Sign"
+                "default": "Sign",
+                "zh_cn": "木牌"
             }
         },
         {
             "id": "64",
             "name": "wooden_door",
             "readables": {
-                "default": "Wooden Door"
+                "default": "Wooden Door",
+                "zh_cn": "木门"
             }
         },
         {
             "id": "65",
             "name": "ladder",
             "readables": {
-                "default": "Ladder"
+                "default": "Ladder",
+                "zh_cn": "梯子"
             }
         },
         {
             "id": "66",
             "name": "rail",
             "readables": {
-                "default": "Rail"
+                "default": "Rail",
+                "zh_cn": "铁轨"
             }
         },
         {
             "id": "67",
             "name": "stone_stairs",
             "readables": {
-                "default": "Cobblestone Stairs"
+                "default": "Cobblestone Stairs",
+                "zh_cn": "圆石楼梯"
             }
         },
         {
             "id": "68",
             "name": "wall_sign",
             "readables": {
-                "default": "Wall Sign"
+                "default": "Wall Sign",
+                "zh_cn": "墙上的木牌"
             }
         },
         {
             "id": "69",
             "name": "lever",
             "readables": {
-                "default": "Lever"
+                "default": "Lever",
+                "zh_cn": "拉杆"
             }
         },
         {
             "id": "70",
             "name": "stone_pressure_plate",
             "readables": {
-                "default": "Stone Pressure Plate"
+                "default": "Stone Pressure Plate",
+                "zh_cn": "石压力板"
             }
         },
         {
             "id": "71",
             "name": "iron_door",
             "readables": {
-                "default": "Iron Door"
+                "default": "Iron Door",
+                "zh_cn": "铁门"
             }
         },
         {
             "id": "72",
             "name": "oak_pressure_plate",
             "readables": {
-                "default": "Oak Pressure Plate"
+                "default": "Oak Pressure Plate",
+                "zh_cn": "木压力板"
             }
         },
         {
             "id": "73",
             "name": "redstone_ore",
             "readables": {
-                "default": "Redstone Ore"
+                "default": "Redstone Ore",
+                "zh_cn": "红石矿"
             }
         },
         {
             "id": "74",
             "name": "lit_redstone_ore",
             "readables": {
-                "default": "Glowing Redstone Ore"
+                "default": "Glowing Redstone Ore",
+                "zh_cn": "发光的红石矿"
             }
         },
         {
             "id": "75",
             "name": "unlit_redstone_torch",
             "readables": {
-                "default": "Redstone Torch (inactive)"
+                "default": "Redstone Torch (inactive)",
+                "zh_cn": "红石火把（未激活）"
             }
         },
         {
             "id": "76",
             "name": "lit_redstone_torch",
             "readables": {
-                "default": "Redstone Torch (active)"
+                "default": "Redstone Torch (active)",
+                "zh_cn": "红石火把（激活）"
             }
         },
         {
             "id": "77",
             "name": "stone_button",
             "readables": {
-                "default": "Stone Button"
+                "default": "Stone Button",
+                "zh_cn": "石按钮"
             }
         },
         {
             "id": "78",
             "name": "snow_layer",
             "readables": {
-                "default": "Top Snow"
+                "default": "Top Snow",
+                "zh_cn": "积雪"
             }
         },
         {
             "id": "79",
             "name": "ice",
             "readables": {
-                "default": "Ice"
+                "default": "Ice",
+                "zh_cn": "冰"
             }
         },
         {
             "id": "80",
             "name": "snow",
             "readables": {
-                "default": "Snow"
+                "default": "Snow",
+                "zh_cn": "雪"
             }
         },
         {
             "id": "81",
             "name": "cactus",
             "readables": {
-                "default": "Cactus"
+                "default": "Cactus",
+                "zh_cn": "仙人掌"
             }
         },
         {
             "id": "82",
             "name": "clay",
             "readables": {
-                "default": "Clay"
+                "default": "Clay",
+                "zh_cn": "黏土"
             }
         },
         {
             "id": "83",
             "name": "reeds",
             "readables": {
-                "default": "Sugar Cane"
+                "default": "Sugar Cane",
+                "zh_cn": "甘蔗"
             }
         },
         {
             "id": "84",
             "name": "jukebox",
             "readables": {
-                "default": "Jukebox"
+                "default": "Jukebox",
+                "zh_cn": "唱片机"
             }
         },
         {
             "id": "85",
             "name": "fence",
             "readables": {
-                "default": "Oak Fence"
+                "default": "Oak Fence",
+                "zh_cn": "木栅栏"
             }
         },
         {
             "id": "86",
             "name": "pumpkin",
             "readables": {
-                "default": "Pumpkin"
+                "default": "Pumpkin",
+                "zh_cn": "南瓜"
             }
         },
         {
             "id": "87",
             "name": "netherrack",
             "readables": {
-                "default": "Netherrack"
+                "default": "Netherrack",
+                "zh_cn": "地狱岩"
             }
         },
         {
             "id": "88",
             "name": "soul_sand",
             "readables": {
-                "default": "Soul Sand"
+                "default": "Soul Sand",
+                "zh_cn": "灵魂沙"
             }
         },
         {
             "id": "89",
             "name": "glowstone",
             "readables": {
-                "default": "Glowstone"
+                "default": "Glowstone",
+                "zh_cn": "萤石"
             }
         },
         {
             "id": "90",
             "name": "portal",
             "readables": {
-                "default": "Portal"
+                "default": "Portal",
+                "zh_cn": "传送门"
             }
         },
         {
             "id": "91",
             "name": "lit_pumpkin",
             "readables": {
-                "default": "Jack o'Lantern"
+                "default": "Jack o'Lantern",
+                "zh_cn": "南瓜灯"
             }
         },
         {
             "id": "92",
             "name": "cake",
             "readables": {
-                "default": "Cake"
+                "default": "Cake",
+                "zh_cn": "蛋糕"
             }
         },
         {
             "id": "93",
             "name": "unpowered_repeater",
             "readables": {
-                "default": "Redstone Repeater (inactive)"
+                "default": "Redstone Repeater (inactive)",
+                "zh_cn": "红石重复（未激活）"
             }
         },
         {
             "id": "94",
             "name": "powered_repeater",
             "readables": {
-                "default": "Redstone Repeater (active)"
+                "default": "Redstone Repeater (active)",
+                "zh_cn": "红石重复（激活）"
             }
         },
         {
             "id": "95",
             "name": "invisiblebedrock",
             "readables": {
-                "default": "Invisible Bedrock"
+                "default": "Invisible Bedrock",
+                "zh_cn": "隐形基岩"
             }
         },
         {
             "id": "96",
             "name": "oak_trapdoor",
             "readables": {
-                "default": "Oak Trapdoor"
+                "default": "Oak Trapdoor",
+                "zh_cn": "木陷阱门"
             }
         },
         {
             "id": "97",
             "name": "monster_egg",
             "readables": {
-                "default": "Monster Egg"
+                "default": "Monster Egg",
+                "zh_cn": "怪物卵"
             }
         },
         {
             "id": "98",
             "name": "stonebrick",
             "readables": {
-                "default": "Stone Bricks"
+                "default": "Stone Bricks",
+                "zh_cn": "石砖块"
             }
         },
         {
             "id": "99",
             "name": "brown_mushroom_block",
             "readables": {
-                "default": "Brown Mushroom"
+                "default": "Brown Mushroom",
+                "zh_cn": "棕蘑菇块"
             }
         },
         {
             "id": "100",
             "name": "red_mushroom_block",
             "readables": {
-                "default": "Red Mushroom"
+                "default": "Red Mushroom",
+                "zh_cn": "红蘑菇块"
             }
         },
         {
             "id": "101",
             "name": "iron_bars",
             "readables": {
-                "default": "Iron Bars"
+                "default": "Iron Bars",
+                "zh_cn": "铁栅栏"
             }
         },
         {
             "id": "102",
             "name": "glass_pane",
             "readables": {
-                "default": "Glass Pane"
+                "default": "Glass Pane",
+                "zh_cn": "玻璃板"
             }
         },
         {
             "id": "103",
             "name": "melon_block",
             "readables": {
-                "default": "Melon"
+                "default": "Melon",
+                "zh_cn": "西瓜"
             }
         },
         {
             "id": "104",
             "name": "pumpkin_stem",
             "readables": {
-                "default": "Pumpkin Stem"
+                "default": "Pumpkin Stem",
+                "zh_cn": "南瓜藤"
             }
         },
         {
             "id": "105",
             "name": "melon_stem",
             "readables": {
-                "default": "Melon Stem"
+                "default": "Melon Stem",
+                "zh_cn": "西瓜藤"
             }
         },
         {
             "id": "106",
             "name": "vine",
             "readables": {
-                "default": "Vines"
+                "default": "Vines",
+                "zh_cn": "蕨"
             }
         },
         {
             "id": "107",
             "name": "fence_gate",
             "readables": {
-                "default": "Oak Fence Gate"
+                "default": "Oak Fence Gate",
+                "zh_cn": "木栅栏门"
             }
         },
         {
             "id": "108",
             "name": "brick_stairs",
             "readables": {
-                "default": "Brick Stairs"
+                "default": "Brick Stairs",
+                "zh_cn": "砖楼梯"
             }
         },
         {
             "id": "109",
             "name": "stone_brick_stairs",
             "readables": {
-                "default": "Stone Brick Stairs"
+                "default": "Stone Brick Stairs",
+                "zh_cn": "石砖楼梯"
             }
         },
         {
             "id": "110",
             "name": "mycelium",
             "readables": {
-                "default": "Mycelium"
+                "default": "Mycelium",
+                "zh_cn": "Mycelium"
             }
         },
         {
             "id": "111",
             "name": "waterlily",
             "readables": {
-                "default": "Lily Pad"
+                "default": "Lily Pad",
+                "zh_cn": "荷叶"
             }
         },
         {
             "id": "112",
             "name": "nether_brick",
             "readables": {
-                "default": "Nether Brick"
+                "default": "Nether Brick",
+                "zh_cn": "地狱砖"
             }
         },
         {
             "id": "113",
             "name": "nether_brick_fence",
             "readables": {
-                "default": "Nether Brick Fence"
+                "default": "Nether Brick Fence",
+                "zh_cn": "地狱砖栅栏"
             }
         },
         {
             "id": "114",
             "name": "nether_brick_stairs",
             "readables": {
-                "default": "Nether Brick Stairs"
+                "default": "Nether Brick Stairs",
+                "zh_cn": "地狱砖楼梯"
             }
         },
         {
             "id": "115",
             "name": "nether_wart",
             "readables": {
-                "default": "Nether Wart"
+                "default": "Nether Wart",
+                "zh_cn": "地狱疣"
             }
         },
         {
             "id": "116",
             "name": "enchanting_table",
             "readables": {
-                "default": "Enchantment Table"
+                "default": "Enchantment Table",
+                "zh_cn": "附魔台"
             }
         },
         {
             "id": "117",
             "name": "brewing_stand",
             "readables": {
-                "default": "Brewing Stand"
+                "default": "Brewing Stand",
+                "zh_cn": "酿造台"
             }
         },
         {
             "id": "118",
             "name": "cauldron",
             "readables": {
-                "default": "Cauldron"
+                "default": "Cauldron",
+                "zh_cn": "坩埚"
             }
         },
         {
             "id": "119",
             "name": "end_portal",
             "readables": {
-                "default": "End Portal"
+                "default": "End Portal",
+                "zh_cn": "末地传送门"
             }
         },
         {
             "id": "120",
             "name": "end_portal_frame",
             "readables": {
-                "default": "End Portal Frame"
+                "default": "End Portal Frame",
+                "zh_cn": "末地传送门框架"
             }
         },
         {
             "id": "121",
             "name": "end_stone",
             "readables": {
-                "default": "End Stone"
+                "default": "End Stone",
+                "zh_cn": "末地石"
             }
         },
         {
             "id": "122",
             "name": "dragon_egg",
             "readables": {
-                "default": "Dragon Egg"
+                "default": "Dragon Egg",
+                "zh_cn": "杀妈蛋"
             }
         },
         {
             "id": "123",
             "name": "redstone_lamp",
             "readables": {
-                "default": "Redstone Lamp (inactive)"
+                "default": "Redstone Lamp (inactive)",
+                "zh_cn": "红石灯（未激活）"
             }
         },
         {
             "id": "124",
             "name": "lit_redstone_lamp",
             "readables": {
-                "default": "Redstone Lamp (active)"
+                "default": "Redstone Lamp (active)",
+                "zh_cn": "红石灯（激活）"
             }
         },
         {
             "id": "125",
             "name": "dropper",
             "readables": {
-                "default": "Dropper"
+                "default": "Dropper",
+                "zh_cn": "点滴器"
             }
         },
         {
             "id": "126",
             "name": "activator_rail",
             "readables": {
-                "default": "Activator Rail"
+                "default": "Activator Rail",
+                "zh_cn": "激活铁轨"
             }
         },
         {
             "id": "127",
             "name": "cocoa",
             "readables": {
-                "default": "Cocoa"
+                "default": "Cocoa",
+                "zh_cn": "可可豆"
             }
         },
         {
             "id": "128",
             "name": "sandstone_stairs",
             "readables": {
-                "default": "Sandstone Stairs"
+                "default": "Sandstone Stairs",
+                "zh_cn": "沙石楼梯"
             }
         },
         {
             "id": "129",
             "name": "emerald_ore",
             "readables": {
-                "default": "Emerald Ore"
+                "default": "Emerald Ore",
+                "zh_cn": "绿宝石矿"
             }
         },
         {
             "id": "130",
             "name": "ender_chest",
             "readables": {
-                "default": "Ender Chest"
+                "default": "Ender Chest",
+                "zh_cn": "末影箱"
             }
         },
         {
             "id": "131",
             "name": "tripwire_hook",
             "readables": {
-                "default": "Tripwire Hook"
+                "default": "Tripwire Hook",
+                "zh_cn": "拌线钩"
             }
         },
         {
             "id": "132",
             "name": "tripwire",
             "readables": {
-                "default": "Tripwire"
+                "default": "Tripwire",
+                "zh_cn": "拌线"
             }
         },
         {
             "id": "133",
             "name": "emerald_block",
             "readables": {
-                "default": "Block of Emerald"
+                "default": "Block of Emerald",
+                "zh_cn": "绿宝石块"
             }
         },
         {
             "id": "134",
             "name": "spruce_stairs",
             "readables": {
-                "default": "Spruce Wood Stairs"
+                "default": "Spruce Wood Stairs",
+                "zh_cn": "云杉木楼梯"
             }
         },
         {
             "id": "135",
             "name": "birch_stairs",
             "readables": {
-                "default": "Birch Wood Stairs"
+                "default": "Birch Wood Stairs",
+                "zh_cn": "橡木楼梯"
             }
         },
         {
             "id": "136",
             "name": "jungle_stairs",
             "readables": {
-                "default": "Jungle Wood Stairs"
+                "default": "Jungle Wood Stairs",
+                "zh_cn": "丛林木楼梯"
             }
         },
         {
             "id": "137",
             "name": "command_block",
             "readables": {
-                "default": "Command Block"
+                "default": "Command Block",
+                "zh_cn": "命令块"
             }
         },
         {
             "id": "138",
             "name": "beacon",
             "readables": {
-                "default": "Beacon"
+                "default": "Beacon",
+                "zh_cn": "信标"
             }
         },
         {
             "id": "139",
             "name": "cobblestone_wall",
             "readables": {
-                "default": "Cobblestone Wall"
+                "default": "Cobblestone Wall",
+                "zh_cn": "圆石墙"
             }
         },
         {
             "id": "140",
             "name": "flower_pot",
             "readables": {
-                "default": "Flower Pot"
+                "default": "Flower Pot",
+                "zh_cn": "花盆"
             }
         },
         {
             "id": "141",
             "name": "carrots",
             "readables": {
-                "default": "Carrots"
+                "default": "Carrots",
+                "zh_cn": "胡萝卜"
             }
         },
         {
             "id": "142",
             "name": "potatoes",
             "readables": {
-                "default": "Potato"
+                "default": "Potato",
+                "zh_cn": "土豆"
             }
         },
         {
             "id": "143",
             "name": "oak_button",
             "readables": {
-                "default": "Oak Button"
+                "default": "Oak Button",
+                "zh_cn": "木按钮"
             }
         },
         {
             "id": "144",
             "name": "skull",
             "readables": {
-                "default": "Mob head"
+                "default": "Mob head",
+                "zh_cn": "怪物头"
             }
         },
         {
             "id": "145",
             "name": "anvil",
             "readables": {
-                "default": "Anvil"
+                "default": "Anvil",
+                "zh_cn": "铁砧"
             }
         },
         {
             "id": "146",
             "name": "trapped_chest",
             "readables": {
-                "default": "Trapped Chest"
+                "default": "Trapped Chest",
+                "zh_cn": "陷阱箱"
             }
         },
         {
             "id": "147",
             "name": "light_weighted_pressure_plate",
             "readables": {
-                "default": "Weighted Pressure Plate (Light)"
+                "default": "Weighted Pressure Plate (Light)",
+                "zh_cn": "重量压力板（轻）"
             }
         },
         {
             "id": "148",
             "name": "heavy_weighted_pressure_plate",
             "readables": {
-                "default": "Weighted Pressure Plate (Heavy)"
+                "default": "Weighted Pressure Plate (Heavy)",
+                "zh_cn": "重量压力板（重）"
             }
         },
         {
             "id": "149",
             "name": "unpowered_comparator",
             "readables": {
-                "default": "Redstone Comparator (unpowered)"
+                "default": "Redstone Comparator (unpowered)",
+                "zh_cn": "红石比较器（未激活）"
             }
         },
         {
             "id": "150",
             "name": "powered_comparator",
             "readables": {
-                "default": "Redstone Comparator (powered)"
+                "default": "Redstone Comparator (powered)",
+                "zh_cn": "红石比较器（激活）"
             }
         },
         {
             "id": "151",
             "name": "daylight_detector",
             "readables": {
-                "default": "Daylight Sensor"
+                "default": "Daylight Sensor",
+                "zh_cn": "感光板"
             }
         },
         {
             "id": "152",
             "name": "redstone_block",
             "readables": {
-                "default": "Block of Redstone"
+                "default": "Block of Redstone",
+                "zh_cn": "红石块"
             }
         },
         {
             "id": "153",
             "name": "quartz_ore",
             "readables": {
-                "default": "Nether Quartz Ore"
+                "default": "Nether Quartz Ore",
+                "zh_cn": "地狱石英矿"
             }
         },
         {
             "id": "154",
             "name": "hopper",
             "readables": {
-                "default": "Hopper"
+                "default": "Hopper",
+                "zh_cn": "漏斗"
             }
         },
         {
             "id": "155",
             "name": "quartz_block",
             "readables": {
-                "default": "Block of Quartz"
+                "default": "Block of Quartz",
+                "zh_cn": "石英块"
             }
         },
         {
             "id": "156",
             "name": "quartz_stairs",
             "readables": {
-                "default": "Quartz Stairs"
+                "default": "Quartz Stairs",
+                "zh_cn": "石英楼梯"
             }
         },
         {
             "id": "157",
             "name": "double_wooden_slab",
             "readables": {
-                "default": "Wooden Double Slab"
+                "default": "Wooden Double Slab",
+                "zh_cn": "双木半砖"
             }
         },
         {
             "id": "158",
             "name": "wooden_slab",
             "readables": {
-                "default": "Wooden Slab"
+                "default": "Wooden Slab",
+                "zh_cn": "木半砖"
             }
         },
         {
             "id": "159",
             "name": "stained_hardened_clay",
             "readables": {
-                "default": "Terracotta"
+                "default": "Terracotta",
+                "zh_cn": "染色陶瓦"
             }
         },
         {
             "id": "160",
             "name": "stained_glass_pane",
             "readables": {
-                "default": "Stained Glass Pane"
+                "default": "Stained Glass Pane",
+                "zh_cn": "染色玻璃板"
             }
         },
         {
             "id": "161",
             "name": "leaves2",
             "readables": {
-                "default": "Acacia Leaves"
+                "default": "Acacia Leaves",
+                "zh_cn": "金合欢树叶"
             }
         },
         {
             "id": "162",
             "name": "log2",
             "readables": {
-                "default": "Acacia Log"
+                "default": "Acacia Log",
+                "zh_cn": "金合欢木"
             }
         },
         {
             "id": "163",
             "name": "acacia_stairs",
             "readables": {
-                "default": "Acacia Wood Stairs"
+                "default": "Acacia Wood Stairs",
+                "zh_cn": "金合欢木楼梯"
             }
         },
         {
             "id": "164",
             "name": "dark_oak_stairs",
             "readables": {
-                "default": "Dark Oak Wood Stairs"
+                "default": "Dark Oak Wood Stairs",
+                "zh_cn": "黑橡木楼梯"
             }
         },
         {
             "id": "165",
             "name": "slime",
             "readables": {
-                "default": "Slime Block"
+                "default": "Slime Block",
+                "zh_cn": "史莱姆方块"
             }
         },
         {
             "id": "167",
             "name": "iron_trapdoor",
             "readables": {
-                "default": "Iron Trapdoor"
+                "default": "Iron Trapdoor",
+                "zh_cn": "铁陷阱门"
             }
         },
         {
             "id": "168",
             "name": "prismarine",
             "readables": {
-                "default": "Prismarine"
+                "default": "Prismarine",
+                "zh_cn": "海晶石"
             }
         },
         {
             "id": "169",
             "name": "sealantern",
             "readables": {
-                "default": "Sea Lantern"
+                "default": "Sea Lantern",
+                "zh_cn": "海晶灯"
             }
         },
         {
             "id": "170",
             "name": "hay_block",
             "readables": {
-                "default": "Hay Bale"
+                "default": "Hay Bale",
+                "zh_cn": "干草捆"
             }
         },
         {
             "id": "171",
             "name": "carpet",
             "readables": {
-                "default": "Carpet"
+                "default": "Carpet",
+                "zh_cn": "地毯"
             }
         },
         {
             "id": "172",
             "name": "terracotta",
             "readables": {
-                "default": "Terracotta"
+                "default": "Terracotta",
+                "zh_cn": "陶瓦"
             }
         },
         {
             "id": "173",
             "name": "coal_block",
             "readables": {
-                "default": "Block of Coal"
+                "default": "Block of Coal",
+                "zh_cn": "煤炭块"
             }
         },
         {
             "id": "174",
             "name": "packed_ice",
             "readables": {
-                "default": "Packed Ice"
+                "default": "Packed Ice",
+                "zh_cn": "密集冰"
             }
         },
         {
             "id": "175",
             "name": "double_plant",
             "readables": {
-                "default": "Sunflower"
+                "default": "Sunflower",
+                "zh_cn": "太阳花"
             }
         },
         {
             "id": "176",
             "name": "standing_banner",
             "readables": {
-                "default": "Standing Banner"
+                "default": "Standing Banner",
+                "zh_cn": "立旗"
             }
         },
         {
             "id": "177",
             "name": "wall_banner",
             "readables": {
-                "default": "Wall Banner"
+                "default": "Wall Banner",
+                "zh_cn": "墙上的旗"
             }
         },
         {
             "id": "178",
             "name": "daylight_detector_inverted",
             "readables": {
-                "default": "Inverted Daylight Sensor"
+                "default": "Inverted Daylight Sensor",
+                "zh_cn": "倒置日光传感器"
             }
         },
         {
             "id": "179",
             "name": "red_sandstone",
             "readables": {
-                "default": "Red Sandstone"
+                "default": "Red Sandstone",
+                "zh_cn": "红沙石"
             }
         },
         {
             "id": "180",
             "name": "red_sandstone_stairs",
             "readables": {
-                "default": "Red Sandstone Stairs"
+                "default": "Red Sandstone Stairs",
+                "zh_cn": "红沙石楼梯"
             }
         },
         {
             "id": "181",
             "name": "double_stone_slab2",
             "readables": {
-                "default": "Double Red Sandstone Slab"
+                "default": "Double Red Sandstone Slab",
+                "zh_cn": "双红沙石半砖"
             }
         },
         {
             "id": "182",
             "name": "stone_slab2",
             "readables": {
-                "default": "Red Sandstone Slab"
+                "default": "Red Sandstone Slab",
+                "zh_cn": "红沙石半砖"
             }
         },
         {
             "id": "183",
             "name": "spruce_fence_gate",
             "readables": {
-                "default": "Spruce Fence Gate"
+                "default": "Spruce Fence Gate",
+                "zh_cn": "云杉栅栏门"
             }
         },
         {
             "id": "184",
             "name": "birch_fence_gate",
             "readables": {
-                "default": "Birch Fence Gate"
+                "default": "Birch Fence Gate",
+                "zh_cn": "桦木栅栏门"
             }
         },
         {
             "id": "185",
             "name": "jungle_fence_gate",
             "readables": {
-                "default": "Jungle Fence Gate"
+                "default": "Jungle Fence Gate",
+                "zh_cn": "丛林木栅栏门"
             }
         },
         {
             "id": "186",
             "name": "dark_oak_fence_gate",
             "readables": {
-                "default": "Dark Oak Fence Gate"
+                "default": "Dark Oak Fence Gate",
+                "zh_cn": "黑橡木栅栏门"
             }
         },
         {
             "id": "187",
             "name": "acacia_fence_gate",
             "readables": {
-                "default": "Acacia Fence Gate"
+                "default": "Acacia Fence Gate",
+                "zh_cn": "金合欢木栅栏门 Fence Gate"
             }
         },
         {
             "id": "188",
             "name": "repeating_command_block",
             "readables": {
-                "default": "Repeating Command Block"
+                "default": "Repeating Command Block",
+                "zh_cn": "重复命令块"
             }
         },
         {
             "id": "189",
             "name": "chain_command_block",
             "readables": {
-                "default": "Chain Command Block"
+                "default": "Chain Command Block",
+                "zh_cn": "链命令块"
             }
         },
         {
             "id": "193",
             "name": "spruce_door",
             "readables": {
-                "default": "Spruce Door"
+                "default": "Spruce Door",
+                "zh_cn": "云杉门"
             }
         },
         {
             "id": "194",
             "name": "birch_door",
             "readables": {
-                "default": "Birch Door"
+                "default": "Birch Door",
+                "zh_cn": "桦木门"
             }
         },
         {
             "id": "195",
             "name": "jungle_door",
             "readables": {
-                "default": "Jungle Door"
+                "default": "Jungle Door",
+                "zh_cn": "丛林木门"
             }
         },
         {
             "id": "196",
             "name": "acacia_door",
             "readables": {
-                "default": "Acacia Door"
+                "default": "Acacia Door",
+                "zh_cn": "金合欢木门"
             }
         },
         {
             "id": "197",
             "name": "dark_oak_door",
             "readables": {
-                "default": "Dark Oak Door"
+                "default": "Dark Oak Door",
+                "zh_cn": "黑橡木门"
             }
         },
         {
             "id": "198",
             "name": "grass_path",
             "readables": {
-                "default": "Grass Path"
+                "default": "Grass Path",
+                "zh_cn": "草路"
             }
         },
         {
             "id": "199",
             "name": "frame",
             "readables": {
-                "default": "Item Frame"
+                "default": "Item Frame",
+                "zh_cn": "物品框"
             }
         },
         {
             "id": "200",
             "name": "chorus_flower",
             "readables": {
-                "default": "Chorus Flower"
+                "default": "Chorus Flower",
+                "zh_cn": "紫颂花"
             }
         },
         {
             "id": "201",
             "name": "purpur_block",
             "readables": {
-                "default": "Purpur Block"
+                "default": "Purpur Block",
+                "zh_cn": "紫珀块"
             }
         },
         {
             "id": "202",
             "name": "purpur_stairs",
             "readables": {
-                "default": "Purpur Stairs"
+                "default": "Purpur Stairs",
+                "zh_cn": "紫珀楼梯"
             }
         },
         {
             "id": "205",
             "name": "undyed_shulker_box",
             "readables": {
-                "default": "Shulker Box (Undyed)"
+                "default": "潜影盒 (未染色)",
+                "zh_cn": ""
             }
         },
         {
             "id": "206",
             "name": "end_bricks",
             "readables": {
-                "default": "End Stone Bricks"
+                "default": "End Stone Bricks",
+                "zh_cn": "末地石砖"
             }
         },
         {
             "id": "207",
             "name": "frosted_ice",
             "readables": {
-                "default": "Frosted Ice"
+                "default": "Frosted Ice",
+                "zh_cn": "Frosted冰"
             }
         },
         {
             "id": "208",
             "name": "end_rod",
             "readables": {
-                "default": "End Rod"
+                "default": "End Rod",
+                "zh_cn": "末地烛"
             }
         },
         {
             "id": "209",
             "name": "end_gateway",
             "readables": {
-                "default": "End Gateway"
+                "default": "末地传送门",
+                "zh_cn": ""
             }
         },
         {
             "id": "213",
             "name": "magma",
             "readables": {
-                "default": "Magma Block"
+                "default": "熔岩块",
+                "zh_cn": ""
             }
         },
         {
             "id": "214",
             "name": "nether_wart_block",
             "readables": {
-                "default": "Nether Wart Block"
+                "default": "Nether Wart Block",
+                "zh_cn": "地狱疣"
             }
         },
         {
             "id": "215",
             "name": "red_nether_brick",
             "readables": {
-                "default": "Red Nether Brick"
+                "default": "Red Nether Brick",
+                "zh_cn": "红地狱砖"
             }
         },
         {
             "id": "216",
             "name": "bone_block",
             "readables": {
-                "default": "Bone Block"
+                "default": "Bone Block",
+                "zh_cn": "骨方块"
             }
         },
         {
             "id": "218",
             "name": "shulker_box",
             "readables": {
-                "default": "Shulker Box"
+                "default": "Shulker Box",
+                "zh_cn": "潜影盒"
             }
         },
         {
             "id": "219",
             "name": "purple_glazed_terracotta",
             "readables": {
-                "default": "Purple Glazed Terracotta"
+                "default": "Purple Glazed Terracotta",
+                "zh_cn": "紫色带釉陶瓦"
             }
         },
         {
             "id": "220",
             "name": "white_glazed_terracotta",
             "readables": {
-                "default": "White Glazed Terracotta"
+                "default": "White Glazed Terracotta",
+                "zh_cn": "白色带釉陶瓦"
             }
         },
         {
             "id": "221",
             "name": "orange_glazed_terracotta",
             "readables": {
-                "default": "Orange Glazed Terracotta"
+                "default": "Orange Glazed Terracotta",
+                "zh_cn": "橙色带釉陶瓦"
             }
         },
         {
             "id": "222",
             "name": "magenta_glazed_terracotta",
             "readables": {
-                "default": "Magenta Glazed Terracotta"
+                "default": "Magenta Glazed Terracotta",
+                "zh_cn": "洋红带釉陶瓦"
             }
         },
         {
             "id": "223",
             "name": "light_blue_glazed_terracotta",
             "readables": {
-                "default": "Light Blue Glazed Terracotta"
+                "default": "Light Blue Glazed Terracotta",
+                "zh_cn": "浅蓝带釉陶瓦"
             }
         },
         {
             "id": "224",
             "name": "yellow_glazed_terracotta",
             "readables": {
-                "default": "Yellow Glazed Terracotta"
+                "default": "Yellow Glazed Terracotta",
+                "zh_cn": "黄色带釉陶瓦"
             }
         },
         {
             "id": "225",
             "name": "lime_glazed_terracotta",
             "readables": {
-                "default": "Lime Glazed Terracotta"
+                "default": "Lime Glazed Terracotta",
+                "zh_cn": "黄绿带釉陶瓦"
             }
         },
         {
             "id": "226",
             "name": "pink_glazed_terracotta",
             "readables": {
-                "default": "Pink Glazed Terracotta"
+                "default": "Pink Glazed Terracotta",
+                "zh_cn": "粉色带釉陶瓦"
             }
         },
         {
             "id": "227",
             "name": "gray_glazed_terracotta",
             "readables": {
-                "default": "Gray Glazed Terracotta"
+                "default": "Gray Glazed Terracotta",
+                "zh_cn": "灰色带釉陶瓦"
             }
         },
         {
             "id": "228",
             "name": "silver_glazed_terracotta",
             "readables": {
-                "default": "Light Gray Glazed Terracotta"
+                "default": "Light Gray Glazed Terracotta",
+                "zh_cn": "浅灰带釉陶瓦"
             }
         },
         {
             "id": "229",
             "name": "cyan_glazed_terracotta",
             "readables": {
-                "default": "Cyan Glazed Terracotta"
+                "default": "Cyan Glazed Terracotta",
+                "zh_cn": "青色带釉陶瓦"
             }
         },
         {
             "id": "231",
             "name": "blue_glazed_terracotta",
             "readables": {
-                "default": "Blue Glazed Terracotta"
+                "default": "Blue Glazed Terracotta",
+                "zh_cn": "蓝色带釉陶瓦"
             }
         },
         {
             "id": "232",
             "name": "brown_glazed_terracotta",
             "readables": {
-                "default": "Brown Glazed Terracotta"
+                "default": "Brown Glazed Terracotta",
+                "zh_cn": "棕色带釉陶瓦"
             }
         },
         {
             "id": "233",
             "name": "green_glazed_terracotta",
             "readables": {
-                "default": "Green Glazed Terracotta"
+                "default": "Green Glazed Terracotta",
+                "zh_cn": "绿色带釉陶瓦"
             }
         },
         {
             "id": "234",
             "name": "red_glazed_terracotta",
             "readables": {
-                "default": "Red Glazed Terracotta"
+                "default": "Red Glazed Terracotta",
+                "zh_cn": "红色带釉陶瓦"
             }
         },
         {
             "id": "235",
             "name": "black_glazed_terracotta",
             "readables": {
-                "default": "Black Glazed Terracotta"
+                "default": "Black Glazed Terracotta",
+                "zh_cn": "黑色带釉陶瓦"
             }
         },
         {
             "id": "236",
             "name": "concrete",
             "readables": {
-                "default": "Concrete"
+                "default": "Concrete",
+                "zh_cn": "混凝土"
             }
         },
         {
             "id": "237",
             "name": "concretepowder",
             "readables": {
-                "default": "Concrete Powder"
+                "default": "Concrete Powder",
+                "zh_cn": "混凝土粉末"
             }
         },
         {
             "id": "240",
             "name": "chorus_plant",
             "readables": {
-                "default": "Chorus Plant"
+                "default": "Chorus Plant",
+                "zh_cn": "紫颂植物"
             }
         },
         {
             "id": "241",
             "name": "stained_glass",
             "readables": {
-                "default": "Stained Glass"
+                "default": "Stained Glass",
+                "zh_cn": "染色玻璃"
             }
         },
         {
             "id": "243",
             "name": "podzol",
             "readables": {
-                "default": "Podzol"
+                "default": "Podzol",
+                "zh_cn": "灰化土"
             }
         },
         {
             "id": "244",
             "name": "beetroot",
             "readables": {
-                "default": "Beetroot"
+                "default": "Beetroot",
+                "zh_cn": "甜菜根"
             }
         },
         {
             "id": "245",
             "name": "stonecutter",
             "readables": {
-                "default": "Stonecutter"
+                "default": "Stonecutter",
+                "zh_cn": "切石机"
             }
         },
         {
             "id": "246",
             "name": "glowingobsidian",
             "readables": {
-                "default": "Glowing Obsidian"
+                "default": "Glowing Obsidian",
+                "zh_cn": "发光的黑曜石"
             }
         },
         {
             "id": "247",
             "name": "netherreactor",
             "readables": {
-                "default": "Nether Reactor Core"
+                "default": "Nether Reactor Core",
+                "zh_cn": "地狱反应堆心"
             }
         },
         {
             "id": "248",
             "name": "info_update",
             "readables": {
-                "default": "Update Game Block"
+                "default": "Update Game Block",
+                "zh_cn": "更新方块"
             }
         },
         {
             "id": "249",
             "name": "info_update2",
             "readables": {
-                "default": "Update Game Block"
+                "default": "Update Game Block",
+                "zh_cn": "更新方块"
             }
         },
         {
             "id": "250",
             "name": "movingblock",
             "readables": {
-                "default": "Block moved by Piston"
+                "default": "Block moved by Piston",
+                "zh_cn": "被活塞推动的方块"
             }
         },
         {
             "id": "251",
             "name": "observer",
             "readables": {
-                "default": "Observer"
+                "default": "Observer",
+                "zh_cn": "侦测器"
             }
         },
         {
             "id": "252",
             "name": "structure_block",
             "readables": {
-                "default": "Structure Block"
+                "default": "Structure Block",
+                "zh_cn": "结构方块"
             }
         },
         {
             "id": "255",
             "name": "reserved6",
             "readables": {
-                "default": "reserved6"
+                "default": "reserved6",
+                "zh_cn": "保留6"
             }
         }
     ]

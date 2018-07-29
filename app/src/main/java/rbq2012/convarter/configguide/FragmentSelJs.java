@@ -1,21 +1,18 @@
 package rbq2012.convarter.configguide;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -25,7 +22,6 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FilenameFilter;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +31,8 @@ import rbq2012.convarter.Constants;
 import rbq2012.convarter.R;
 import rbq2012.convarter.activities.ActivityFilePicker;
 
-import static android.content.DialogInterface.BUTTON_NEGATIVE;
+import static rbq2012.convarter.Constants.SPREF_KEY_JSNOTICE;
+
 
 /**
  * Created by 喵喵喵 on 2018/2/27.
@@ -43,12 +40,6 @@ import static android.content.DialogInterface.BUTTON_NEGATIVE;
 
 public class FragmentSelJs extends FragmentBase implements View.OnClickListener {
 
-    final static public String SPREF_KEY_IMPORTBY = "importby";
-
-    final static public String SPREF_KEY_JSNOTICE = "js_notice";
-
-    private String m_script_path_importing;
-    private AlertDialog m_dialog;
     private View m_root;
     private ScriptsAdapter m_adapter;
 

@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import static rbq2012.convarter.Constants.SPREF_PREF;
+
 /**
  * Created by 喵喵喵 on 2018/2/27.
  */
@@ -16,7 +18,6 @@ public abstract class FragmentBase extends Fragment {
     final static public String CONF_MAPDIR = "map_dir";
     final static public String CONF_JSEXT = "js_ext_fname";
     final static public String CONF_JSIN = "js_in_name";
-    final static public String SPREF_PREF = "config_pref";
 
     private ActivityBase activity = null;
 

@@ -4,9 +4,11 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         android:weightSum="1">
 
         <FrameLayout
@@ -33,6 +35,13 @@
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/editlayers_loading" />
 
     <android.support.design.widget.FloatingActionButton
         android:layout_width="wrap_content"

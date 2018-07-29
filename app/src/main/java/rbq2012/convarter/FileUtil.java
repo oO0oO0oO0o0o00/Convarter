@@ -3,12 +3,14 @@ package rbq2012.convarter;
 import android.content.res.AssetManager;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
@@ -83,12 +85,24 @@ public final class FileUtil {
     public static String getAssetText(AssetManager mgr, String name) {
         try {
             InputStream is = mgr.open(name, ACCESS_BUFFER);
+            InputStreamReader ir = new InputStreamReader(is, "UTF-8");
             StringBuilder sb = new StringBuilder();
             int ch;
-            while ((ch = is.read()) != -1) {
+            while ((ch = ir.read()) != -1) {
                 sb.append((char) ch);
             }
+            ir.close();
             return sb.toString();
+//            BufferedReader br = new BufferedReader(ir);
+//            StringBuilder sb = new StringBuilder();
+//            String temp = br.readLine();
+//            while (temp != null) {
+//                sb.append(temp);
+//                sb.append("\n");
+//                temp = br.readLine();
+//            }
+//            br.close();
+//            return sb.toString();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

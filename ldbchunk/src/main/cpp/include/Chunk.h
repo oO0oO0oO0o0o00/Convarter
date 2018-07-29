@@ -53,6 +53,8 @@ public:
 
     void generateFlatLayers(qustr *layers);
 
+    void chflat(qustr old,qustr nwe);
+
     virtual void save() {};
 };
 

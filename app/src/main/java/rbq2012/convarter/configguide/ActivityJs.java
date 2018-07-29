@@ -7,6 +7,8 @@ import android.os.Bundle;
 import rbq2012.convarter.R;
 import rbq2012.convarter.activities.ActivityRunJs;
 
+import static rbq2012.convarter.Constants.SPREF_KEY_NOASK_JSOTHERS;
+import static rbq2012.convarter.Constants.SPREF_PREF;
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_CACHE_CHUNKS;
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_OPTIMIZATION;
 
@@ -19,7 +21,7 @@ public class ActivityJs extends ActivityBase {
         switch (identifier) {
             case 0:
                 chpage(new FragmentSelJs(), 1, getString(R.string.setup_fjs_title));
-                no_page_2 = getSharedPreferences(FragmentBase.SPREF_PREF, MODE_PRIVATE).getBoolean(FragmentJsothers.PREF_KEY_NOASK_JSOTHERS, false);
+                no_page_2 = getSharedPreferences(SPREF_PREF, MODE_PRIVATE).getBoolean(SPREF_KEY_NOASK_JSOTHERS, false);
                 if (no_page_2) {
                     setContinueBtnFinish();
                     configuration.putInt(PREF_KEY_CACHE_CHUNKS, 64);

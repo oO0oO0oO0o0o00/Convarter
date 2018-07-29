@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Convarter</string>
+    <string name="setup_nextstep">下一步</string>
+    <string name="setup_finish">好的</string>
+    <string name="setup_cancel">取消</string>
+    <string name="setup_cancelconfirm">取消？</string>
+    <string name="setup_fmaps_title0">选择一个Minecraft存档：</string>
+    <string name="setup_fmaps_nomap">你的存档文件夹里没有任何地图。是否已设置Minecraft使用外部存储？</string>
+    <string name="setup_fmaps_nofolder">Minecraft的游戏文件夹不存在，你是否安装了正版的Minecraft？</string>
+    <string name="setup_fmaps_noperm">看起来你没有授权Convarter使用外部存储，而这是编辑游戏存档必需的。请在您手机的“设置”里，以及手机管家类软件里允许Convarter的“存储”权限。</string>
+    <string name="setup_fmaps_date_unknown">未知日期</string>
+    <string name="setup_fmaps_lastplayed">上次打开：%1$s</string>
+    <string name="setup_fjs_nojs">你还没添加JS，点击按钮添加一个~</string>
+    <string name="setup_fjs_about">Convarter能直接找到在/sdcard/%1$s的JS。把JS放到这里就不需要导入了。</string>
+    <string name="setup_fjs_addfile">从文件选取</string>
+    <string name="setup_fjs_addclip">别点这里</string>
+    <string name="filepicker_parentdir">返回上层...</string>
+    <string name="filepicker_sortby">排序...</string>
+    <string name="filepicker_refresh">刷新</string>
+    <string name="setup_fjs_importhowto">如何导入...</string>
+    <string name="setup_fjs_delete">删除</string>
+    <string name="setup_js_delconfirm">删除这个JS？</string>
+    <string name="setup_fjs_tips">提示</string>
+    <string name="setup_fjs_errcantread">失败：文件打不开</string>
+    <string name="setup_fjs_errdir">失败：没法创建文件夹来存放JS</string>
+    <string name="setup_fjs_errcpy">失败：文件没法复制</string>
+    <string name="setup_fjs_succ">导入成功</string>
+    <string name="setup_fjs_errwtf">这个文件不需要导入。。</string>
+    <string name="setup_fjs_title">选择一个Javascript</string>
+    <string name="runjs_title_running">进行中...</string>
+    <string name="runjs_title_failed">😥凉了凉了..</string>
+    <string name="runjs_title_succ">😘 搞定~</string>
+    <string name="runjs_input_prompt">请输入...</string>
+    <string name="runjs_input_hint">然后点击确定</string>
+    <string name="runjs_btnenter">确定</string>
+    <string name="runjs_logcat_firstline">JS显示的消息会在这里~</string>
+    <string name="runjs_btnclose">关闭</string>
+    <string name="runjs_erropendb">错误：打开该存档的数据库(/db)时失败</string>
+    <string name="runjs_erropendat">错误：打不开这个存档的level.dat文件。</string>
+    <string name="runjs_errsavedb">错误：进度无法被保存。</string>
+    <string name="runjs_errsavedat">错误：level.dat无法保存。</string>
+    <string name="runjs_abort_msg">终止JS并返回？</string>
+    <string name="global_yes">是啊。</string>
+    <string name="global_no">不要。</string>
+    <string name="global_confirm">嗯嗯</string>
+    <string name="global_cancel">算了</string>
+    <string name="setup_fjso_cachetitle">最多缓存的块：</string>
+    <string name="setup_fjso_chunkexplain">如果不明白，直接确定就可以了喵~</string>
+    <string name="setup_fjso_title">搞基(划掉)高级</string>
+    <string name="global_dontaskagain">别再问了guna</string>
+    <string name="settings_noask_jsothers">不显示Javascript的高级选项</string>
+    <string name="setup_fjso_opttitle">JS的优化等级</string>
+    <string name="setup_fjso_optnoopt">-1：不优化</string>
+    <string name="setup_fjso_optlvl">等级%1$d</string>
+    <string name="act_title_runjs">Javascript</string>
+    <string name="act_title_moflat">自定义超平坦</string>
+    <string name="setup_fmaps_create">创建新的存档</string>
+    <string name="act_title_createlevel">创建新的存档</string>
+    <string name="createlevel_name">名字：</string>
+    <string name="createlevel_explain">将会创建创造模式的超平坦地图，一会儿你将可以自定义。</string>
+    <string name="createlevel_namehint">我的世界</string>
+    <string name="global_succ">好了。</string>
+    <string name="editlayers_override">覆盖已经产生的区域，不会破坏你的建筑</string>
+    <string name="global_lang">zh_cn</string>
+    <string name="editlayers_help">点击以进行编辑。拖拽方块图标可以排序。</string>
+    <string name="editlayers_cantdelete">至少得有3层不然存档会废</string>
+    <string name="editlayers_title_add">添加一层</string>
+    <string name="editlayers_title_edit">编辑</string>
+    <string name="editlayer_id">方块ID</string>
+    <string name="editlayer_data">附加数据(0~15)</string>
+    <string name="editlayer_count">数量(层高)</string>
+    <string name="editlayer_pick">查找..</string>
+    <string name="editlayer_err_id">方块ID应该在0~255之间。</string>
+    <string name="editlayer_err_data">附加数据应该在0~15之间。</string>
+    <string name="editlayer_note_amount">所有层的高度加起来不能超过127。</string>
+    <string name="editlayer_err_amount">层高应该大于0</string>
+    <string name="pickblock_hint">ID或者名字</string>
+    <string name="editlayer_diahelp_title">使用方法...</string>
+    <string name="editlayer_diahelp_text">如图，就这么用。</string>
+    <string name="global_noresult">没找到。</string>
+    <string name="pickblock_entry_detail">ID: %1$d, %2$s</string>
+    <array name="main_list">
+        <item>使用Javascript编辑存档</item>
+        <item>自定义超平坦</item>
+        <item>设置</item>
+        <item>别戳我</item>
+        <item>测试工具</item>
+    </array>
+    <array name="filepicker_sortby_list">
+        <item>按名称</item>
+        <item>新的在前面</item>
+        <item>旧的在前面</item>
+    </array>
+    <string name="editlayer_done">完成</string>
+    <string name="test_title">测试工具</string>
+    <string name="runjs_nonflat">这不是一个平坦地图。编辑这种地图可能导致空洞，因为无法生成地形。</string>
+    <string name="runjs_flatloaded">已自动加载超平坦地图设置。</string>
+    <string name="runjs_flatcorrupt">这是一个平坦地图，但是没能加载地图设置。</string>
+    <string name="editlayers_nonflat">这不是一个平坦地图。</string>
+    <string name="editlayers_corrupt">加载地图设置失败。</string>
+    <string name="setup_fjs_genflat">为新的区域生成平坦地形s</string>
+    <string name="pickblock_title">选取方块</string>
+    <string name="main_welcome">你好~这个App仍是一个试验版，所以在太旧或者太新的地图上可能不能使用，所以请注意先备份地图~ 以后可能会加一些功能甚至可视化编辑。。谁知道呢反正多半要鸽的。。</string>
+    <string name="settings_noask_reset">重置所有“不再显示”</string>
+    <string name="editlayers_loading">请稍等~</string>
+    <string name="editlayers_waitloaded">请等待加载完成。</string>
+</resources>

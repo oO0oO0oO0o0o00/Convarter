@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSFunction;
 import org.spout.nbt.CompoundMap;
 import org.spout.nbt.CompoundTag;
+import org.spout.nbt.IntTag;
 import org.spout.nbt.Tag;
 
 import java.io.File;
@@ -54,6 +56,7 @@ import rbq2012.ldbchunk.DB;
 import rbq2012.ldbchunk.Names;
 
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_CACHE_CHUNKS;
+import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_GENERATE_FLAT_LAYERS;
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_OPTIMIZATION;
 
 /**
@@ -151,7 +154,8 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         script = FileUtil.readTextFile(script_file);
         m_thread = new JsThread(handler, map_file, script,
                 intent.getIntExtra(PREF_KEY_CACHE_CHUNKS, 64),
-                intent.getIntExtra(PREF_KEY_OPTIMIZATION, 2));
+                intent.getIntExtra(PREF_KEY_OPTIMIZATION, 2),
+                intent.getBooleanExtra(PREF_KEY_GENERATE_FLAT_LAYERS, true));
         m_thread.start();
     }
 
@@ -249,13 +253,15 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         private FlatWorldLayers.Layers layers;
         private int max_cached_chunks;
         private int optimization_script;
+        private boolean is_gen_layers;
 
-        public JsThread(MeowHandler handler, File map_dir, String script, int max_cached_chunks, int optimization_script) {
+        public JsThread(MeowHandler handler, File map_dir, String script, int max_cached_chunks, int optimization_script, boolean is_gen_layers) {
             this.handler = handler;
             this.map_dir = map_dir;
             this.script = script;
             this.max_cached_chunks = max_cached_chunks;
             this.optimization_script = optimization_script;
+            this.is_gen_layers = is_gen_layers;
         }
 
         private JSONObject iter(CompoundMap map) throws JSONException {
@@ -385,16 +391,23 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
 
             ///Load flat world layers
             {
-                if (version == GameMapVersion.VERSION_BEDROCK) {
-                    String json = FileUtil.getAssetText(getAssets(), "blox.json");
-                    if (json == null) return;
-                    Names.loadBlockNames(json);
-                    layers = FlatWorldLayers.newFlatWorldLayers(dat);
-                } else layers = FlatWorldLayers.newFlatWorldLayers(db);
+                String json = FileUtil.getAssetText(getAssets(), "blox.json");
+                if (json == null) return;
+                Names.loadBlockNames(json);
+                layers = FlatWorldLayers.newFlatWorldLayers(dat, db, version, true);
             }
 
             //Set flat layers and cache size.
-            db.setLayers(layers.getLayersForNativeUse());
+            if (layers != null && is_gen_layers) {
+                if (layers instanceof FlatWorldLayers.DummyLayers) {
+                    log(getString(R.string.runjs_nonflat));
+                } else {
+                    db.setLayers(layers.getLayersForNativeUse());
+                    log(getString(R.string.runjs_flatloaded));
+                }
+            } else {
+                log(getString(R.string.runjs_flatcorrupt));
+            }
             db.setMaxChunksCount(max_cached_chunks);
 
             ///Test code****************************************************************************

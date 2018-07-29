@@ -12,6 +12,11 @@ typedef struct {
 
 typedef struct {
     unsigned int length;
+    const char *str;
+} qcstr;
+
+typedef struct {
+    unsigned int length;
     unsigned char *str;
 } qustr;
 
