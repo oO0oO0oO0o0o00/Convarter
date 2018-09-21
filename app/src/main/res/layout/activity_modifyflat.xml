@@ -33,6 +33,17 @@
             android:layout_height="wrap_content"
             android:text="@string/editlayers_override" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/editlayers_disadvantage" />
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_red_light" />
+
 
     </LinearLayout>
 

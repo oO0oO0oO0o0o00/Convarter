@@ -93,6 +93,9 @@ private:
     ////Well, version. 4 for Pocket and 7 for Bedrock.
     char version;
 
+    ////Should we generate flat layers for new chunks?
+    bool shouldGenFlat;
+
     //Internal functions.
 
     ////Release a chunk when there're too many of.
@@ -111,15 +114,13 @@ public:
 
     //You know.
 
-    SavDb(const char *path, unsigned int version = 7);
+    SavDb(const char *path, char version = 7);
 
     ~SavDb();
 
     //Standard interface Block-Launcher-styled.
 
     byte getTile(int32_t x, int32_t y, int32_t z, uint32_t dim);
-
-    void setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id);
 
     void setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id, byte data);
 

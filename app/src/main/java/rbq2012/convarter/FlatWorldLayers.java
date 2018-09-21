@@ -181,7 +181,10 @@ public final class FlatWorldLayers {
         private BedrockLayers(BedrockLayers src) {
             dat = src.dat;
             biome_id = src.biome_id;
-            list = src.list;
+            list = new ArrayList<>(128);
+            for (Layer l : src.list) {
+                list.add(new Layer(l));
+            }
         }
 
         public BedrockLayers(LevelDat dat) {
@@ -263,7 +266,9 @@ public final class FlatWorldLayers {
                 for (int i = 0; i < jarrlen; i++) {
                     JSONObject obj = new JSONObject();
                     Layer layer = list.get(i);
-                    obj.put("block_name", "minecraft:" + Names.getName(layer.id));
+                    int ind = layer.id;
+                    if (ind < 0) ind += 256;
+                    obj.put("block_name", "minecraft:" + Names.getName(ind));
                     obj.put("block_data", layer.data);
                     obj.put("count", layer.count);
                     jarr.put(i, obj);
@@ -508,6 +513,12 @@ public final class FlatWorldLayers {
             this.id = id;
             this.data = data;
             this.count = count;
+        }
+
+        public Layer(Layer src) {
+            id = src.id;
+            data = src.data;
+            count = src.count;
         }
     }
 

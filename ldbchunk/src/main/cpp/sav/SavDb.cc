@@ -19,7 +19,7 @@
 #endif
 
 #ifdef LOG_SAVDB_OPERATION
-#define LOGE_OP(x, ...) LOGE("SavDb: " ## x, ##__VA_ARGS__);
+#define LOGE_OP(x, ...) LOGE(CAT("SavDb: ", x), ##__VA_ARGS__);
 #else
 #define LOGE_OP(x, ...)
 #endif
@@ -76,7 +76,7 @@ void NullLogger::Logv(const char *, va_list) {}
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-SavDb::SavDb(const char *path, unsigned int version) {
+SavDb::SavDb(const char *path, char version) {
     leveldb::Options options;
     options.filter_policy = leveldb::NewBloomFilterPolicy(10);
     options.block_cache = leveldb::NewLRUCache(40 * 1024 * 1024);
@@ -128,10 +128,6 @@ void SavDb::setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id, byte
     LOGE_OP("setTile at (%d,%d,%d)", x, y, z);
 }
 
-void SavDb::setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id) {
-    setTile(x, y, z, dim, id, 0);
-}
-
 byte SavDb::getData(int32_t x, int32_t y, int32_t z, uint32_t dim) {
     mapkey_t key = TO_MAPKEY(x, z, dim);
     chunk_li *item = getChunkItem(key);
@@ -151,6 +147,7 @@ void SavDb::setData(int32_t x, int32_t y, int32_t z, uint32_t dim, byte data) {
 }
 
 chunk_li *SavDb::getChunkItem(mapkey_t key) {
+    LOGE_OP("Aquiring chunk (%d,%d)", key.x_div16, key.z_div16);
     uint16_t crc = getCrc16(&key);
     for (chunk_li *i = chunks[crc]; i != nullptr; i = i->next) {
         if (memcmp(&key, &i->key, sizeof(mapkey_t)) != 0)continue;
@@ -164,10 +161,10 @@ chunk_li *SavDb::getChunkItem(mapkey_t key) {
 
 chunk_li *SavDb::loadChunk(mapkey_t key) {
     if (num_chunks >= num_maxchunks) releaseLeastRecentUsedChunk();
-    LOGE_LS("Loading chunk (%d,%d,%d)", key.x_div16, key.z_div16, key.dimension);
+    LOGE_LS("Loading chunk (%d,%d)", key.x_div16, key.z_div16);
     char key_db[9];
-    *(uint32_t *) key_db = key.x_div16;
-    *(uint32_t *) (key_db + 4) = key.z_div16;
+    *(int32_t *) key_db = key.x_div16;
+    *(int32_t *) (key_db + 4) = key.z_div16;
     key_db[8] = 118;
     std::string str;
     char ver;
@@ -199,7 +196,7 @@ chunk_li *SavDb::loadChunk(mapkey_t key) {
     chunk_li *li = new chunk_li;
     li->key = key;
     li->val = chunk;
-    if (status.IsNotFound()) {
+    if (layers.length != 0 && status.IsNotFound()) {
         chunk->generateFlatLayers(&layers);
         li->flag = CHUNK_LI_DIRTY;
     }
@@ -223,7 +220,7 @@ chunk_li *SavDb::loadChunk(mapkey_t key) {
 void SavDb::save() {
     for (chunk_lru_li *item = lru; item != nullptr; item = item->next) {
         chunk_li *ch = item->item;
-        LOGE_LS("Saving chunk (%d,%d,%d)", ch->key.x_div16, ch->key.z_div16, ch->key.dimension);
+        LOGE_LS("Saving chunk (%d,%d)", ch->key.x_div16, ch->key.z_div16);
         if (ch->flag == CHUNK_LI_CLEAN)continue;
         ch->val->save();
         ch->flag = CHUNK_LI_CLEAN;
@@ -252,16 +249,25 @@ const char *SavDb::test() {
 
 void SavDb::setLayers(unsigned int length, unsigned char *data) {
     layers.length = length;
-    layers.str = data;
+    layers.str = new unsigned char[length];
+    memcpy(layers.str, data, length);
 }
 
 void SavDb::releaseLeastRecentUsedChunk() {
 
-    LOGE_LR("Releasing chunk.");
+    LOGE_LR("Releasing lru chunk.");
 
     //Save it.
     chunk_li *li = lru->item;
-    if (li->flag == CHUNK_LI_DIRTY)li->val->save();
+    if (li->flag == CHUNK_LI_DIRTY) {
+        LOGE_LS("Saving lru chunk (%d,%d)", li->key.x_div16, li->key.z_div16);
+        li->val->save();
+        LOGE_LS("Saved chunk.");
+    }
+#ifdef LOG_SAVDB_LOADSAVE
+    else
+        LOGE_LS("No need to save lru chunk (%d,%d)", li->key.x_div16, li->key.z_div16);
+#endif
 
     //Delete chunk.
     delete li->val;
@@ -314,6 +320,7 @@ void SavDb::flush() {
         if (i->item->flag == CHUNK_LI_DIRTY) {
             LOGE_LS("Saving chunk (%d,%d).", i->item->key.x_div16, i->item->key.z_div16);
             i->item->val->save();
+            LOGE_LS("Saved chunk.");
         }
         j = i->next;
         delete i->item->val;
@@ -323,6 +330,7 @@ void SavDb::flush() {
     lru = nullptr;
     mru = nullptr;
     num_chunks = 0;
+    memset(chunks, 0, sizeof(chunks));
     LOGE_LS("Flusing done.");
 }
 
@@ -342,7 +350,8 @@ void SavDb::changeFlatLayers(unsigned int length, unsigned char layers[]) {
             mapkey_t mkey = mapkey_t{((int32_t *) kch)[0], ((int32_t *) kch)[1], 0};
             chunk_li *li = loadChunk(mkey);
             li->val->chflat(this->layers, qlayers);
-            releaseLeastRecentUsedChunk();
+            li->flag = CHUNK_LI_DIRTY;
+            //releaseLeastRecentUsedChunk();
         }
         iter->Next();
     }

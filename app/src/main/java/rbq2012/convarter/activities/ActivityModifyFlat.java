@@ -32,6 +32,7 @@ import rbq2012.convarter.BlockIcons;
 import rbq2012.convarter.Constants;
 import rbq2012.convarter.FileUtil;
 import rbq2012.convarter.FlatWorldLayers;
+import rbq2012.convarter.LayersChanger;
 import rbq2012.convarter.LevelDat;
 import rbq2012.convarter.MCUtils;
 import rbq2012.convarter.R;
@@ -54,12 +55,10 @@ public final class ActivityModifyFlat extends AppCompatActivity {
 
     static final private int REQ_CODE_EDITLAYER = 2012;
 
-    private FlatWorldLayers.Layers layers_original;
-    private FlatWorldLayers.Layers layers_modified;
+    private TextView tvVer;
     private CheckBox cbox;
     private MeowAdapter ada;
-    private File mapdir;
-    private DB db;
+    private LayersChanger layersChanger;
     private boolean laoded = false;
 
     @Override
@@ -138,22 +137,16 @@ public final class ActivityModifyFlat extends AppCompatActivity {
             UiUtil.toast(this, R.string.editlayers_waitloaded);
             return;
         }
-        List<FlatWorldLayers.Layer> dst = layers_modified.getLayersForControl();
+        List<FlatWorldLayers.Layer> dst = layersChanger.getLayersForControl();
         dst.clear();
         List<Pair<Long, FlatWorldLayers.Layer>> list = ada.getItemList();
         for (int i = list.size() - 1; i >= 0; i--) {
             dst.add(list.get(i).second);
         }
-        db.open();
-        layers_modified.save();
-        //Override existing area.
-        if (cbox.isChecked()) {
-            byte[] bytes = layers_original.getLayersForNativeUse();
-            db.setLayers(bytes);
-            bytes = layers_modified.getLayersForNativeUse();
-            //db.chflat(bytes);
+        if (!layersChanger.save(cbox.isChecked())) {
+            UiUtil.toast(this, "ERROR");
+            return;
         }
-        db.close();
         Toast.makeText(this, R.string.editlayer_done, LENGTH_SHORT).show();
         finish();
     }
@@ -184,7 +177,7 @@ public final class ActivityModifyFlat extends AppCompatActivity {
             locale = getString(R.string.global_lang);
             if (locale.equals("default")) locale = null;
             List<Pair<Long, FlatWorldLayers.Layer>> list = new ArrayList<>(64);
-            List<FlatWorldLayers.Layer> src = layers_modified.getLayersForControl();
+            List<FlatWorldLayers.Layer> src = layersChanger.getLayersForControl();
             for (int i = src.size() - 1; i >= 0; i--) {
                 FlatWorldLayers.Layer layer = src.get(i);
                 list.add(new Pair<>(getLongForLayer(layer), layer));
@@ -217,16 +210,18 @@ public final class ActivityModifyFlat extends AppCompatActivity {
         public void onBindViewHolder(MeowViewHolder holder, int position) {
             super.onBindViewHolder(holder, position);
             FlatWorldLayers.Layer layer = mItemList.get(position).second;
-            BitmapDrawable drawable = BlockIcons.get(layer.id);
+            int ind = layer.id;
+            if (ind < 0) ind += 256;
+            BitmapDrawable drawable = BlockIcons.get(ind);
             //if (drawable != null)
             holder.iv.setImageDrawable(drawable);
             holder.tv.setText(getString(
                     R.string.editlayers_entry_text,
                     layer.count,
-                    Names.getLocaleName(layer.id, locale)));
+                    Names.getLocaleName(ind, locale)));
             holder.tvsub.setText(getString(
-                    R.string.editlayers_entry_text2, layer.id,
-                    layer.data, Names.getName(layer.id)));
+                    R.string.editlayers_entry_text2, ind,
+                    layer.data, Names.getName(ind)));
             holder.btndel.setTag(position);
             holder.btnadd.setTag(position);
             holder.itemView.setTag(position);
@@ -282,39 +277,27 @@ public final class ActivityModifyFlat extends AppCompatActivity {
         int failure = 0;
 
         @Override
+        protected void onPreExecute() {
+
+            //Bind views.
+            cbox = findViewById(R.id.checkbox);
+            cbox.setChecked(true);
+            tvVer = findViewById(R.id.text);
+        }
+
+        @Override
         protected Void doInBackground(Void... voids) {
             //Load needed resources.
             Names.loadBlockNames(FileUtil.getAssetText(getAssets(), "blox.json"));
             BlockIcons.load(getResources());
 
-            //Bind views.
-            cbox = findViewById(R.id.checkbox);
-
             //load level.dat
-            File mapdir = new File(Environment.getExternalStorageDirectory(), Constants.PATH_MINECRAFTPE_DIR);
-            mapdir = new File(mapdir, Constants.FNAME_MINECRAFTPE_MAPS);
-            mapdir = new File(mapdir, getIntent().getStringExtra(CONF_MAPDIR));
-            ActivityModifyFlat.this.mapdir = mapdir;
-            File datfile = new File(mapdir, "level.dat");
-            if (!datfile.isFile()) return null;
-            LevelDat dat = new LevelDat(datfile);
-            dat.load();
-
-            //Load layers
-            db = new DB(new File(mapdir, "db"));
-            layers_modified = FlatWorldLayers.newFlatWorldLayers(dat, db, MCUtils.versionDetect(dat), false);
-            if (layers_modified == null) {
-                failure = R.string.editlayers_corrupt;
-                return null;
-            } else if (layers_modified instanceof FlatWorldLayers.DummyLayers) {
-                failure = R.string.editlayers_nonflat;
-                return null;
+            layersChanger = new LayersChanger(getIntent().getStringExtra(CONF_MAPDIR));
+            failure = layersChanger.load();
+            if (failure == -1) {
+                UiUtil.toast(ActivityModifyFlat.this, "ERROR");
+                failure = 0;
             }
-            if (layers_modified instanceof FlatWorldLayers.PocketLayers) {
-                db.close();
-            }
-            //layers_modified.load();
-            layers_original = layers_modified.clone();
             return null;
         }
 
@@ -338,6 +321,12 @@ public final class ActivityModifyFlat extends AppCompatActivity {
             view.setVisibility(View.GONE);
             view = findViewById(R.id.view);
             view.setVisibility(View.VISIBLE);
+
+            laoded = true;
+
+            if (layersChanger.isOldVersion()) {
+                tvVer.setText(R.string.editlayers_version_old);
+            }
 
             //Show help at first open.
             /*SharedPreferences spref = getSharedPreferences(SPREF_PREF, MODE_PRIVATE);

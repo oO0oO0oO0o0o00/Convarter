@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:max="240" />
+                android:max="4" />
 
             <TextView
                 android:id="@+id/text"

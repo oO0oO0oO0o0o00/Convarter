@@ -1,5 +1,7 @@
 package rbq2012.convarter.configguide;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,8 +12,15 @@ import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import rbq2012.convarter.MCUtils;
 import rbq2012.convarter.R;
 
+import static rbq2012.convarter.Constants.SPREF_DEF_JSCACHE;
+import static rbq2012.convarter.Constants.SPREF_DEF_JSLOADFLAT;
+import static rbq2012.convarter.Constants.SPREF_DEF_JSOPT;
+import static rbq2012.convarter.Constants.SPREF_KEY_JSCACHE;
+import static rbq2012.convarter.Constants.SPREF_KEY_JSLOADFLAT;
+import static rbq2012.convarter.Constants.SPREF_KEY_JSOPT;
 import static rbq2012.convarter.Constants.SPREF_KEY_NOASK_JSOTHERS;
 
 public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSeekBarChangeListener, CompoundButton.OnCheckedChangeListener {
@@ -39,26 +48,34 @@ public final class FragmentJsothers extends FragmentBase implements SeekBar.OnSe
         m_chk = root.findViewById(R.id.checkbox);
         m_chk_genflat = root.findViewById(R.id.checkbox1);
         m_chk_genflat.setOnCheckedChangeListener(this);
+
+        SharedPreferences prefs = getPref();
+        m_sbar.setProgress(prefs.getInt(SPREF_KEY_JSCACHE, SPREF_DEF_JSCACHE));
+        m_sbar2.setProgress(prefs.getInt(SPREF_KEY_JSOPT, SPREF_DEF_JSOPT));
+        m_chk_genflat.setChecked(prefs.getBoolean(SPREF_KEY_JSLOADFLAT, SPREF_DEF_JSLOADFLAT));
         return root;
     }
 
     @Override
     public void onContinue() {
-        if (m_chk.isChecked()) {
-            getPref().edit().putBoolean(SPREF_KEY_NOASK_JSOTHERS, true).apply();
-        }
+        getPref().edit()
+                .putBoolean(SPREF_KEY_NOASK_JSOTHERS, m_chk.isChecked())
+                .putInt(SPREF_KEY_JSCACHE, m_sbar.getProgress())
+                .putInt(SPREF_KEY_JSOPT, m_sbar2.getProgress())
+                .putBoolean(SPREF_KEY_JSLOADFLAT, m_chk_genflat.isChecked())
+                .apply();
     }
 
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
         switch (seekBar.getId()) {
             case R.id.seek:
-                i += 16;
+                i = MCUtils.translateCacheValue(i);
                 m_tv_number.setText(Integer.toString(i));
                 getConfiguration().putInt(PREF_KEY_CACHE_CHUNKS, i);
                 break;
             case R.id.seek2:
-                i -= 1;
+                i = MCUtils.translateOptimizationLevel(i);
                 if (i == -1) m_tv_level.setText(R.string.setup_fjso_optnoopt);
                 else m_tv_level.setText(getString(R.string.setup_fjso_optlvl, i));
                 getConfiguration().putInt(PREF_KEY_OPTIMIZATION, i);

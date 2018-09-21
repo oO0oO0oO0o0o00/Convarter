@@ -17,7 +17,8 @@ static jlong nativeOpen(JNIEnv *env, jclass clazz, jstring dbpath) {
 static void nativeRegisterLayers(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray data) {
     SavDb *db = reinterpret_cast<SavDb *>(ptr);
     jbyte *buf = env->GetByteArrayElements(data, 0);
-    db->setLayers(env->GetArrayLength(data), (unsigned char *) buf);
+    db->setLayers(static_cast<unsigned int>(env->GetArrayLength(data)),
+                  reinterpret_cast<unsigned char *>(buf));
     env->ReleaseByteArrayElements(data, buf, JNI_ABORT);
 }
 
@@ -73,7 +74,7 @@ static void nativeTest(JNIEnv *env, jclass clazz, jlong ptr) {
 static void nativeChflat(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray bnew) {
     SavDb *db = reinterpret_cast<SavDb *>(ptr);
     jbyte *buf = env->GetByteArrayElements(bnew, 0);
-    //db->changeFlatLayers(env->GetArrayLength(bnew),(unsigned char *)buf);
+    db->changeFlatLayers(env->GetArrayLength(bnew), (unsigned char *) buf);
     env->ReleaseByteArrayElements(bnew, buf, JNI_ABORT);
 }
 

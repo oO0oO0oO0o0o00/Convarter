@@ -101,8 +101,10 @@
     <string name="editlayers_corrupt">加载地图设置失败。</string>
     <string name="setup_fjs_genflat">为新的区域生成平坦地形s</string>
     <string name="pickblock_title">选取方块</string>
-    <string name="main_welcome">你好~这个App仍是一个试验版，所以在太旧或者太新的地图上可能不能使用，所以请注意先备份地图~ 以后可能会加一些功能甚至可视化编辑。。谁知道呢反正多半要鸽的。。</string>
+    <string name="main_welcome">你好~这个App仍是一个试验版，所以在太旧或者太新的地图上可能不能使用，请注意先备份地图~ 以后可能会加一些功能甚至可视化编辑。。(谁知道呢反正多半要鸽的。。)由于Minecraft自身的原因，编辑超平坦需要先退出游戏（不仅退出地图）才能保存。Javascript功能概率崩溃，一次不行就回档多试几次。</string>
     <string name="settings_noask_reset">重置所有“不再显示”</string>
     <string name="editlayers_loading">请稍等~</string>
     <string name="editlayers_waitloaded">请等待加载完成。</string>
+    <string name="editlayers_disadvantage">尽管任何你对已有方块进行的更改（放置、替换、破坏）不会被覆写，但是如果你增加了高度，它们可能被掩埋。如果你新增了沙子，它们可能砸坏下面的东西。如果你减少了层数，上面的花和红石电路可能无法存活。所以请考虑两次，并且备份存档，再运行这个app！！！</string>
+    <string name="editlayers_version_old">这个地图是适用于Minecraft1.2以下版本的。用新版Minecraft打开将重置层到默认。但是你可以再次运行这个功能。</string>
 </resources>

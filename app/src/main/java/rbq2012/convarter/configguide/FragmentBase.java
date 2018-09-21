@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
+
+import rbq2012.convarter.UiUtil;
 
 import static rbq2012.convarter.Constants.SPREF_PREF;
 
@@ -20,6 +23,14 @@ public abstract class FragmentBase extends Fragment {
     final static public String CONF_JSIN = "js_in_name";
 
     private ActivityBase activity = null;
+
+    @Override
+    public void onAttach(Activity act) {
+        super.onAttach(activity);
+        if (act instanceof ActivityBase) activity = (ActivityBase) act;
+        else
+            throw new RuntimeException("This fragment was designed to be used within ConfigGuide.");
+    }
 
     @Override
     public void onAttach(Context context) {

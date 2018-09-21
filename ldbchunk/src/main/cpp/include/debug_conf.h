@@ -6,21 +6,27 @@
 #define CONVARTER_DEBUG_CONF_H
 
 //Chunk
-//#define LOG_CHUNK_OPEARTIONS
-//#define LOG_CHUNK_LOADSAVE
+//#define LOG_CHUNK_OPERATION
+#define LOG_CHUNK_LOADSAVE
 
 //SavDb
-//#define LOG_SAVDB_OPERATIONS
+//#define LOG_SAVDB_OPERATION
 #define LOG_SAVDB_LOADSAVE
 #define LOG_SAVDB_LRU
 
-#ifdef LOG_CHUNK_OPEARTIONS
+#ifdef LOG_CHUNK_OPERATION
+#ifndef LOG_CHUNK_LOADSAVE
 #define LOG_CHUNK_LOADSAVE
 #endif
+#endif
 
-#ifdef LOG_SAVDB_OPERATIONS
+#ifdef LOG_SAVDB_OPERATION
+#ifndef LOG_SAVDB_LOADSAVE
 #define LOG_SAVDB_LOADSAVE
+#endif
+#ifndef LOG_SAVDB_LRU
 #define LOG_SAVDB_LRU
+#endif
 #endif
 
 #define CAT(x, y) x y

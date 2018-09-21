@@ -95,7 +95,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         m_logtxt.append(">>> ");
         m_logtxt.append(str);
         m_logtxt.append("\n");
-        m_logcat.setText(m_logtxt);
+        m_logcat.setText(m_logtxt.toString());
     }
 
     private void log(Throwable err) {
@@ -106,7 +106,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         m_logtxt.append(sw.toString());
         pw.close();
         m_logtxt.append("\n");
-        m_logcat.setText(m_logtxt);
+        m_logcat.setText(m_logtxt.toString());
     }
 
     private void logRes(@StringRes int resid) {
@@ -153,7 +153,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         script_file = new File(script_file, script);
         script = FileUtil.readTextFile(script_file);
         m_thread = new JsThread(handler, map_file, script,
-                intent.getIntExtra(PREF_KEY_CACHE_CHUNKS, 64),
+                intent.getIntExtra(PREF_KEY_CACHE_CHUNKS, 256),
                 intent.getIntExtra(PREF_KEY_OPTIMIZATION, 2),
                 intent.getBooleanExtra(PREF_KEY_GENERATE_FLAT_LAYERS, true));
         m_thread.start();

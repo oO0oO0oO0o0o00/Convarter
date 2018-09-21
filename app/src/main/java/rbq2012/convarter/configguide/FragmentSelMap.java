@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,6 +90,38 @@ public class FragmentSelMap extends FragmentBase {
                 getConfiguration().putString(CONF_MAPDIR, path);
                 break;
         }
+    }
+
+    private class GameMapsAdapter extends RecyclerView.Adapter<GameMapsAdapter.ViewHolder> {
+
+        private List<MapInfo> mList;
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+            }
+
+            public void load() {
+                //
+            }
+        }
+
     }
 
     private class GameMapsListAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
@@ -276,7 +309,7 @@ public class FragmentSelMap extends FragmentBase {
             //Finished.
             gotoState(0);
             lv.setScrollY(scroll);
-            if (select_index == -1) setCanContinue(false);
+            if (select_index == -1 + (m_allow_create ? 1 : 0)) setCanContinue(false);
             else setCanContinue(true);
         }
 

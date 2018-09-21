@@ -30,4 +30,17 @@ public final class MCUtils {
         return new File(gameMapRoot(), name);
     }
 
+    static public int translateCacheValue(int val) {
+        val += 7;
+        int ret = 1;
+        for (int i = 0; i < val; i++) {
+            ret *= 2;
+        }
+        return ret;
+    }
+
+    static public int translateOptimizationLevel(int val) {
+        return val - 1;
+    }
+
 }

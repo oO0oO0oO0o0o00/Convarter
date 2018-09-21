@@ -14,9 +14,14 @@ public final class Constants {
     final static public String SPREF_KEY_NOASK_JSOTHERS = "no_ask_js_others";
     final static public String SPREF_KEY_JSNOTICE = "js_notice";
     final static public String SPREF_NEWCOMER_NOTICE = "newcomer_notice";
-    static final public String SPREF_KEY_SHOW_EDIT_LAYERS_HELP = "show_edit_layers_help";
+    final static public String SPREF_KEY_JSCACHE = "js_cache";
+    final static public String SPREF_KEY_JSOPT = "js_optimization";
+    final static public String SPREF_KEY_JSLOADFLAT = "js_loadflat";
+    final static public String SPREF_KEY_SHOW_EDIT_LAYERS_HELP = "show_edit_layers_help";
 
-    final static public String DATABASE_NAME_SCRIPTS = "scripts";
-    final static public String SPREF_KEY_COPIED_SCRIPTS_NAMES = "copied_names";
+    final static public int SPREF_DEF_JSCACHE = 1;
+    final static public int SPREF_DEF_JSOPT = 2;
+    final static public boolean SPREF_DEF_JSLOADFLAT = false;
+
 
 }
