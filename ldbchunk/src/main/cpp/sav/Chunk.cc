@@ -44,45 +44,123 @@ Chunk::Chunk(leveldb::DB *database, mapkey_t key, leveldb::ReadOptions &readOpti
 }
 
 void Chunk::generateFlatLayers(qustr *layers) {
+    LOGE_LS("Generating layers.");
     unsigned char y = 0;
 
     //For each layer item.
     for (int i = 0, lim = layers->length; i < lim; i += 3) {
+        unsigned char id = layers->str[i];
+        unsigned char data = layers->str[i + 1];
 
         //For each y in the layer.
         for (int j = 0, lim2 = layers->str[i + 2]; j < lim2; j++) {
-            unsigned char id = layers->str[i];
-            unsigned char data = layers->str[i + 1];
 
             //For each x and z.
             for (unsigned char x = 0; x < 16; x++) {
                 for (unsigned char z = 0; z < 16; z++) {
                     setTile(x, y, z, id, data);
-                    y++;
                 }
             }
+            y++;
         }
     }
+
+    LOGE_LS("Generated layers.");
+}
+
+bool isSameBlock(unsigned char id1, unsigned char data1, unsigned char id2, unsigned char data2) {
+    if (id1 == id2 && data1 == data2)return true;
+    if (id1 == 2 && id2 == 3)return true;//Dirt und grass
+    if (id1 == 3 && id2 == 2)return true;
+    if (id1 == 8 && id2 == 9)return true;//Water and water
+    if (id1 == 9 && id2 == 8)return true;
+    if (id1 == 10 && id2 == 11)return true;//Lava and java
+    if (id1 == 11 && id2 == 10)return true;
+    return false;
 }
 
 void Chunk::chflat(qustr old, qustr nwe) {
-
+    //if (0 == 0)return;
+    LOGE_LS("Changing layers.");
     unsigned char y = 0;
 
     //Unfold layers.
 
-    //First count their sizes.
-    int sold = 0, snew = 0;
-    for (int i = 2; i < old.length; i += 3) {
-        sold += old.str[i];
+    //First decompress (kind of) && count their sizes.
+    unsigned char sold = 0, snew = 0;
+    unsigned char iold[128], inew[128], dold[128], dnew[128];
+    for (int i = 0; i < old.length; i += 3) {
+        unsigned char am = old.str[i + 2];
+        unsigned char id = old.str[i];
+        unsigned char data = old.str[i + 1];
+        for (int j = 0; j < am; j++) {
+            iold[sold + j] = id;
+            dold[sold + j] = data;
+        }
+        sold += am;
     }
-    for (int i = 2; i < nwe.length; i += 3) {
-        snew += nwe.str[i];
+    for (int i = 0; i < nwe.length; i += 3) {
+        unsigned char am = nwe.str[i + 2];
+        unsigned char id = nwe.str[i];
+        unsigned char data = nwe.str[i + 1];
+        for (int j = 0; j < am; j++) {
+            inew[snew + j] = id;
+            dnew[snew + j] = data;
+        }
+        snew += am;
     }
+//    unsigned char s[nwe.length + 1];
+//    for (int i = 0; i < nwe.length; i++) {
+//        s[i] = nwe.str[i] + '0';
+//    }
+//    s[nwe.length] = '\0';
+//    LOGE_LS("nwe==%s", s);
+//    unsigned char t[old.length + 1];
+//    for (int i = 0; i < old.length; i++) {
+//        t[i] = old.str[i] + '0';
+//    }
+//    t[old.length] = '\0';
+//    LOGE_LS("old==%s", t);
+    //return;
 
     //For the common part
+    //LOGE_LS("asdf: %d,%d", sold, snew);
+    unsigned char scnt = (sold < snew) ? sold : snew;
+    for (unsigned char i = 0; i < scnt; i++) {
+        for (unsigned char x = 0; x < 16; x++) {
+            for (unsigned char z = 0; z < 16; z++) {
+                unsigned char id = getTile(x, i, z);
+                if (isSameBlock(id, getData(x, i, z), iold[i], dold[i])) {
+                    setTile(x, i, z, inew[i], dnew[i]);
+                } //else
+                //LOGE_LS("EEE %d,%d,%d,%d,%d", x, i, z, id, iold[i]);
+            }
+        }
+    }
 
-    //
+    //If old layers higher, have their head cut.
+    for (unsigned char i = scnt; i < sold; i++) {
+        for (unsigned char x = 0; x < 16; x++) {
+            for (unsigned char z = 0; z < 16; z++) {
+                unsigned char id = getTile(x, i, z);
+                if (isSameBlock(id, getData(x, i, z), iold[i], dold[i])) {
+                    setTile(x, i, z, 0, 0);
+                }
+            }
+        }
+    }
+
+    //If new layers higher, replace only airs.
+    for (unsigned char i = scnt; i < snew; i++) {
+        for (unsigned char x = 0; x < 16; x++) {
+            for (unsigned char z = 0; z < 16; z++) {
+                unsigned char id = getTile(x, i, z);
+                if (id == 0) {
+                    setTile(x, i, z, inew[i], dnew[i]);
+                }
+            }
+        }
+    }
 }
 
 
