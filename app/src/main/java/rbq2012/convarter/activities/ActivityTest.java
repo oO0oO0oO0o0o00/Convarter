@@ -4,16 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 
 import rbq2012.convarter.MCUtils;
 import rbq2012.convarter.R;
-import rbq2012.convarter.UiUtil;
 import rbq2012.convarter.configguide.FragmentBase;
 import rbq2012.convarter.test.ActivityMapPicker;
 import rbq2012.ldbchunk.DB;
@@ -81,7 +78,7 @@ public final class ActivityTest extends AppCompatActivity {
 
     public void do_iterate_db(File mapdir) {
         DB db = new DB(new File(mapdir, "db"));
-        db.open();
+        db.openDb();
         Iterator iter = db.iterator();
         byte[] k = null;
         for (iter.seekToFirst(); iter.isValid(); iter.next()) {
@@ -101,6 +98,6 @@ public final class ActivityTest extends AppCompatActivity {
         loga("aaaa");
         if (k != null) loga(dumpBytes(db.get(k)));
         lupdate();
-        db.close();
+        db.end();
     }
 }

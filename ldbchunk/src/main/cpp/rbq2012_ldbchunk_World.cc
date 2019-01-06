@@ -4,59 +4,71 @@
 
 #include <jni.h>
 #include <ldbchunkjni.h>
-#include <SavDb.h>
+#include <World.h>
 #include <qstr.h>
 
-static jlong nativeOpen(JNIEnv *env, jclass clazz, jstring dbpath) {
+#define PTR_TO_WORLD(x) reinterpret_cast<World *>(x)
+
+static jlong nativeBegin(JNIEnv *env, jclass clazz, jstring dbpath) {
     const char *path = env->GetStringUTFChars(dbpath, 0);
-    SavDb *db = new SavDb(path);
+    World *world = new World(path);
     env->ReleaseStringUTFChars(dbpath, path);
-    return reinterpret_cast<jlong>(db);
+    return reinterpret_cast<jlong>(world);
+}
+
+static jint nativeOpenDb(JNIEnv *env, jclass clazz, jlong ptr) {
+    World *world = PTR_TO_WORLD(ptr);
+    return world->openDb();
 }
 
 static void nativeRegisterLayers(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray data) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    World *world = PTR_TO_WORLD(ptr);
     jbyte *buf = env->GetByteArrayElements(data, 0);
-    db->setLayers(static_cast<unsigned int>(env->GetArrayLength(data)),
-                  reinterpret_cast<unsigned char *>(buf));
+    world->setLayers(static_cast<unsigned int>(env->GetArrayLength(data)),
+                     reinterpret_cast<unsigned char *>(buf));
     env->ReleaseByteArrayElements(data, buf, JNI_ABORT);
 }
 
 static jint nativeGetTile(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    if (db != nullptr) return db->getTile(x, y, z, dim);
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) return world->getTile(x, y, z, dim);
     return 0;
 }
 
 static jint nativeGetData(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    if (db != nullptr) return db->getData(x, y, z, dim);
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) return world->getData(x, y, z, dim);
     return 0;
 }
 
 static void
 nativeSetTile(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim, jint id,
               jint data) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    if (db != nullptr) db->setTile(x, y, z, dim, id, data);
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) world->setTile(x, y, z, dim, id, data);
 }
 
 static void
 nativeSetData(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim, jint data) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    if (db != nullptr) db->setData(x, y, z, dim, data);
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) world->setData(x, y, z, dim, data);
 }
 
 static void
 nativeSetMaxChunksCount(JNIEnv *env, jclass clazz, jlong ptr, jint limit) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    db->setMaxChunksCount(limit);
+    World *world = PTR_TO_WORLD(ptr);
+    world->setMaxChunksCount(limit);
 }
 
-static void nativeClose(JNIEnv *env, jclass clazz, jlong ptr) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
-    if (db != nullptr) {
-        delete db;
+static void nativeCloseDb(JNIEnv *env, jclass clazz, jlong ptr) {
+    World *world = PTR_TO_WORLD(ptr);
+    world->closeDb();
+}
+
+static void nativeEnd(JNIEnv *env, jclass clazz, jlong ptr) {
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) {
+        delete world;
         LOGE("Database closed normally.");
     } else {
         LOGE("Warning: multiple closing database.");
@@ -64,25 +76,25 @@ static void nativeClose(JNIEnv *env, jclass clazz, jlong ptr) {
 }
 
 static void nativeTest(JNIEnv *env, jclass clazz, jlong ptr) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    World *world = PTR_TO_WORLD(ptr);
     LOGE("Running test.");
-    const char *result = db->test();
+    const char *result = world->test();
     LOGE("%s", result);
     LOGE("Test done.");
 }
 
 static void nativeChflat(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray bnew) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    World *world = PTR_TO_WORLD(ptr);
     jbyte *buf = env->GetByteArrayElements(bnew, 0);
-    db->changeFlatLayers(env->GetArrayLength(bnew), (unsigned char *) buf);
+    world->changeFlatLayers(env->GetArrayLength(bnew), (unsigned char *) buf);
     env->ReleaseByteArrayElements(bnew, buf, JNI_ABORT);
 }
 
 static jbyteArray nativeGetRaw(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray key) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    World *world = PTR_TO_WORLD(ptr);
     jbyte *buf = env->GetByteArrayElements(key, 0);
     qstr k{(unsigned int) env->GetArrayLength(key), (char *) buf};
-    qstr v = db->getRaw(k);
+    qstr v = world->getRaw(k);
     jbyteArray jba = env->NewByteArray(v.length);
     env->SetByteArrayRegion(jba, 0, v.length, (jbyte *) v.str);
     delete v.str;
@@ -92,33 +104,35 @@ static jbyteArray nativeGetRaw(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray 
 
 static void
 nativePutRaw(JNIEnv *env, jclass clazz, jlong ptr, jbyteArray key, jbyteArray value) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    World *world = PTR_TO_WORLD(ptr);
     jbyte *kb, *vb;
     kb = env->GetByteArrayElements(key, 0);
     vb = env->GetByteArrayElements(value, 0);
     qstr k{(unsigned int) env->GetArrayLength(key), (char *) kb};
     qstr v{(unsigned int) env->GetArrayLength(value),
            (char *) vb};
-    db->putRaw(k, v);
+    world->putRaw(k, v);
     env->ReleaseByteArrayElements(key, kb, JNI_ABORT);
     env->ReleaseByteArrayElements(value, vb, JNI_ABORT);
 }
 
 static jlong nativeIterator(JNIEnv *env, jclass clazz, jlong ptr) {
-    SavDb *db = reinterpret_cast<SavDb *>(ptr);
+    World *db = reinterpret_cast<World *>(ptr);
     return reinterpret_cast<jlong>(db->iterator());
 }
 
 static JNINativeMethod sMethods[] =
     {
-        {"nativeOpen",              "(Ljava/lang/String;)J", (void *) nativeOpen},
+        {"nativeBegin",             "(Ljava/lang/String;)J", (void *) nativeBegin},
+        {"nativeOpenDb",            "(J)I",                  (void *) nativeOpenDb},
         {"nativeRegisterLayers",    "(J[B)V",                (void *) nativeRegisterLayers},
         {"nativeGetTile",           "(JIIII)I",              (void *) nativeGetTile},
         {"nativeGetData",           "(JIIII)I",              (void *) nativeGetData},
         {"nativeSetTile",           "(JIIIIII)V",            (void *) nativeSetTile},
         {"nativeSetData",           "(JIIIII)V",             (void *) nativeSetData},
         {"nativeSetMaxChunksCount", "(JI)V",                 (void *) nativeSetMaxChunksCount},
-        {"nativeClose",             "(J)V",                  (void *) nativeClose},
+        {"nativeCloseDb",           "(J)V",                  (void *) nativeCloseDb},
+        {"nativeEnd",               "(J)V",                  (void *) nativeEnd},
         {"nativeTest",              "(J)V",                  (void *) nativeTest},
         {"nativeChflat",            "(J[B)V",                (void *) nativeChflat},
         {"nativeIterator",          "(J)J",                  (void *) nativeIterator},

@@ -1,5 +1,9 @@
 package rbq2012.ldbchunk;
 
+import android.support.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 
 /**
@@ -9,30 +13,31 @@ import java.io.File;
 public final class DB {
 
     private long ptr;
-    private String dir;
 
     ////////
     //
 
     public DB(String str) {
-        ptr = 0;
-        dir = str;
+        ptr = nativeBegin(str);
     }
 
-    public DB(File file) {
-        ptr = 0;
-        dir = file.getPath();
+    public DB(@NonNull @NotNull File file) {
+        ptr = nativeBegin(file.getPath());
     }
 
     ////////
-    //Open & close
+    //Open & end
 
-    public void open() {
-        ptr = nativeOpen(dir);
+    public void openDb() {
+        nativeOpenDb(ptr);
     }
 
-    public void close() {
-        nativeClose(ptr);
+    public void closeDb() {
+        nativeCloseDb(ptr);
+    }
+
+    public void end() {
+        nativeEnd(ptr);
         ptr = 0;
     }
 
@@ -99,7 +104,9 @@ public final class DB {
     ////////
     //Interface to native part
 
-    private static native long nativeOpen(String str);
+    private static native long nativeBegin(String str);
+
+    private static native int nativeOpenDb(long ptr);
 
     private static native int nativeGetTile(long ptr, int x, int y, int z, int dim);
 
@@ -113,7 +120,9 @@ public final class DB {
 
     private static native void nativeRegisterLayers(long ptr, byte[] array);
 
-    private static native void nativeClose(long ptr);
+    private static native void nativeCloseDb(long ptr);
+
+    private static native void nativeEnd(long ptr);
 
     private static native void nativeTest(long ptr);
 

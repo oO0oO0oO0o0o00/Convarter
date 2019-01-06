@@ -16,7 +16,7 @@ unsigned char BlockNames::resolve(qstr name) {
     }
     for (int i = 0; i < 256; i++) {
         char *nam = names[i];
-        if (0xff != nam[31])continue;
+        if (static_cast<char>(0xff) != nam[31])continue;
         if (memcmp(nam, name.str, name.length) != 0)continue;
         return i;
     }

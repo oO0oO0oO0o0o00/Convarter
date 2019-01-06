@@ -7,6 +7,7 @@
 
 #include <leveldb/db.h>
 #include <vector>
+#include <leveldb/SubChunk.h>
 #include "mapkey.h"
 #include "debug_conf.h"
 #include "qstr.h"
@@ -20,22 +21,21 @@
 #define SET_SUBCHUNK_MODIFIED(x) (flags[x]|=0b1)
 #define UNSET_SUBCHUNK_MODIFIED(x) (flags[x]&=0b11111111111111111111111111111110)
 
+class World;
+
 class Chunk {
 protected:
 
     //Key of this chunk, NOT key in database.
     mapkey_t key;
 
-    //Database we're using.
-    leveldb::DB *database;
-
-    //ReadOptions we're using.
-    leveldb::ReadOptions &roptions;
+    //World the chunk belongs to.
+    World *world;
 
 public:
     //Standard interface as a chunk.
 
-    Chunk(leveldb::DB *database, mapkey_t key, leveldb::ReadOptions &readOptions);
+    Chunk(World *world, mapkey_t key);
 
     virtual ~Chunk() {};
 
@@ -53,7 +53,7 @@ public:
 
     void generateFlatLayers(qustr *layers);
 
-    void chflat(qustr old,qustr nwe);
+    void chflat(qustr old, qustr nwe);
 
     virtual void save() {};
 };
@@ -64,7 +64,7 @@ typedef uint16_t bits;
 class PocketChunk : public Chunk {
 public:
 
-    PocketChunk(leveldb::DB *database, mapkey_t key, leveldb::ReadOptions &readOptions);
+    PocketChunk(World *world, mapkey_t key);
 
     ~PocketChunk() {};
 
@@ -83,27 +83,7 @@ public:
 
 };
 
-//Holds info of a paletted subchunk.
-//This and the below structs are only used for a bedrock version chunk along with the union below.
-struct PalettedSubChunk {
-    uint16_t len_block;
-    uint16_t cnt_types;
-    uint32_t *sticks;
-    uint16_t *palette;
-};
-
-//Holds info of an aligned subchunk.
-struct AlignedSubChunk {
-    unsigned char ids[4096];
-    unsigned char datas[2048];
-};
-
-union SubChunk {//A subchunk is either paletted or aligned.
-    struct PalettedSubChunk *paletted;
-    struct AlignedChunk *aligned;
-};
-
-//Introduced in MCPE 1.x which's called a Bedrock Edition no longer PE.
+//Introduced in MCPE 1.x
 class BedrockChunk : public Chunk {
 private:
 
@@ -117,14 +97,11 @@ private:
 
     //Member vars.
 
-    //The prefix of any subchunks within.
-    char karrbase[9];
-
     //Flags containing subchunk versions high 8 bits and modified mark low 1 bit.
     uint16_t flags[16];
 
     //Subchunks.
-    union SubChunk subchunks[16];
+    SubChunk *subchunks[16];
 
     //Internal functions.
 
@@ -136,35 +113,11 @@ private:
     //////Returns if subchunk's loaded or generated.
     bool loadSubchunk(unsigned char which);
 
-    //////For paletted format.
-    void doLoadPalettedSubchunk(const unsigned char which, const char *buffer);
-
-    //////For aligned format.
-    void doLoadAlignedSubchunk(const unsigned char which, const char *buffer);
-
-    ////Getters.
-
-    //////Getter for paletted format, gets both block id and data.
-    uint16_t getPaletteRecord(unsigned char x, unsigned char y, unsigned char z);
-
-    ////Setters.
-
-    //////Setter for paletted format, set both block id and data.
-    void setPalettedRecord(unsigned char x, unsigned char y, unsigned char z, uint16_t rec);
-
-    ////Saving and Deinit.
-
-    //////Saves a paletted subchunk.
-    void savePalettedSubchunk(unsigned char which);
-
-    //////Saves an aligned subchunk.
-    void saveAlignedSubchunk(unsigned char which);
-
 public:
 
     //Ya.
 
-    BedrockChunk(leveldb::DB *database, mapkey_t key, leveldb::ReadOptions &readOptions);
+    BedrockChunk(World *world, mapkey_t key);
 
     ~BedrockChunk();
 

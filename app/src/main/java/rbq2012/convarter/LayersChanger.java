@@ -36,7 +36,7 @@ public final class LayersChanger {
             return R.string.editlayers_nonflat;
         }
         //if (layers_modified instanceof FlatWorldLayers.PocketLayers) {
-        db.close();
+        db.end();
         //}
         //layers_modified.load();
         layers_original = layers_modified.clone();
@@ -59,7 +59,7 @@ public final class LayersChanger {
     public boolean save(boolean override) {
         try {
             DB db = new DB(new File(mapdir, "db"));
-            db.open();
+            db.openDb();
             layers_modified.save();
             //Override existing area.
             if (override && !isOldVersion()) {
@@ -68,7 +68,7 @@ public final class LayersChanger {
                 bytes = layers_modified.getLayersForNativeUse();
                 db.chflat(bytes);
             }
-            db.close();
+            db.end();
             return true;
         } catch (Exception e) {
             e.printStackTrace();

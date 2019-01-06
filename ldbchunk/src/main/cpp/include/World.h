@@ -2,13 +2,12 @@
 // Created by barco on 2018/3/22.
 //
 
-#ifndef CONVARTER_SAVDB_H
-#define CONVARTER_SAVDB_H
+#ifndef CONVARTER_WORLD_H
+#define CONVARTER_WORLD_H
 
 #include "map"
 #include <leveldb/db.h>
 #include "leveldb/env.h"
-#include "Chunk.h"
 #include "qstr.h"
 #include "mapkey.h"
 
@@ -25,26 +24,28 @@ public:
 #define CHUNK_LI_CLEAN 0b0
 #define CHUNK_LI_DIRTY 0b1
 
-#define TO_MAPKEY(x, z, dim) mapkey_t{x >> 4, z >> 4, dim}
-
 struct chunk_li;
 struct chunk_lru_li;
+
+class Chunk;
 
 struct chunk_li {
     uint32_t flag = CHUNK_LI_CLEAN;
     mapkey_t key;
     Chunk *val;
-    chunk_li *next = nullptr;
-    chunk_lru_li *sorter;
+    chunk_li *hashnext = nullptr;
+    //chunk_lru_li *sorter;
+    chunk_li *lrunext = nullptr;
+    chunk_li *lruprev = nullptr;
 };
 
-struct chunk_lru_li {
-    chunk_li *item;
-    chunk_lru_li *prev;
-    chunk_lru_li *next;
-};
+//struct chunk_lru_li {
+//    chunk_li *item;
+//    chunk_lru_li *prev;
+//    chunk_lru_li *next;
+//};
 
-class SavDb {
+class World {
 private:
 
     //Static Stuff.
@@ -58,6 +59,9 @@ private:
     char *logstr;
 
     //Database IO related
+
+    ////Db path
+    char *path;
 
     ////Associated leveldb database.
     leveldb::DB *database;
@@ -80,10 +84,10 @@ private:
 
     ////Lru list of chunks, oldest first.
     //I won't tell you here lru stands for least recent used.
-    chunk_lru_li *lru;
+    chunk_li *lru;
 
     ////Tail of lru list.
-    chunk_lru_li *mru;
+    chunk_li *mru;
 
     //Other things.
 
@@ -95,6 +99,9 @@ private:
 
     ////Should we generate flat layers for new chunks?
     bool shouldGenFlat;
+
+    ////Highest version of a subchunk. 0, 1 or 8.
+    uint8_t subver;
 
     //Internal functions.
 
@@ -114,23 +121,36 @@ public:
 
     //You know.
 
-    SavDb(const char *path, char version = 7);
+    World(const char *path, char version = 7);
 
-    ~SavDb();
+    ~World();
 
-    //Standard interface Block-Launcher-styled.
+    //Standard interface Block-Launcher-styled. (Java <--> World)
 
-    byte getTile(int32_t x, int32_t y, int32_t z, uint32_t dim);
+    byte getTile(int32_t x, int32_t y, int32_t z, int32_t dim);
 
-    void setTile(int32_t x, int32_t y, int32_t z, uint32_t dim, byte id, byte data);
+    void setTile(int32_t x, int32_t y, int32_t z, int32_t dim, byte id, byte data);
 
-    byte getData(int32_t x, int32_t y, int32_t z, uint32_t dim);
+    byte getData(int32_t x, int32_t y, int32_t z, int32_t dim);
 
-    void setData(int32_t x, int32_t y, int32_t z, uint32_t dim, byte data);
+    void setData(int32_t x, int32_t y, int32_t z, int32_t dim, byte data);
+
+    //DBIO (World <--> Chunk)
+    bool readFromDb(leveldb::Slice key, std::string *val);
+
+    bool writeToDb(leveldb::Slice key, leveldb::Slice value);
+
+    uint8_t getHighestSubVer();
 
     //Others.
 
+    int openDb();
+
+    void closeDb();
+
     void setMaxChunksCount(uint16_t limit);
+
+    void setHighestSubVer(uint8_t subver);
 
     const char *test();
 

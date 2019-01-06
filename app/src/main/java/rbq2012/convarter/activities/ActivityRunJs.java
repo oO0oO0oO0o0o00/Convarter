@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,7 +28,6 @@ import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.annotations.JSFunction;
 import org.spout.nbt.CompoundMap;
 import org.spout.nbt.CompoundTag;
-import org.spout.nbt.IntTag;
 import org.spout.nbt.Tag;
 
 import java.io.File;
@@ -318,7 +316,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             //Open db and load from dat, dat won't be keep opened.
             try {
                 db = new DB(new File(map_dir, "db"));
-                db.open();
+                db.openDb();
             } catch (Exception e) {
                 e.printStackTrace();
                 handler.sendEmptyMessage(MSG_ERROPENDB);
@@ -419,7 +417,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
 
             //db.test();
 
-            //db.close();
+            //db.end();
             //if (true) return;
 
             ///End test code************************************************************************
@@ -473,10 +471,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
         }
 
         private void fin() {
-            try {
-                db.close();
-            } catch (Throwable e) {
-            }
+            db.end();
         }
 
         private class MeowScope extends ImporterTopLevel {

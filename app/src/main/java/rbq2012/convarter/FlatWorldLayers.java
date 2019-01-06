@@ -53,7 +53,7 @@ public final class FlatWorldLayers {
                 }
             } else {
                 layers = FlatWorldLayers.newFlatWorldLayers(db);
-                if (!db_opened) db.open();
+                if (!db_opened) db.openDb();
                 int errno = layers.load();
                 if (errno == FlatWorldLayers.ERR_LOAD_NO_DATA) {
                     Log.w("233", "Layers loading failed for targeted version 1.0/0.15, no data.");

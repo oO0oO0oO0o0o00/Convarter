@@ -107,4 +107,6 @@
     <string name="editlayers_waitloaded">请等待加载完成。</string>
     <string name="editlayers_disadvantage">尽管任何你对已有方块进行的更改（放置、替换、破坏）不会被覆写，但是如果你增加了高度，它们可能被掩埋。如果你新增了沙子，它们可能砸坏下面的东西。如果你减少了层数，上面的花和红石电路可能无法存活。所以请考虑两次，并且备份存档，再运行这个app！！！</string>
     <string name="editlayers_version_old">这个地图是适用于Minecraft1.2以下版本的。用新版Minecraft打开将重置层到默认。但是你可以再次运行这个功能。</string>
+    <string name="about_ckupdate">检查更新</string>
+    <string name="about_git">在Githubda</string>
 </resources>

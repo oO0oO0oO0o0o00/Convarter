@@ -9,7 +9,7 @@
 //#define LOG_CHUNK_OPERATION
 #define LOG_CHUNK_LOADSAVE
 
-//SavDb
+//World
 //#define LOG_SAVDB_OPERATION
 #define LOG_SAVDB_LOADSAVE
 #define LOG_SAVDB_LRU

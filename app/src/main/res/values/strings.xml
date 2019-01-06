@@ -114,4 +114,6 @@
     <string name="editlayers_waitloaded">Please wait until layers loaded.</string>
     <string name="editlayers_disadvantage">Though all your modifications to existing areas (placing, replacing or breaking) won\'t be overridden, in case you add more layers, they may get buried under new layers. If you add sands they may fall and destroy blocks beneath. And if you reduced layers, flowers and circuits above may not survive. So think twice and have your map backed up before running this app!!!</string>
     <string name="editlayers_version_old">Your map is for Minecraft version below 1.2. Opening it with newer Minecraft would reset layers to default. You can then however, run this feature again.</string>
+    <string name="about_ckupdate">Check for update</string>
+    <string name="about_git">Open in Github</string>
 </resources>

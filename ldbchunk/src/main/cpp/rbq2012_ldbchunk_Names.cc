@@ -4,7 +4,7 @@
 
 #include <jni.h>
 #include <ldbchunkjni.h>
-#include <SavDb.h>
+#include <World.h>
 #include <BlockNames.h>
 
 static void

@@ -6,13 +6,14 @@ LOCAL_MODULE := ldbchunkjni
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/include
 LOCAL_CPP_EXTENSION := .cc
 LOCAL_CFLAGS := -std=gnu++0x
-LOCAL_SRC_FILES := rbq2012_ldbchunk_DB.cc\
+LOCAL_SRC_FILES := rbq2012_ldbchunk_World.cc\
                     rbq2012_ldbchunk_Names.cc\
                     rbq2012_ldbchunk_Iterator.cc\
                     ldbchunkjni.cc\
-                    sav/SavDb.cc\
-                    sav/Chunk.cc\
-                    sav/BlockNames.cc
+                    src/World.cc\
+                    src/Chunk.cc\
+                    src/SubChunk.cc\
+                    src/BlockNames.cc
 LOCAL_LDLIBS +=  -llog -ldl $(LOCAL_PATH)/../jniLibs/$(TARGET_ARCH_ABI)/libleveldb.so
 LOCAL_CPPFLAGS  += -std=c++11
 LOCAL_CPP_FEATURES += exceptions

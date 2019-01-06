@@ -59,6 +59,8 @@
             android:name=".test.ActivityMapPicker"
             android:theme="@style/DialogTheme" />
 
+        <activity android:name=".activities.ActivityAbout" />
+
     </application>
 
 </manifest>
