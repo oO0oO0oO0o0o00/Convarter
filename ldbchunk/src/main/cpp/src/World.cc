@@ -108,37 +108,43 @@ World::~World() {
 byte World::getTile(int32_t x, int32_t y, int32_t z, int32_t dim) {
     mapkey_t key = LDBKEY_STRUCT(x, z, dim);
     chunk_li *item = getChunkItem(key);
-    byte ret = item->val->getTile(x & 0xf, y, z & 0xf);
+    byte ret = static_cast<byte>(
+        item->val->getBlock(static_cast<unsigned char>(x & 0xf),
+                            static_cast<unsigned char>(y),
+                            static_cast<unsigned char>(z & 0xf)) >> 8);
     makeNewest(item);
-    LOGE_OP("getTile at (%d,%d,%d)", x, y, z);
+    LOGE_OP("getBlock at (%d,%d,%d)", x, y, z);
     return ret;
 }
 
 void World::setTile(int32_t x, int32_t y, int32_t z, int32_t dim, byte id, byte data) {
     mapkey_t key = LDBKEY_STRUCT(x, z, dim);
     chunk_li *item = getChunkItem(key);
-    item->val->setTile(x & 0xf, y, z & 0xf, id, data);
+    uint16_t block = id;
+    block <<= 8;
+    block |= data;
+    item->val->setBlock(static_cast<unsigned char>(x & 0xf),
+                        static_cast<unsigned char>(y),
+                        static_cast<unsigned char>(z & 0xf), block);
     makeNewest(item);
     item->flag = CHUNK_LI_DIRTY;
-    LOGE_OP("setTile at (%d,%d,%d)", x, y, z);
+    LOGE_OP("setBlock at (%d,%d,%d)", x, y, z);
 }
 
 byte World::getData(int32_t x, int32_t y, int32_t z, int32_t dim) {
     mapkey_t key = LDBKEY_STRUCT(x, z, dim);
     chunk_li *item = getChunkItem(key);
-    byte ret = item->val->getData(x & 0xf, y, z & 0xf);
+    byte ret = static_cast<byte>(
+        item->val->getBlock(static_cast<unsigned char>(x & 0xf),
+                            static_cast<unsigned char>(y),
+                            static_cast<unsigned char>(z & 0xf)) | 0xf);
     makeNewest(item);
     LOGE_OP("getData at (%d,%d,%d)", x, y, z);
     return ret;
 }
 
 void World::setData(int32_t x, int32_t y, int32_t z, int32_t dim, byte data) {
-    mapkey_t key = LDBKEY_STRUCT(x, z, dim);
-    chunk_li *item = getChunkItem(key);
-    item->val->setData(x & 0xf, y, z & 0xf, data);
-    makeNewest(item);
-    item->flag = CHUNK_LI_DIRTY;
-    LOGE_OP("setData at (%d,%d,%d)", x, y, z);
+    //Deprecated.
 }
 
 bool World::readFromDb(leveldb::Slice key, std::string *val) {
@@ -159,7 +165,7 @@ uint8_t World::getHighestSubVer() {
 }
 
 chunk_li *World::getChunkItem(mapkey_t key) {
-    LOGE_OP("Aquiring chunk (%d,%d)", key.x_div16, key.z_div16);
+    LOGE_OP("Aquiring chunk (%d,%d)", key.x_div16, key.z_div16)
     uint16_t crc = getCrc16(&key);
     for (chunk_li *i = chunks[crc]; i != nullptr; i = i->hashnext) {
         if (memcmp(&key, &i->key, sizeof(mapkey_t)) != 0)continue;
@@ -173,10 +179,7 @@ chunk_li *World::getChunkItem(mapkey_t key) {
 
 chunk_li *World::loadChunk(mapkey_t key) {
     LOGE_LS("Loading chunk (%d,%d)", key.x_div16, key.z_div16);
-    char key_db[9];
-    *(int32_t *) key_db = key.x_div16;
-    *(int32_t *) (key_db + 4) = key.z_div16;
-    key_db[8] = 118;
+    LDBKEY_VERSION(key)
     std::string str;
     char ver;
     leveldb::Slice skey(key_db, 9);

@@ -2,9 +2,9 @@
 
 现在所有函数
 
-getTile(x,y,z)用于主世界
+getBlock(x,y,z)用于主世界
 getTileN(x,y,z)用于幽冥界
-setTile(x,y,z,i,d)
+setBlock(x,y,z,i,d)
 setTileN(x,y,z,i,d)
 getData(x,y,z)
 getDataN(x,y,z)

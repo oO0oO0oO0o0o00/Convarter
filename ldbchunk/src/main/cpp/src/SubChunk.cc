@@ -14,28 +14,58 @@
 //
 
 OldSubChunk::OldSubChunk(std::string buf) {
-    //
+#ifdef DEBUG_SUBCHUNK
+    if (buf.length() < 6145) {//(16*16*16*1.5+1)
+        //
+    }
+#endif
+    const char *ptr = buf.c_str();
+    ptr++;
+    memcpy(storage, ptr, 6144);
 }
 
 OldSubChunk::~OldSubChunk() {
-    //
 }
 
-unsigned char OldSubChunk::getTile(unsigned char x, unsigned char y, unsigned char z) {
-    return 0;
+#define OSUB_INDEX\
+    unsigned int index=x;\
+    index<<=4;\
+    index|=z;\
+    index<<=4;\
+    index|=y;
+
+uint16_t OldSubChunk::getBlock(unsigned char x, unsigned char y, unsigned char z) {
+    OSUB_INDEX
+    uint16_t ret = storage[index];
+    ret <<= 8;
+    uint16_t data = storage[4096 + (index >> 1)];
+    if (index & 1)data &= 0x0f;
+    else data >>= 4;
+    ret |= data;
+    return ret;
 }
 
-unsigned char OldSubChunk::getData(unsigned char x, unsigned char y, unsigned char z) {
-    return 0;
+void OldSubChunk::setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {
+    OSUB_INDEX
+    uint16_t t = block >> 8;
+    storage[index] = static_cast<unsigned char>(t);
+    unsigned char ch = storage[4096 + (index >> 1)];
+    unsigned char ci = static_cast<unsigned char>(block & 0x0f);
+    if (index & 1) {
+        ch &= 0xf0;
+    } else {
+        ch &= 0x0f;
+        ci <<= 4;
+    }
+    ch |= ci;
+    storage[4096 + (index >> 1)] = ch;
 }
 
-void OldSubChunk::setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                          unsigned char data) {
-    //
-}
-
-void OldSubChunk::setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) {
-    //
+leveldb::Slice OldSubChunk::save() {
+    char *buf = new char[6145];
+    buf[0] = 0;
+    memcpy(buf + 1, storage, 6144);
+    return leveldb::Slice(buf, 6145);
 }
 
 ////////////////
@@ -60,9 +90,8 @@ PalettedSubChunk::PalettedSubChunk(const std::string &buf, bool hasMultiStorage)
     storages[1].palette = nullptr;
 
     const char *cbuf = buf.c_str();
-    const char *ptr = cbuf;
+    const char *ptr = cbuf + 1;
     if (hasMultiStorage) {
-        ptr++;
         unsigned char count = *((const unsigned char *) ptr);
 #ifdef DEBUG_SUBCHUNK
         if (count > 2 || count == 0) {
@@ -77,7 +106,6 @@ PalettedSubChunk::PalettedSubChunk(const std::string &buf, bool hasMultiStorage)
         }
 #endif
     } else {
-        ptr++;
         loadStorage(ptr, cbuf + buf.length(), 0);
     }
 }
@@ -95,6 +123,8 @@ PalettedSubChunk::PalettedSubChunk(bool hasMultiStorage) {
 PalettedSubChunk::~PalettedSubChunk() {
     delete[] storages[0].storage;
     delete[] storages[0].palette;
+    delete[] storages[1].storage;
+    delete[] storages[1].palette;
 }
 
 const char *PalettedSubChunk::loadStorage(const char *ptr, const char *max, int which) {
@@ -342,7 +372,7 @@ PalettedSubChunk::setBlockCode(unsigned char x, unsigned char y, unsigned char z
             index <<= 4;
             index |= y;
 
-            uint32_t *ptr = thiz.storage +(index / capa);
+            uint32_t *ptr = thiz.storage + (index / capa);
 
             int shift = index % capa * thiz.blen;
             *ptr &= ~(msk[thiz.blen - 1] << shift);
@@ -368,7 +398,7 @@ PalettedSubChunk::setBlockCode(unsigned char x, unsigned char y, unsigned char z
     thiz.types++;
 
     //If codec capacity is full (2,4,8,16...) we have to rebuild a larger one.
-    if ((((uint16_t) 1) << thiz.blen) == thiz.types) {
+    if ((((uint16_t) 1) << thiz.blen) == thiz.types - 1) {
         //Sadly we need to expand whole subchunk...
         uint32_t *storageOld = thiz.storage;
         uint8_t blenOld = thiz.blen;
@@ -408,25 +438,12 @@ PalettedSubChunk::setBlockCode(unsigned char x, unsigned char y, unsigned char z
     goto restart;
 }
 
-unsigned char PalettedSubChunk::getTile(unsigned char x, unsigned char y, unsigned char z) {
-    return static_cast<unsigned char>(getBlockCode(x, y, z, 0) >> 8);
+uint16_t PalettedSubChunk::getBlock(unsigned char x, unsigned char y, unsigned char z) {
+    return getBlockCode(x, y, z, 0);
 }
 
-unsigned char PalettedSubChunk::getData(unsigned char x, unsigned char y, unsigned char z) {
-    return static_cast<unsigned char>(getBlockCode(x, y, z, 0));
-}
-
-void PalettedSubChunk::setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                               unsigned char data) {
-    uint16_t rec = id;
-    rec <<= 8;
-    rec |= data;
-    setBlockCode(x, y, z, rec, 0);
-}
-
-void
-PalettedSubChunk::setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) {
-    setBlockCode(x, y, z, (getBlockCode(x, y, z, 0) & ((uint16_t) 0xff00)) | data, 0);
+void PalettedSubChunk::setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {
+    setBlockCode(x, y, z, block, 0);
 }
 
 leveldb::Slice PalettedSubChunk::save() {

@@ -32,4 +32,20 @@ typedef struct {
         *ptr = ydiv;\
     }
 
+#define LDBKEY_VERSION(k) \
+    char key_db[14];\
+    if(true){\
+        char* ptr = key_db;\
+        *(int32_t*)ptr = k.x_div16;\
+        ptr+=4;\
+        *(int32_t*)ptr = k.z_div16;\
+        ptr += 4;\
+        if(k.dimension != 0){\
+            *(int32_t*)ptr = k.dimension;\
+            ptr += 4;\
+        }\
+        *ptr = 0x76;\
+        ptr++;\
+    }
+
 #endif //CONVARTER_MAPKEY_H

@@ -2,11 +2,13 @@
 An android app that allows you to edit Minecraft (MCPE) gamemaps with javascripts, create customized flat levels and other features.
 
 Now supports gamemap editing using BlockLauncher-style javascripts.
-* `getTile(x,y,z)` returns block id.
-* `getData(x,y,z)` returns block data.
-* `setTile(x,y,z,id)` sets the block's id.
-* `setTile(x,y,z,id,data)` sets the block's id and data.
-* `setData(x,y,z,data)` sets the block's data.
+* `getTile(x,y,z)` returns block id as legacy support.
+* `getData(x,y,z)` returns block data as legacy support.
+* `setTile(x,y,z,id)` ~~sets the block's id~~ deprecated.
+* `setBlock(x,y,z,id,data)` sets the block's id and data as legacy support.
+* `setData(x,y,z,data)` ~~sets the block's data~~ deprecated.
+* `getBlock(x,y,z)` returns block runtime id.
+* `setBlock(x,y,z)` sets block runtime id.
 
 With this app you can generate huge and complex things in Minecraft that are hard
 or impossible to be build manually or using in-game scripts.  

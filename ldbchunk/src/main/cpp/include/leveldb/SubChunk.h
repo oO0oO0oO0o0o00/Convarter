@@ -16,32 +16,26 @@ public:
 
     virtual ~SubChunk() {};
 
-    virtual unsigned char getTile(unsigned char x, unsigned char y, unsigned char z) { return 0; };
+    virtual uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) { return 0; };
 
-    virtual unsigned char getData(unsigned char x, unsigned char y, unsigned char z) { return 0; };
-
-    virtual void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                         unsigned char data) {};
-
-    virtual void setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) {};
+    virtual void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {};
 
     virtual leveldb::Slice save() { return NULL; };
 };
 
 class OldSubChunk : public SubChunk {
+private:
+    unsigned char storage[6144];
 public:
     OldSubChunk(std::string buf);
 
     ~OldSubChunk();
 
-    unsigned char getTile(unsigned char x, unsigned char y, unsigned char z) override;
+    uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) override;
 
-    unsigned char getData(unsigned char x, unsigned char y, unsigned char z) override;
+    void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
 
-    void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                 unsigned char data) override;
-
-    void setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) override;
+    leveldb::Slice save() override;
 };
 
 struct BlockStorage {
@@ -82,14 +76,9 @@ public:
 
     ~PalettedSubChunk();
 
-    unsigned char getTile(unsigned char x, unsigned char y, unsigned char z) override;
+    uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) override;
 
-    unsigned char getData(unsigned char x, unsigned char y, unsigned char z) override;
-
-    void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                 unsigned char data) override;
-
-    void setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) override;
+    void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
 
     leveldb::Slice save() override;
 

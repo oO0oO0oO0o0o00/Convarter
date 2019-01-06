@@ -39,17 +39,9 @@ public:
 
     virtual ~Chunk() {};
 
-    virtual unsigned char getTile(unsigned char x, unsigned char y, unsigned char z) { return 0; };
+    virtual uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) { return 0; };
 
-    virtual unsigned char getData(unsigned char x, unsigned char y, unsigned char z) { return 0; };
-
-    //One should always use 5 args setTile instead, but this also works.
-    virtual void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id) {};
-
-    virtual void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                         unsigned char data) {};
-
-    virtual void setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) {};
+    virtual void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {};
 
     void generateFlatLayers(qustr *layers);
 
@@ -68,16 +60,9 @@ public:
 
     ~PocketChunk() {};
 
-    unsigned char getTile(unsigned char x, unsigned char y, unsigned char z) override;
+    uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) override;
 
-    unsigned char getData(unsigned char x, unsigned char y, unsigned char z) override;
-
-    void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id) override;
-
-    void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                 unsigned char data) override;
-
-    void setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) override;
+    void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
 
     void save() override;
 
@@ -125,24 +110,13 @@ public:
 
     ////Public Getters.
 
-    //////getTile.
-    unsigned char getTile(unsigned char x, unsigned char y, unsigned char z) override;
-
-    //////getData.
-    unsigned char getData(unsigned char x, unsigned char y, unsigned char z) override;
+    //////getBlock.
+    uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) override;
 
     ////Public Setters.
 
-    //////setTile(4).
-    void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id) override;
-
-
-    //////setTile(5).
-    void setTile(unsigned char x, unsigned char y, unsigned char z, unsigned char id,
-                 unsigned char data) override;
-
-    //////setData.
-    void setData(unsigned char x, unsigned char y, unsigned char z, unsigned char data) override;
+    //////setBlock(5).
+    void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
 
     ////Saving and Deinit.
 

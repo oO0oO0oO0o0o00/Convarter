@@ -412,7 +412,7 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
 
 
 //            for (int i = 0; i < 256; i++) {
-//                db.setTile(1360 + i, 5, 19, 0, i, 0);
+//                db.setBlock(1360 + i, 5, 19, 0, i, 0);
 //            }
 
             //db.test();
