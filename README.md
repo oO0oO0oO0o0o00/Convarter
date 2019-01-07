@@ -3,20 +3,20 @@ An android app that allows you to edit Minecraft (MCPE) gamemaps with javascript
 
 Now supports gamemap editing using BlockLauncher-style javascripts.
 * Basics:
-..* `getBlock(x,y,z)` returns block runtime id.
-..* `setBlock(x,y,z,runtimeId)` sets block runtime id.
-..* A `runtimeId` is just `(id << 8) | data` for now.
-..* `getTile(x,y,z)` returns block id as legacy support.
-..* `getData(x,y,z)` returns block data as legacy support.
-..* `setTile(x,y,z,id,data)` sets the block's id and data as legacy support.
+  * `getBlock(x,y,z)` returns block runtime id.
+  * `setBlock(x,y,z,runtimeId)` sets block runtime id.
+  * A `runtimeId` is just `(id << 8) | data` for now.
+  * `getTile(x,y,z)` returns block id as legacy support.
+  * `getData(x,y,z)` returns block data as legacy support.
+  * `setTile(x,y,z,id,data)` sets the block's id and data as legacy support.
 * With multi-dimension (Overworld/Nether/...) support:
-..* `getBlock2(x,y,z,dim)` returns block runtime id.
-..* `setBlock2(x,y,z,dim,runtimeId)` sets block runtime id.
-..* dim = 0 for Overworld, 1 for the Nether, -1 for the End.
+  * `getBlock2(x,y,z,dim)` returns block runtime id.
+  * `setBlock2(x,y,z,dim,runtimeId)` sets block runtime id.
+  * dim = 0 for Overworld, 1 for the Nether, -1 for the End.
 * With two-block-coexist support:
-..* `getBlock3(x,y,z,dim,layer)` returns block runtime id.
-..* `setBlock3(x,y,z,dim,layer,runtimeId)` sets block runtime id.
-..* layer = 0 or 1. The purpose of layer 1 is to allow block coexisting with another.
+  * `getBlock3(x,y,z,dim,layer)` returns block runtime id.
+  * `setBlock3(x,y,z,dim,layer,runtimeId)` sets block runtime id.
+  * layer = 0 or 1. The purpose of layer 1 is to allow block coexisting with another.
 
 With this app you can generate huge and complex things in Minecraft that are hard
 or impossible to be build manually or using in-game scripts.  
@@ -58,8 +58,8 @@ Boomshroom, since spout was gone.
 * Google's [Dx tool](https://android.googlesource.com/platform/dalvik). Here we uses
 a repacked version:`'com.jakewharton.android.repackaged:dalvik-dx:7.1.0_r7'`
 * [leveldb-mcpe-android](https://github.com/oO0oO0oO0o0o00/leveldb-mcpe-android) thanks to
-..* [@litl](https://github.com/litl/android-leveldb)'s,
-..* [@mojang](https://github.com/Mojang/leveldb-mcpe)'s and
-..* [@google](https://github.com/google/leveldb)'s work.
+  * [@litl](https://github.com/litl/android-leveldb)'s,
+  * [@mojang](https://github.com/Mojang/leveldb-mcpe)'s and
+  * [@google](https://github.com/google/leveldb)'s work.
 * Inspired by reverse engineering [@zhuowei](https://github.com/zhuowei)'s
 apps. Anyway we're not just copying.
