@@ -133,7 +133,13 @@ public:
 
     byte getData(int32_t x, int32_t y, int32_t z, int32_t dim);
 
-    void setData(int32_t x, int32_t y, int32_t z, int32_t dim, byte data);
+    void setBlock(int32_t x, int32_t y, int32_t z, int32_t dim, uint16_t block);
+
+    uint16_t getBlock(int32_t x, int32_t y, int32_t z, int32_t dim);
+
+    void setBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t layer, uint16_t block);
+
+    uint16_t getBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t layer);
 
     //DBIO (World <--> Chunk)
     bool readFromDb(leveldb::Slice key, std::string *val);

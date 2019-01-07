@@ -20,6 +20,14 @@ public:
 
     virtual void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {};
 
+    virtual void setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
+                           uint16_t block) {};
+
+    virtual uint16_t
+    getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) {
+        return 0;
+    }
+
     virtual leveldb::Slice save() { return NULL; };
 };
 
@@ -60,6 +68,8 @@ private:
 
     const char *loadStorage(const char *ptr, const char *max, int which);
 
+    void generateStorage(uint8_t which, uint16_t initTypes);
+
     size_t countStorageSize(int which);
 
     char *saveStorage(char *ptr, const char *max, int which);
@@ -72,13 +82,19 @@ private:
 public:
     PalettedSubChunk(const std::string &buf, bool hasMultiStorage);
 
-    PalettedSubChunk(bool hasMultiStorage);
+    PalettedSubChunk(uint16_t initTypes, bool hasMultiStorage);
 
     ~PalettedSubChunk();
 
     uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) override;
 
     void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
+
+    void setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
+                   uint16_t block) override;
+
+    uint16_t
+    getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) override;
 
     leveldb::Slice save() override;
 

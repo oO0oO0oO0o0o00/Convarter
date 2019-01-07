@@ -110,14 +110,11 @@ PalettedSubChunk::PalettedSubChunk(const std::string &buf, bool hasMultiStorage)
     }
 }
 
-PalettedSubChunk::PalettedSubChunk(bool hasMultiStorage) {
+PalettedSubChunk::PalettedSubChunk(uint16_t initTypes, bool hasMultiStorage) {
     this->hasMultiStorage = hasMultiStorage;
     storages[1].storage = nullptr;
     storages[1].palette = nullptr;
-    storages[0].types = 1;
-    storages[0].blen = 1;
-    storages[0].storage = new uint32_t[128]{0};
-    storages[0].palette = new uint16_t[1]{0};
+    generateStorage(0, initTypes);
 }
 
 PalettedSubChunk::~PalettedSubChunk() {
@@ -207,6 +204,25 @@ const char *PalettedSubChunk::loadStorage(const char *ptr, const char *max, int 
         ptr += 3;
     }
     return ptr;
+}
+
+void PalettedSubChunk::generateStorage(uint8_t which, uint16_t initTypes) {
+    BlockStorage &thiz = storages[which];
+    uint8_t initLen = 1;
+    if (initTypes < 1)initTypes = 1;
+#ifdef DEBUG_SUBCHUNK
+    if (initTypes > 128) {
+        //
+    }
+#endif
+    for (uint16_t tmp = 2; tmp < initTypes; tmp <<= 1) {
+        initLen++;
+    }
+    thiz.types = initTypes;
+    thiz.blen = initLen;
+    div_t res = div(4096, 32 / initLen);
+    thiz.storage = new uint32_t[res.quot + (res.rem ? 1 : 0)]{0};
+    thiz.palette = new uint16_t[initTypes]{0};
 }
 
 size_t PalettedSubChunk::countStorageSize(int which) {
@@ -321,6 +337,9 @@ char *PalettedSubChunk::saveStorage(char *ptr, const char *max, int which) {
 uint16_t
 PalettedSubChunk::getBlockCode(unsigned char x, unsigned char y, unsigned char z, uint8_t which) {
 
+    //If there's only one storage than getBlockCode or other storages can just return 0.
+    if (which == 0 && storages[which].storage == nullptr)return 0;
+
     BlockStorage &thiz = storages[which];
 
     //Get the index among all blocks.
@@ -353,6 +372,9 @@ PalettedSubChunk::setBlockCode(unsigned char x, unsigned char y, unsigned char z
 #endif
 
     BlockStorage &thiz = storages[which];
+
+    //Non-zero storage may not exist, generate then.
+    if (which != 0 && thiz.storage == nullptr)generateStorage(which, 2);
 
     //On some cases we restart.
     restart:
@@ -444,6 +466,19 @@ uint16_t PalettedSubChunk::getBlock(unsigned char x, unsigned char y, unsigned c
 
 void PalettedSubChunk::setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {
     setBlockCode(x, y, z, block, 0);
+}
+
+void
+PalettedSubChunk::setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
+                            uint16_t block) {
+    if (layer != 0 && layer != 1)return;
+    setBlockCode(x, y, z, block, layer);
+}
+
+uint16_t PalettedSubChunk::getBlock3(unsigned char x, unsigned char y, unsigned char z,
+                                     unsigned char layer) {
+    if (layer != 0 && layer != 1)return 0;
+    return getBlockCode(x, y, z, layer);
 }
 
 leveldb::Slice PalettedSubChunk::save() {

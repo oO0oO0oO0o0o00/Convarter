@@ -45,13 +45,34 @@ static void
 nativeSetTile(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim, jint id,
               jint data) {
     World *world = PTR_TO_WORLD(ptr);
-    if (world != nullptr) world->setTile(x, y, z, dim, id, data);
+    if (world != nullptr)
+        world->setTile(x, y, z, dim, static_cast<byte>(id), static_cast<byte>(data));
 }
 
 static void
-nativeSetData(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim, jint data) {
+nativeSetBlock(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim, jint block) {
     World *world = PTR_TO_WORLD(ptr);
-    if (world != nullptr) world->setData(x, y, z, dim, data);
+    if (world != nullptr) world->setBlock(x, y, z, dim, static_cast<uint16_t>(block));
+}
+
+static jint nativeGetBlock(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim) {
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) return world->getBlock(x, y, z, dim);
+    return 0;
+}
+
+static void
+nativeSetBlock3(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim, jint layer,
+                jint block) {
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) world->setBlock3(x, y, z, dim, layer, static_cast<uint16_t>(block));
+}
+
+static jint nativeGetBlock3(JNIEnv *env, jclass clazz, jlong ptr, jint x, jint y, jint z, jint dim,
+                            jint layer) {
+    World *world = PTR_TO_WORLD(ptr);
+    if (world != nullptr) return world->getBlock3(x, y, z, dim, layer);
+    return 0;
 }
 
 static void
@@ -129,7 +150,10 @@ static JNINativeMethod sMethods[] =
         {"nativeGetTile",           "(JIIII)I",              (void *) nativeGetTile},
         {"nativeGetData",           "(JIIII)I",              (void *) nativeGetData},
         {"nativeSetTile",           "(JIIIIII)V",            (void *) nativeSetTile},
-        {"nativeSetData",           "(JIIIII)V",             (void *) nativeSetData},
+        {"nativeSetBlock",          "(JIIIII)V",             (void *) nativeSetBlock},
+        {"nativeGetBlock3",         "(JIIIII)I",             (void *) nativeGetBlock},
+        {"nativeSetBlock3",         "(JIIIIII)V",            (void *) nativeSetBlock3},
+        {"nativeGetBlock",          "(JIIII)I",              (void *) nativeGetBlock3},
         {"nativeSetMaxChunksCount", "(JI)V",                 (void *) nativeSetMaxChunksCount},
         {"nativeCloseDb",           "(J)V",                  (void *) nativeCloseDb},
         {"nativeEnd",               "(J)V",                  (void *) nativeEnd},

@@ -10,6 +10,7 @@
 #include "qstr.h"
 //#include <BlockNames.h>
 #include <stdlib.h>
+#include <mapkey.h>
 #include "World.h"
 
 #ifdef LOG_CHUNK_LOADSAVE
@@ -171,14 +172,6 @@ PocketChunk::PocketChunk(World *world, mapkey_t key)
     LOGE("ERROR: Tell rbq2012 to implement support for Pocket Chunks.");
 }
 
-uint16_t PocketChunk::getBlock(unsigned char x, unsigned char y, unsigned char z) { return 0; }
-
-void PocketChunk::setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {}
-
-void PocketChunk::save() {
-    //
-}
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
@@ -193,10 +186,9 @@ BedrockChunk::BedrockChunk(World *world, mapkey_t key)
 }
 
 bool BedrockChunk::loadSubchunk(unsigned char which) {
-    LOGE_LS("Loading subchunk %d", which);
-    LDBKEY_SUBCHUNK(this->key, which);
-    key[9] = which;
-    leveldb::Slice slice(key, 10);
+    LOGE_LS("Loading subchunk %d", which)
+    LDBKEY_SUBCHUNK(this->key, which)
+    leveldb::Slice slice(key, 0 == this->key.dimension ? 10 : 14);
     std::string val;
     bool hit = world->readFromDb(slice, &val);
     if (hit) {//Found, detect version.
@@ -226,7 +218,7 @@ bool BedrockChunk::loadSubchunk(unsigned char which) {
         }
         return true;
     } else {
-        subchunks[which] = new PalettedSubChunk(true);
+        subchunks[which] = new PalettedSubChunk(1, true);
         SET_SUBCHUNK_VER(which, 8);
         return false;
     }
@@ -272,6 +264,21 @@ void BedrockChunk::setBlock(unsigned char x, unsigned char y, unsigned char z, u
     subchunks[sub]->setBlock(x, static_cast<unsigned char>(y & 0xf), z, block);
 }
 
+uint16_t
+BedrockChunk::getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) {
+    unsigned char sub = y >> 4;
+    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunks(sub);
+    return subchunks[sub]->getBlock3(x, static_cast<unsigned char>(y & 0xf), z, layer);
+}
+
+void BedrockChunk::setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
+                             uint16_t block) {
+    unsigned char sub = y >> 4;
+    if (GET_SUBCHUNK_VER(sub) == 0)loadSubchunks(sub);
+    SET_SUBCHUNK_MODIFIED(sub);
+    subchunks[sub]->setBlock3(x, static_cast<unsigned char>(y & 0xf), z, layer, block);
+}
+
 ////////
 //Save & Deinit
 
@@ -283,7 +290,7 @@ void BedrockChunk::save() {
             LDBKEY_SUBCHUNK(this->key, i)
 
             //Save it.
-            world->writeToDb(leveldb::Slice(key, 10), val);
+            world->writeToDb(leveldb::Slice(key, 0 == this->key.dimension ? 10 : 14), val);
             delete[] val.data();
             UNSET_SUBCHUNK_MODIFIED(i);
         }

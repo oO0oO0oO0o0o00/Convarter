@@ -106,23 +106,23 @@ World::~World() {
 //Getters & Setters
 
 byte World::getTile(int32_t x, int32_t y, int32_t z, int32_t dim) {
-    mapkey_t key = LDBKEY_STRUCT(x, z, dim);
-    chunk_li *item = getChunkItem(key);
-    byte ret = static_cast<byte>(
-        item->val->getBlock(static_cast<unsigned char>(x & 0xf),
-                            static_cast<unsigned char>(y),
-                            static_cast<unsigned char>(z & 0xf)) >> 8);
-    makeNewest(item);
-    LOGE_OP("getBlock at (%d,%d,%d)", x, y, z);
-    return ret;
+    return static_cast<byte>(getBlock(x, y, z, dim) >> 8);
 }
 
 void World::setTile(int32_t x, int32_t y, int32_t z, int32_t dim, byte id, byte data) {
-    mapkey_t key = LDBKEY_STRUCT(x, z, dim);
-    chunk_li *item = getChunkItem(key);
     uint16_t block = id;
     block <<= 8;
     block |= data;
+    setBlock(x, y, z, dim, block);
+}
+
+byte World::getData(int32_t x, int32_t y, int32_t z, int32_t dim) {
+    return static_cast<byte>(getBlock(x, y, z, dim) | 0xf);
+}
+
+void World::setBlock(int32_t x, int32_t y, int32_t z, int32_t dim, uint16_t block) {
+    mapkey_t key = LDBKEY_STRUCT(x, z, dim);
+    chunk_li *item = getChunkItem(key);
     item->val->setBlock(static_cast<unsigned char>(x & 0xf),
                         static_cast<unsigned char>(y),
                         static_cast<unsigned char>(z & 0xf), block);
@@ -131,20 +131,40 @@ void World::setTile(int32_t x, int32_t y, int32_t z, int32_t dim, byte id, byte 
     LOGE_OP("setBlock at (%d,%d,%d)", x, y, z);
 }
 
-byte World::getData(int32_t x, int32_t y, int32_t z, int32_t dim) {
+uint16_t World::getBlock(int32_t x, int32_t y, int32_t z, int32_t dim) {
     mapkey_t key = LDBKEY_STRUCT(x, z, dim);
     chunk_li *item = getChunkItem(key);
-    byte ret = static_cast<byte>(
-        item->val->getBlock(static_cast<unsigned char>(x & 0xf),
-                            static_cast<unsigned char>(y),
-                            static_cast<unsigned char>(z & 0xf)) | 0xf);
+    uint16_t ret = item->val->getBlock(static_cast<unsigned char>(x & 0xf),
+                                       static_cast<unsigned char>(y),
+                                       static_cast<unsigned char>(z & 0xf));
     makeNewest(item);
-    LOGE_OP("getData at (%d,%d,%d)", x, y, z);
+    LOGE_OP("getBlock at (%d,%d,%d)", x, y, z);
     return ret;
 }
 
-void World::setData(int32_t x, int32_t y, int32_t z, int32_t dim, byte data) {
-    //Deprecated.
+void World::setBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t layer, uint16_t block) {
+    mapkey_t key = LDBKEY_STRUCT(x, z, dim);
+    chunk_li *item = getChunkItem(key);
+    item->val->setBlock3(static_cast<unsigned char>(x & 0xf),
+                         static_cast<unsigned char>(y),
+                         static_cast<unsigned char>(z & 0xf),
+                         static_cast<unsigned char>(layer),
+                         block);
+    makeNewest(item);
+    item->flag = CHUNK_LI_DIRTY;
+    LOGE_OP("setBlock3 at (%d,%d,%d)", x, y, z);
+}
+
+uint16_t World::getBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t layer) {
+    mapkey_t key = LDBKEY_STRUCT(x, z, dim);
+    chunk_li *item = getChunkItem(key);
+    uint16_t ret = item->val->getBlock3(static_cast<unsigned char>(x & 0xf),
+                                        static_cast<unsigned char>(y),
+                                        static_cast<unsigned char>(z & 0xf),
+                                        static_cast<unsigned char>(layer));
+    makeNewest(item);
+    LOGE_OP("getBlock3 at (%d,%d,%d)", x, y, z);
+    return ret;
 }
 
 bool World::readFromDb(leveldb::Slice key, std::string *val) {
@@ -182,7 +202,7 @@ chunk_li *World::loadChunk(mapkey_t key) {
     LDBKEY_VERSION(key)
     std::string str;
     char ver;
-    leveldb::Slice skey(key_db, 9);
+    leveldb::Slice skey(key_db, key.dimension == 0 ? 9 : 13);
     status = database->Get(readOptions, skey, &str);
     if (status.ok()) {
         if (str[0] <= 4)ver = VERSION_POCKET;
@@ -192,7 +212,7 @@ chunk_li *World::loadChunk(mapkey_t key) {
         ver = version;
         char buf[4]{version, 0, 0, 0};
         database->Put(leveldb::WriteOptions(), skey, leveldb::Slice(buf, 1));
-        key_db[8] = 54;
+        key_db[key.dimension == 0 ? 8 : 12] = 54;
         buf[0] = 2;
         database->Put(leveldb::WriteOptions(), skey, leveldb::Slice(buf, 4));
     } else {
@@ -210,7 +230,7 @@ chunk_li *World::loadChunk(mapkey_t key) {
     chunk_li *li = new chunk_li;
     li->key = key;
     li->val = chunk;
-    if (layers.length != 0 && status.IsNotFound()) {
+    if (layers.length != 0 && status.IsNotFound() && 0 == key.dimension) {
         chunk->generateFlatLayers(&layers);
         li->flag = CHUNK_LI_DIRTY;
     }

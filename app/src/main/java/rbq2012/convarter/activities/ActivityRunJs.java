@@ -496,10 +496,34 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             }
 
             @JSFunction
-            public void setData(int x, int y, int z, int data) {
-                db.setData(x, y, z, 0, data);
+            public int getBlock(int x, int y, int z) {
+                return db.getBlock(x, y, z, 0);
             }
 
+            @JSFunction
+            public void setBlock(int x, int y, int z, int block) {
+                db.setBlock(x, y, z, 0, block);
+            }
+
+            @JSFunction
+            public int getBlock2(int x, int y, int z, int dim) {
+                return db.getBlock(x, y, z, dim);
+            }
+
+            @JSFunction
+            public void setBlock2(int x, int y, int z, int dim, int block) {
+                db.setBlock(x, y, z, dim, block);
+            }
+
+            @JSFunction
+            public int getBlock3(int x, int y, int z, int dim, int layer) {
+                return db.getBlock3(x, y, z, dim, layer);
+            }
+
+            @JSFunction
+            public void setBlock3(int x, int y, int z, int dim, int layer, int block) {
+                db.setBlock3(x, y, z, dim, layer, block);
+            }
 
             @JSFunction
             public Object dbget(String key) {

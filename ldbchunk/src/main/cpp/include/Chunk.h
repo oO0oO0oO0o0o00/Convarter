@@ -43,6 +43,12 @@ public:
 
     virtual void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {};
 
+    virtual uint16_t
+    getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) { return 0; };
+
+    virtual void setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
+                           uint16_t block) {};
+
     void generateFlatLayers(qustr *layers);
 
     void chflat(qustr old, qustr nwe);
@@ -59,12 +65,6 @@ public:
     PocketChunk(World *world, mapkey_t key);
 
     ~PocketChunk() {};
-
-    uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) override;
-
-    void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
-
-    void save() override;
 
 };
 
@@ -117,6 +117,12 @@ public:
 
     //////setBlock(5).
     void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) override;
+
+    uint16_t
+    getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) override;
+
+    void setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
+                   uint16_t block) override;
 
     ////Saving and Deinit.
 

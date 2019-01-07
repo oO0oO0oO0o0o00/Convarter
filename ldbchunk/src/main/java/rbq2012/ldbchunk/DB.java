@@ -49,7 +49,6 @@ public final class DB {
     }
 
     public void delete(byte[] key) {
-        return;
     }
 
     public void put(byte[] key, byte[] value) {
@@ -86,8 +85,20 @@ public final class DB {
         nativeSetTile(ptr, x, y, z, dimension, id, data);
     }
 
-    public void setData(int x, int y, int z, int dimension, int data) {
-        nativeSetData(ptr, x, y, z, dimension, data);
+    public int getBlock(int x, int y, int z, int dimension) {
+        return nativeGetBlock(ptr, x, y, z, dimension);
+    }
+
+    public void setBlock(int x, int y, int z, int dimension, int block) {
+        nativeSetBlock(ptr, x, y, z, dimension, block);
+    }
+
+    public int getBlock3(int x, int y, int z, int dimension, int layer) {
+        return nativeGetBlock3(ptr, x, y, z, dimension, layer);
+    }
+
+    public void setBlock3(int x, int y, int z, int dimension, int layer, int block) {
+        nativeSetBlock3(ptr, x, y, z, dimension, layer, block);
     }
 
     public void chflat(byte[] layers) {
@@ -114,7 +125,13 @@ public final class DB {
 
     private static native void nativeSetTile(long ptr, int x, int y, int z, int dim, int id, int data);
 
-    private static native void nativeSetData(long ptr, int x, int y, int z, int dim, int data);
+    private static native int nativeGetBlock(long ptr, int x, int y, int z, int dim);
+
+    private static native void nativeSetBlock(long ptr, int x, int y, int z, int dim, int block);
+
+    private static native int nativeGetBlock3(long ptr, int x, int y, int z, int dim, int layer);
+
+    private static native void nativeSetBlock3(long ptr, int x, int y, int z, int dim, int layer, int block);
 
     private static native void nativeSetMaxChunksCount(long ptr, int lim);
 
