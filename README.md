@@ -22,9 +22,9 @@ With this app you can generate huge and complex things in Minecraft that are har
 or impossible to be build manually or using in-game scripts.  
 
 Glass & stair coexist:  
-<img src="screenshot00.jpg" alt="screenshot" width="800"/>  
+<img src="arts/screenshot00.jpg" alt="screenshot" width="800"/>  
 Swim in glowstone:  
-<img src="screenshot01.jpg" alt="screenshot" width="800"/>  
+<img src="arts/screenshot01.jpg" alt="screenshot" width="800"/>  
 [Generate a 3D maze](https://github.com/oO0oO0oO0o0o00/mcpe-3d-maze-generater):  
 <img src="https://github.com/oO0oO0oO0o0o00/mcpe-3d-maze-generater/raw/master/scr0.jpg?raw=true"
 alt="screenshot" width="800"/>  
