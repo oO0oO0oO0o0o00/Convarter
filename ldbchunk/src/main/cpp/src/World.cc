@@ -167,6 +167,24 @@ uint16_t World::getBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t 
     return ret;
 }
 
+int World::specialOperation(int opcode, int *args) {
+    switch (opcode) {
+        case 1: {
+            flush();
+            mapkey_t key;
+            for (int x = args[0]; x < args[2]; x++)
+                for (int z = args[1]; z < args[3]; z++) {
+                    key = LDBKEY_STRUCT(x, z, args[4]);
+                    voidChunk(key);
+                }
+            return 0;
+        }
+        default: {
+            return -1;
+        }
+    }
+}
+
 bool World::readFromDb(leveldb::Slice key, std::string *val) {
     leveldb::Status status = database->Get(readOptions, key, val);
     if (status.ok())return true;
@@ -216,7 +234,7 @@ chunk_li *World::loadChunk(mapkey_t key) {
         buf[0] = 2;
         database->Put(leveldb::WriteOptions(), skey, leveldb::Slice(buf, 4));
     } else {
-        //;
+        throw 233;
     }
     Chunk *chunk;
     switch (ver) {
@@ -250,6 +268,22 @@ chunk_li *World::loadChunk(mapkey_t key) {
     num_chunks++;
     LOGE_LS("Loaded chunk. Now %d in total.", num_chunks);
     return li;
+}
+
+void World::voidChunk(mapkey_t mkey) {
+    LDBKEY_VERSION(mkey)
+    leveldb::Slice skey(key_db, mkey.dimension == 0 ? 9 : 13);
+    char buf[4]{version, 0, 0, 0};
+    database->Put(leveldb::WriteOptions(), skey, leveldb::Slice(buf, 1));
+    key_db[mkey.dimension == 0 ? 8 : 12] = 54;
+    buf[0] = 2;
+    database->Put(leveldb::WriteOptions(), skey, leveldb::Slice(buf, 4));
+    LDBKEY_SUBCHUNK(mkey, 0)
+    for (unsigned char i = 0; i <= 15; i++) {
+        key[mkey.dimension == 0 ? 9 : 13] = i;
+        database->Delete(leveldb::WriteOptions(),
+                         leveldb::Slice(key, mkey.dimension == 0 ? 10 : 14));
+    }
 }
 
 void World::save() {
@@ -433,6 +467,5 @@ void World::putRaw(qstr key, qstr value) {
                   leveldb::Slice(key.str, key.length),
                   leveldb::Slice(value.str, value.length));
 }
-
 //
 ////////////////////////////////////////////////////////////////////////////////////////////////////

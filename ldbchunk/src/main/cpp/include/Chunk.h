@@ -7,9 +7,9 @@
 
 #include <leveldb/db.h>
 #include <vector>
-#include <leveldb/SubChunk.h>
+#include "include/SubChunk.h"
 #include "mapkey.h"
-#include "debug_conf.h"
+#include "macros.h"
 #include "qstr.h"
 
 //Get or set subchunk versions from flags.
@@ -39,15 +39,18 @@ public:
 
     virtual ~Chunk() {};
 
-    virtual uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) { return 0; };
+    virtual uint16_t
+    getBlock(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED) { return 0; };
 
-    virtual void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {};
+    virtual void setBlock(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED,
+                          uint16_t block UNUSED) {};
 
     virtual uint16_t
-    getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) { return 0; };
+    getBlock3(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED,
+              unsigned char layer UNUSED) { return 0; };
 
-    virtual void setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
-                           uint16_t block) {};
+    virtual void setBlock3(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED,
+                           unsigned char layer UNUSED, uint16_t block UNUSED) {};
 
     void generateFlatLayers(qustr *layers);
 

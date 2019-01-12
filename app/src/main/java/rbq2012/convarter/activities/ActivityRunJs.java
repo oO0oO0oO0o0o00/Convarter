@@ -526,6 +526,11 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             }
 
             @JSFunction
+            public int voidChunks(int xfrom, int xto, int zfrom, int zto, int dim) {
+                return db.voidChunks(xfrom, xto, zfrom, zto, dim);
+            }
+
+            @JSFunction
             public Object dbget(String key) {
                 return db.get(key.getBytes(Charset.defaultCharset()));
             }

@@ -56,8 +56,6 @@ private:
     ////Calculate the crc16 value of a certain map key.
     static uint16_t getCrc16(mapkey_t *key);
 
-    char *logstr;
-
     //Database IO related
 
     ////Db path
@@ -97,9 +95,6 @@ private:
     ////Well, version. 4 for Pocket and 7 for Bedrock.
     char version;
 
-    ////Should we generate flat layers for new chunks?
-    bool shouldGenFlat;
-
     ////Highest version of a subchunk. 0, 1 or 8.
     uint8_t subver;
 
@@ -113,6 +108,9 @@ private:
 
     ////Load a chunk from database.
     chunk_li *loadChunk(mapkey_t key);
+
+    ////Make a chunk void.
+    void voidChunk(mapkey_t key);
 
     ////Get a chunk_li from cache, load if necessary.
     chunk_li *getChunkItem(mapkey_t key);
@@ -140,6 +138,8 @@ public:
     void setBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t layer, uint16_t block);
 
     uint16_t getBlock3(int32_t x, int32_t y, int32_t z, int32_t dim, int32_t layer);
+
+    int specialOperation(int opcode, int *args);
 
     //DBIO (World <--> Chunk)
     bool readFromDb(leveldb::Slice key, std::string *val);

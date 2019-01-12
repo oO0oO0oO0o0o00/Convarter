@@ -4,14 +4,15 @@
 
 #include <jni.h>
 #include <android/log.h>
+#include <macros.h>
 
 #include "ldbchunkjni.h"
 
 #include "leveldb/iterator.h"
 
 static void
-nativeDestroy(JNIEnv *env,
-              jclass clazz,
+nativeDestroy(JNIEnv *env UNUSED,
+              jclass clazz UNUSED,
               jlong ptr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(ptr);
 
@@ -19,16 +20,16 @@ nativeDestroy(JNIEnv *env,
 }
 
 static void
-nativeSeekToFirst(JNIEnv *env,
-                  jclass clazz,
+nativeSeekToFirst(JNIEnv *env UNUSED,
+                  jclass clazz UNUSED,
                   jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
     iter->SeekToFirst();
 }
 
 static void
-nativeSeekToLast(JNIEnv *env,
-                 jclass clazz,
+nativeSeekToLast(JNIEnv *env UNUSED,
+                 jclass clazz UNUSED,
                  jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
     iter->SeekToLast();
@@ -36,12 +37,12 @@ nativeSeekToLast(JNIEnv *env,
 
 static void
 nativeSeek(JNIEnv *env,
-           jclass clazz,
+           jclass clazz UNUSED,
            jlong iterPtr,
            jbyteArray keyObj) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
 
-    size_t keyLen = env->GetArrayLength(keyObj);
+    size_t keyLen = static_cast<size_t>(env->GetArrayLength(keyObj));
     jbyte *buffer = env->GetByteArrayElements(keyObj, NULL);
 
     iter->Seek(leveldb::Slice((const char *) buffer, keyLen));
@@ -49,24 +50,24 @@ nativeSeek(JNIEnv *env,
 }
 
 static jboolean
-nativeValid(JNIEnv *env,
-            jclass clazz,
+nativeValid(JNIEnv *env UNUSED,
+            jclass clazz UNUSED,
             jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
-    return iter->Valid();
+    return static_cast<jboolean>(iter->Valid());
 }
 
 static void
-nativeNext(JNIEnv *env,
-           jclass clazz,
+nativeNext(JNIEnv *env UNUSED,
+           jclass clazz UNUSED,
            jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
     iter->Next();
 }
 
 static void
-nativePrev(JNIEnv *env,
-           jclass clazz,
+nativePrev(JNIEnv *env UNUSED,
+           jclass clazz UNUSED,
            jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
     iter->Prev();
@@ -74,7 +75,7 @@ nativePrev(JNIEnv *env,
 
 static jbyteArray
 nativeKey(JNIEnv *env,
-          jclass clazz,
+          jclass clazz UNUSED,
           jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
     leveldb::Slice key = iter->key();
@@ -87,7 +88,7 @@ nativeKey(JNIEnv *env,
 
 static jbyteArray
 nativeValue(JNIEnv *env,
-            jclass clazz,
+            jclass clazz UNUSED,
             jlong iterPtr) {
     leveldb::Iterator *iter = reinterpret_cast<leveldb::Iterator *>(iterPtr);
     leveldb::Slice value = iter->value();

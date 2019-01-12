@@ -85,14 +85,13 @@ bool isSameBlock(uint16_t blk1, uint16_t blk2) {
 void Chunk::chflat(qustr old, qustr nwe) {
     //if (0 == 0)return;
     LOGE_LS("Changing layers.");
-    unsigned char y = 0;
 
     //Unfold layers.
 
     //First decompress (kind of) && count their sizes.
     unsigned char sold = 0, snew = 0;
     uint16_t iold[128], inew[128];
-    for (int i = 0; i < old.length; i += 3) {
+    for (unsigned int i = 0; i < old.length; i += 3) {
         unsigned char am = old.str[i + 2];
         uint16_t id = old.str[i];
         unsigned char data = old.str[i + 1];
@@ -101,7 +100,7 @@ void Chunk::chflat(qustr old, qustr nwe) {
         }
         sold += am;
     }
-    for (int i = 0; i < nwe.length; i += 3) {
+    for (unsigned int i = 0; i < nwe.length; i += 3) {
         unsigned char am = nwe.str[i + 2];
         uint16_t id = nwe.str[i];
         unsigned char data = nwe.str[i + 1];
@@ -283,7 +282,7 @@ void BedrockChunk::setBlock3(unsigned char x, unsigned char y, unsigned char z, 
 //Save & Deinit
 
 void BedrockChunk::save() {
-    for (char i = 0; i < 16; i++) {
+    for (unsigned char i = 0; i < 16; i++) {
         if (IS_SUBCHUNK_MODIFIED(i) == 1) {
             LOGE_LS("Saving subchunk %d", i)
             leveldb::Slice val = subchunks[i]->save();

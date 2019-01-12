@@ -2,8 +2,10 @@
 // Created by barco on 2018/4/12.
 //
 
-#ifndef CONVARTER_DEBUG_CONF_H
-#define CONVARTER_DEBUG_CONF_H
+#ifndef CONVARTER_MACROS_H
+#define CONVARTER_MACROS_H
+
+#define UNUSED __attribute__((__unused__))
 
 //Chunk
 //#define LOG_CHUNK_OPERATION
@@ -31,4 +33,4 @@
 
 #define CAT(x, y) x y
 
-#endif //CONVARTER_DEBUG_CONF_H
+#endif //CONVARTER_MACROS_H

@@ -3,7 +3,7 @@
 //
 
 #include <string>
-#include <leveldb/SubChunk.h>
+#include <SubChunk.h>
 #include <stdlib.h>
 #include <string.h>
 #include <qstr.h>
@@ -144,7 +144,7 @@ const char *PalettedSubChunk::loadStorage(const char *ptr, const char *max, int 
     if (res.rem != 0)bufsize++;
 
 #ifdef DEBUG_SUBCHUNK
-    if (max - ptr < (bufsize << 2)) {
+    if (max - ptr < static_cast<int>((bufsize << 2))) {
         //
     }
 #endif
@@ -164,7 +164,7 @@ const char *PalettedSubChunk::loadStorage(const char *ptr, const char *max, int 
 
     for (uint16_t i = 0; i < storages[which].types; i++) {
 #ifdef  DEBUG_SUBCHUNK
-        if (max - ptr < sizeof(pattern_name)) {
+        if (max - ptr < static_cast<int>(sizeof(pattern_name))) {
             //
         }
         if (memcmp(ptr, pattern_name, sizeof(pattern_name)) != 0) {
@@ -181,7 +181,7 @@ const char *PalettedSubChunk::loadStorage(const char *ptr, const char *max, int 
         name.length = *(uint16_t *) ptr;
         ptr += 2;
 #ifdef DEBUG_SUBCHUNK
-        if (max - ptr < name.length) {
+        if (max - ptr < static_cast<int>(name.length)) {
             //
         }
 #endif
@@ -189,7 +189,7 @@ const char *PalettedSubChunk::loadStorage(const char *ptr, const char *max, int 
         memcpy(name.str, ptr, name.length);
         ptr += name.length;
 #ifdef DEBUG_SUBCHUNK
-        if (max - ptr < sizeof(pattern_val) + 3) {
+        if (max - ptr < static_cast<int>(sizeof(pattern_val)) + 3) {
             //
         }
         if (memcmp(ptr, pattern_val, sizeof(pattern_val)) != 0) {
@@ -284,7 +284,7 @@ char *PalettedSubChunk::saveStorage(char *ptr, const char *max, int which) {
 
         //name.caption
 #ifdef DEBUG_SUBCHUNK
-        if (max - ptr < sizeof(pattern_name)) {
+        if (max - ptr < static_cast<int>(sizeof(pattern_name))) {
             //
         }
 #endif
@@ -317,7 +317,7 @@ char *PalettedSubChunk::saveStorage(char *ptr, const char *max, int which) {
 
         //Value's caption.
 #ifdef DEBUG_SUBCHUNK
-        if (max - ptr < sizeof(pattern_val) + 3) {
+        if (max - ptr < static_cast<int>(sizeof(pattern_val)) + 3) {
             //
         }
 #endif

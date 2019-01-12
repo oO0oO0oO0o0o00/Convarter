@@ -6,16 +6,17 @@
 #include <ldbchunkjni.h>
 #include <World.h>
 #include <BlockNames.h>
+#include <macros.h>
 
 static void
-registerBlockName(JNIEnv *env, jclass clazz, jstring jname, jbyte jid) {
+registerBlockName(JNIEnv *env, jclass clazz UNUSED, jstring jname, jbyte jid) {
     const char *name = env->GetStringUTFChars(jname, 0);
     char *entry = BlockNames::names[(unsigned char) jid];
     for (int i = 0;; i++) {
         char ch = name[i];
         if (ch == '\0') {
-            entry[30] = i;
-            entry[31] = 0xff;
+            entry[30] = static_cast<char>(i);
+            entry[31] = static_cast<char>(0xff);
             break;
         }
         entry[i] = name[i];
@@ -24,9 +25,9 @@ registerBlockName(JNIEnv *env, jclass clazz, jstring jname, jbyte jid) {
 }
 
 static JNINativeMethod sMethods[] =
-        {
-                {"registerBlockName", "(Ljava/lang/String;B)V", (void *) registerBlockName}
-        };
+    {
+        {"registerBlockName", "(Ljava/lang/String;B)V", (void *) registerBlockName}
+    };
 
 int register_rbq2012_ldbchunk_Names(JNIEnv *env) {
     jclass clazz = env->FindClass("rbq2012/ldbchunk/Names");

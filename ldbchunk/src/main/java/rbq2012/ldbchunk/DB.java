@@ -12,6 +12,8 @@ import java.io.File;
 
 public final class DB {
 
+    static final private int OPCODE_VOIDCHUNK = 1;
+
     private long ptr;
 
     ////////
@@ -101,6 +103,10 @@ public final class DB {
         nativeSetBlock3(ptr, x, y, z, dimension, layer, block);
     }
 
+    public int voidChunks(int xfrom, int zfrom, int xto, int zto, int dim) {
+        return nativeSpecialOperation(ptr, OPCODE_VOIDCHUNK, new int[]{xfrom, zfrom, xto, zto, dim});
+    }
+
     public void chflat(byte[] layers) {
         nativeChflat(ptr, layers);
     }
@@ -132,6 +138,8 @@ public final class DB {
     private static native int nativeGetBlock3(long ptr, int x, int y, int z, int dim, int layer);
 
     private static native void nativeSetBlock3(long ptr, int x, int y, int z, int dim, int layer, int block);
+
+    private static native int nativeSpecialOperation(long ptr, int opcode, int args[]);
 
     private static native void nativeSetMaxChunksCount(long ptr, int lim);
 

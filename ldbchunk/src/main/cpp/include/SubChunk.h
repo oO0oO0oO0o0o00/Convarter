@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <string>
 #include "slice.h"
+#include "macros.h"
 
 #define DEBUG_SUBCHUNK
 
@@ -16,15 +17,18 @@ public:
 
     virtual ~SubChunk() {};
 
-    virtual uint16_t getBlock(unsigned char x, unsigned char y, unsigned char z) { return 0; };
+    virtual uint16_t
+    getBlock(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED) { return 0; };
 
-    virtual void setBlock(unsigned char x, unsigned char y, unsigned char z, uint16_t block) {};
+    virtual void setBlock(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED,
+                          uint16_t block UNUSED) {};
 
-    virtual void setBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer,
-                           uint16_t block) {};
+    virtual void setBlock3(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED,
+                           unsigned char layer UNUSED, uint16_t block UNUSED) {};
 
     virtual uint16_t
-    getBlock3(unsigned char x, unsigned char y, unsigned char z, unsigned char layer) {
+    getBlock3(unsigned char x UNUSED, unsigned char y UNUSED, unsigned char z UNUSED,
+              unsigned char layer UNUSED) {
         return 0;
     }
 
