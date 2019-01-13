@@ -106,8 +106,13 @@
     <string name="settings_noask_reset">重置所有“不再显示”</string>
     <string name="editlayers_loading">请稍等~</string>
     <string name="editlayers_waitloaded">请等待加载完成。</string>
-    <string name="editlayers_disadvantage">尽管任何你对已有方块进行的更改（放置、替换、破坏）不会被覆写，但是如果你增加了高度，它们可能被掩埋。如果你新增了沙子，它们可能砸坏下面的东西。如果你减少了层数，上面的花和红石电路可能无法存活。所以请考虑两次，并且备份存档，再运行这个app！！！</string>
     <string name="editlayers_version_old">这个地图是适用于Minecraft1.2以下版本的。用新版Minecraft打开将重置层到默认。但是你可以再次运行这个功能。</string>
     <string name="about_ckupdate">检查更新</string>
     <string name="about_git">在Githubda</string>
+    <string name="coexist_blockat">方块位置</string>
+    <string name="coexist_applyarea">应用到14x14的区域</string>
+    <string name="coexist_block">方块%1$d：</string>
+    <string name="coexist_blocksswap">交换</string>
+    <string name="coexist_save">保存</string>
+    <string name="coexist_warn">注意：只用于测试地图！用Convarter创建一个，或者使用MCPE1.5+打开的</string>
 </resources>

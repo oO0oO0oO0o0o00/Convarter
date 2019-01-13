@@ -113,20 +113,19 @@
     <string name="main_welcome">Hello~ This app is still an experimental one, and may not work on game maps that are too old or too new, Please backup your game maps before using! And we may add features such as 3D visual editing in the future, well who knows~ Meow~ Because of Minecraft itself\'s problem, editing superflat only takes effect in case you fully quit the game before using this feature. And...Well,javascript feature crashes randomly, so close your eyes and pray.</string>
     <string name="editlayers_loading">Loading...</string>
     <string name="editlayers_waitloaded">Please wait until layers loaded.</string>
-    <string name="editlayers_disadvantage">Though all your modifications to existing areas (placing, replacing or breaking) won\'t be overridden, in case you add more layers, they may get buried under new layers. If you add sands they may fall and destroy blocks beneath. And if you reduced layers, flowers and circuits above may not survive. So think twice and have your map backed up before running this app!!!</string>
     <string name="editlayers_version_old">Your map is for Minecraft version below 1.2. Opening it with newer Minecraft would reset layers to default. You can then however, run this feature again.</string>
     <string name="about_ckupdate">Check for update</string>
     <string name="about_git">Open in Github</string>
     <string name="coexist_blockat">Block at</string>
-    <string name="coexist_blockx">x=</string>
-    <string name="coexist_blocky">y=</string>
-    <string name="coexist_blockz">z=</string>
+    <string name="coexist_blockx" translatable="false">x=</string>
+    <string name="coexist_blocky" translatable="false">y=</string>
+    <string name="coexist_blockz" translatable="false">z=</string>
     <string name="coexist_applyarea">Apply to a 14x14 area</string>
     <string name="coexist_block">Block %1$d: </string>
-    <string name="coexist_blockid">id=</string>
-    <string name="coexist_blockdata">data=</string>
+    <string name="coexist_blockid" translatable="false">id=</string>
+    <string name="coexist_blockdata" translatable="false">data=</string>
     <string name="coexist_blocksswap">Swap</string>
-    <string name="coexist_deletechunk">Delete involved Chunk</string>
+    <string name="coexist_deletechunk" translatable="false">Delete involved Chunk</string>
     <string name="coexist_save">Save</string>
     <string name="coexist_warn">Warning: Only use this on a test gamemap!\nCreate one using Convarter\nOr use a map opened by MCPE 1.5+</string>
 </resources>
