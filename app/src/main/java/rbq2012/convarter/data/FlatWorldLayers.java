@@ -1,4 +1,4 @@
-package rbq2012.convarter;
+package rbq2012.convarter.data;
 
 import android.util.Log;
 
@@ -14,8 +14,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import rbq2012.convarter.FileUtil;
 import rbq2012.ldbchunk.DB;
-import rbq2012.ldbchunk.Names;
 
 
 /**
@@ -236,7 +236,7 @@ public final class FlatWorldLayers {
                 for (int i = 0, lim = jarr.length(); i < lim; i++) {
                     JSONObject obj = jarr.getJSONObject(i);
                     Layer layer = new Layer();
-                    layer.id = (byte) Names.resolve(obj.getString("block_name"));
+                    layer.id = (byte) BlockNames.resolve(obj.getString("block_name"));
                     layer.data = (byte) obj.getInt("block_data");
                     layer.count = (byte) obj.getInt("count");
                     list.add(layer);
@@ -268,7 +268,7 @@ public final class FlatWorldLayers {
                     Layer layer = list.get(i);
                     int ind = layer.id;
                     if (ind < 0) ind += 256;
-                    obj.put("block_name", "minecraft:" + Names.getName(ind));
+                    obj.put("block_name", "minecraft:" + BlockNames.getName(ind));
                     obj.put("block_data", layer.data);
                     obj.put("count", layer.count);
                     jarr.put(i, obj);

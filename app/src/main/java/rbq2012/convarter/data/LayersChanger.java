@@ -1,10 +1,15 @@
-package rbq2012.convarter;
+package rbq2012.convarter.data;
 
 import android.os.Environment;
+
+import org.jetbrains.annotations.Contract;
 
 import java.io.File;
 import java.util.List;
 
+import rbq2012.convarter.Constants;
+import rbq2012.convarter.MCUtils;
+import rbq2012.convarter.R;
 import rbq2012.ldbchunk.DB;
 
 public final class LayersChanger {
@@ -43,6 +48,7 @@ public final class LayersChanger {
         return 0;
     }
 
+    @Contract(pure = true)
     public boolean isOldVersion() {
         switch (version) {
             case VERSION_1_2:
@@ -52,6 +58,7 @@ public final class LayersChanger {
         }
     }
 
+    @Contract(pure = true)
     public List<FlatWorldLayers.Layer> getLayersForControl() {
         return layers_modified.getLayersForControl();
     }

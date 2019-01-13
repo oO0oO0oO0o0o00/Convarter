@@ -3,6 +3,7 @@
     <array name="main_list">
         <item>Edit Gamemap With Javascript</item>
         <item>Customize Flat Worlds</item>
+        <item>Set 2 Blocks Coexist</item>
         <item>Settings</item>
         <item>About (Dont Click)</item>
         <item>Test Toolss</item>
@@ -116,4 +117,16 @@
     <string name="editlayers_version_old">Your map is for Minecraft version below 1.2. Opening it with newer Minecraft would reset layers to default. You can then however, run this feature again.</string>
     <string name="about_ckupdate">Check for update</string>
     <string name="about_git">Open in Github</string>
+    <string name="coexist_blockat">Block at</string>
+    <string name="coexist_blockx">x=</string>
+    <string name="coexist_blocky">y=</string>
+    <string name="coexist_blockz">z=</string>
+    <string name="coexist_applyarea">Apply to a 14x14 area</string>
+    <string name="coexist_block">Block %1$d: </string>
+    <string name="coexist_blockid">id=</string>
+    <string name="coexist_blockdata">data=</string>
+    <string name="coexist_blocksswap">Swap</string>
+    <string name="coexist_deletechunk">Delete involved Chunk</string>
+    <string name="coexist_save">Save</string>
+    <string name="coexist_warn">Warning: Only use this on a test gamemap!\nCreate one using Convarter\nOr use a map opened by MCPE 1.5+</string>
 </resources>

@@ -12,14 +12,10 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" >
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:constantSize="true">
+    <item android:state_pressed="true">
         <shape>
             <solid android:color="#AACCCCCC" />
-        </shape>
-    </item>
-    <item>
-        <shape>
         </shape>
     </item>
 </selector>

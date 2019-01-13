@@ -13,12 +13,14 @@ LOCAL_CPP_EXTENSION     := .cc
 LOCAL_CFLAGS            := -DLEVELDB_PLATFORM_ANDROID -std=gnu++11 -DDLLX= -Wall -Wextra
 
 LOCAL_SRC_FILES         := rbq2012_ldbchunk_World.cc\
-                            rbq2012_ldbchunk_Names.cc\
+                            rbq2012_ldbchunk_Chunk.cc\
+                            rbq2012_ldbchunk_ChunkSource.cc\
                             rbq2012_ldbchunk_Iterator.cc\
                             ldbchunkjni.cc\
                             src/World.cc\
                             src/Chunk.cc\
                             src/SubChunk.cc\
+                            src/ChunkSource.cc\
                             src/BlockNames.cc
 
 LOCAL_CPP_FEATURES      += exceptions

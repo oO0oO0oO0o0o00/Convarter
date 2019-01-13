@@ -6,9 +6,11 @@
 
 extern int register_rbq2012_ldbchunk_DB(JNIEnv *env);
 
-extern int register_rbq2012_ldbchunk_Names(JNIEnv *env);
-
 extern int register_rbq2012_ldbchunk_Iterator(JNIEnv *env);
+
+extern int register_rbq2012_ldbchunk_Chunk(JNIEnv *env);
+
+extern int register_rbq2012_ldbchunk_ChunkSource(JNIEnv *env);
 
 jint
 throwException(JNIEnv *env) {
@@ -32,8 +34,9 @@ jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     }
 
     register_rbq2012_ldbchunk_DB(env);
-    register_rbq2012_ldbchunk_Names(env);
     register_rbq2012_ldbchunk_Iterator(env);
+    register_rbq2012_ldbchunk_Chunk(env);
+    register_rbq2012_ldbchunk_ChunkSource(env);
 
     return JNI_VERSION_1_6;
 }

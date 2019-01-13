@@ -6,8 +6,16 @@
 #define CONVARTER_BLOCKNAMES_H
 
 class BlockNames {
-public:
+private:
+    static bool meow;
+
     static char names[256][32];
+
+    static void fryCat();
+
+public:
+
+    static char* get(int index);
 
     static unsigned char resolve(qstr name);
 };

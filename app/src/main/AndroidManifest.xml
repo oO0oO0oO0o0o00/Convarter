@@ -60,6 +60,8 @@
             android:theme="@style/DialogTheme" />
 
         <activity android:name=".activities.ActivityAbout" />
+        <activity android:name=".activities.ActivityCoexistBlock" />
+        <activity android:name=".configguide.ActivityCoexistBlockSetup" />
 
     </application>
 

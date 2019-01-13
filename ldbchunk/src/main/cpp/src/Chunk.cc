@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <mapkey.h>
 #include "World.h"
+#include "ChunkSource.h"
 
 #ifdef LOG_CHUNK_LOADSAVE
 #define LOGE_LS(x, ...) LOGE(CAT("BedrockChunk: ", x), ##__VA_ARGS__);
@@ -41,8 +42,9 @@ const char BedrockChunk::pattern_val[] = {0x02, 0x03, 0x00, 'v', 'a', 'l'};
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-Chunk::Chunk(World *world, mapkey_t key) : world(
-    world), key(key) {}
+Chunk::Chunk(World *world, mapkey_t key) : world(world), key(key), source(nullptr) {}
+
+Chunk::Chunk(ChunkSource *source, mapkey_t key) : world(nullptr), source(source), key(key) {}
 
 void Chunk::generateFlatLayers(qustr *layers) {
     LOGE_LS("Generating layers.");
@@ -166,8 +168,11 @@ void Chunk::chflat(qustr old, qustr nwe) {
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 
-PocketChunk::PocketChunk(World *world, mapkey_t key)
-    : Chunk(world, key) {
+PocketChunk::PocketChunk(World *world, mapkey_t key) : Chunk(world, key) {
+    LOGE("ERROR: Tell rbq2012 to implement support for Pocket Chunks.");
+}
+
+PocketChunk::PocketChunk(ChunkSource *source, mapkey_t key) : Chunk(source, key) {
     LOGE("ERROR: Tell rbq2012 to implement support for Pocket Chunks.");
 }
 
@@ -179,7 +184,11 @@ PocketChunk::PocketChunk(World *world, mapkey_t key)
 
 BedrockChunk::BedrockChunk(World *world, mapkey_t key)
     : Chunk(world, key) {
-    std::string str;
+    memset(subchunks, 0, sizeof(subchunks));
+    memset(flags, 0, sizeof(flags));
+}
+
+BedrockChunk::BedrockChunk(ChunkSource *source, mapkey_t key) : Chunk(source, key) {
     memset(subchunks, 0, sizeof(subchunks));
     memset(flags, 0, sizeof(flags));
 }
@@ -189,7 +198,8 @@ bool BedrockChunk::loadSubchunk(unsigned char which) {
     LDBKEY_SUBCHUNK(this->key, which)
     leveldb::Slice slice(key, 0 == this->key.dimension ? 10 : 14);
     std::string val;
-    bool hit = world->readFromDb(slice, &val);
+    bool hit = (source == nullptr) ? world->readFromDb(slice, &val) : source->readFromDb(slice,
+                                                                                         &val);
     if (hit) {//Found, detect version.
         switch (val[0]) {
             case 0://Aligned subchunk.
@@ -281,7 +291,7 @@ void BedrockChunk::setBlock3(unsigned char x, unsigned char y, unsigned char z, 
 ////////
 //Save & Deinit
 
-void BedrockChunk::save() {
+int BedrockChunk::save() {
     for (unsigned char i = 0; i < 16; i++) {
         if (IS_SUBCHUNK_MODIFIED(i) == 1) {
             LOGE_LS("Saving subchunk %d", i)
@@ -289,11 +299,26 @@ void BedrockChunk::save() {
             LDBKEY_SUBCHUNK(this->key, i)
 
             //Save it.
-            world->writeToDb(leveldb::Slice(key, 0 == this->key.dimension ? 10 : 14), val);
+            if (source == nullptr)
+                world->writeToDb(leveldb::Slice(key, 0 == this->key.dimension ? 10 : 14), val);
+            else
+                source->writeToDb(leveldb::Slice(key, 0 == this->key.dimension ? 10 : 14), val);
             delete[] val.data();
             UNSET_SUBCHUNK_MODIFIED(i);
         }
     }
+    return 0;
+}
+
+int BedrockChunk::saveTo(ChunkSource *source) {
+    for (unsigned char i = 0; i < 16; i++) {
+        LOGE_LS("Saving subchunk %d", i)
+        leveldb::Slice val = subchunks[i]->save();
+        LDBKEY_SUBCHUNK(this->key, i)
+        source->writeToDb(leveldb::Slice(key, 0 == this->key.dimension ? 10 : 14), val);
+        delete[] val.data();
+    }
+    return 0;
 }
 
 BedrockChunk::~BedrockChunk() {

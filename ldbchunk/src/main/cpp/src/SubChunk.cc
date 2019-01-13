@@ -238,11 +238,11 @@ size_t PalettedSubChunk::countStorageSize(int which) {
         size += 15;
         //len(len(name.val))  len("minecraft:")  len(val.val)
         //2 +                 10 +                3         = 15
-        char *name = BlockNames::names[thiz.palette[i] >> 8];
+        char *name = BlockNames::get(thiz.palette[i] >> 8);
 
         //We put non-null flag at name[31] value 0xff and length at name[30].
         //Null blocks (including all customized blox) will become Air...
-        if (name[31] != static_cast<char>(0xff)) name = BlockNames::names[0];
+        //if (name[31] != static_cast<char>(0xff)) name = BlockNames::names[0];
         size += name[30];
     }
     return size;
@@ -294,8 +294,8 @@ char *PalettedSubChunk::saveStorage(char *ptr, const char *max, int which) {
         //name.val, starts with "minecraft:", we have to add it.
 
         //Get it from names by global id.
-        char *name = BlockNames::names[thiz.palette[i] >> 8];
-        if (name[31] != static_cast<char>(0xff)) name = BlockNames::names[0];
+        char *name = BlockNames::get(thiz.palette[i] >> 8);
+        //if (name[31] != static_cast<char>(0xff)) name = BlockNames::names[0];
 
         //Length.
 #ifdef DEBUG_SUBCHUNK

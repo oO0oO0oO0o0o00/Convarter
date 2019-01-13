@@ -323,18 +323,18 @@ void World::closeDb() {
 }
 
 const char *World::test() {
-    //loadChunk(mapkey_t{85, 0, 0});
-    for (int i = 0, x = 1360, z = 0; i < 256; i++) {
-        char *name = BlockNames::names[i];
-        if (name[31] != static_cast<char>(0xff))continue;
-        setTile(x, 12, z, 0, i, 0);
-        z++;
-        if (z == 160000) {
-            z = 0;
-            x++;
-        }
-    }
-    flush();
+//    //loadChunk(mapkey_t{85, 0, 0});
+//    for (int i = 0, x = 1360, z = 0; i < 256; i++) {
+//        char *name = BlockNames::names[i];
+//        if (name[31] != static_cast<char>(0xff))continue;
+//        setTile(x, 12, z, 0, i, 0);
+//        z++;
+//        if (z == 160000) {
+//            z = 0;
+//            x++;
+//        }
+//    }
+//    flush();
     return "000";
 }
 

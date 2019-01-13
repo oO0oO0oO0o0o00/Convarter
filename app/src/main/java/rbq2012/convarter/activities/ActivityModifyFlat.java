@@ -1,12 +1,9 @@
 package rbq2012.convarter.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.util.Pair;
@@ -24,26 +21,18 @@ import android.widget.Toast;
 import com.woxthebox.draglistview.DragItemAdapter;
 import com.woxthebox.draglistview.DragListView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import rbq2012.convarter.BlockIcons;
-import rbq2012.convarter.Constants;
-import rbq2012.convarter.FileUtil;
-import rbq2012.convarter.FlatWorldLayers;
-import rbq2012.convarter.LayersChanger;
-import rbq2012.convarter.LevelDat;
-import rbq2012.convarter.MCUtils;
 import rbq2012.convarter.R;
 import rbq2012.convarter.UiUtil;
 import rbq2012.convarter.UnreliableRandom;
-import rbq2012.ldbchunk.DB;
-import rbq2012.ldbchunk.Names;
+import rbq2012.convarter.data.BlockIcons;
+import rbq2012.convarter.data.BlockNames;
+import rbq2012.convarter.data.FlatWorldLayers;
+import rbq2012.convarter.data.LayersChanger;
 
 import static android.widget.Toast.LENGTH_SHORT;
-import static rbq2012.convarter.Constants.SPREF_KEY_SHOW_EDIT_LAYERS_HELP;
-import static rbq2012.convarter.Constants.SPREF_PREF;
 import static rbq2012.convarter.activities.DialogEditLayer.INTENT_KEY_COUNT;
 import static rbq2012.convarter.activities.DialogEditLayer.INTENT_KEY_DATA;
 import static rbq2012.convarter.activities.DialogEditLayer.INTENT_KEY_ID;
@@ -65,16 +54,10 @@ public final class ActivityModifyFlat extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modifyflat);
-
+        cbox = findViewById(R.id.checkbox);
+        cbox.setChecked(true);
+        tvVer = findViewById(R.id.text);
         new LoadingTask().execute();
-    }
-
-    private void loadReal() {
-        //
-    }
-
-    private void loadSample() {
-        //
     }
 
     private void showErrorAndQuit(@StringRes int text) {
@@ -137,18 +120,7 @@ public final class ActivityModifyFlat extends AppCompatActivity {
             UiUtil.toast(this, R.string.editlayers_waitloaded);
             return;
         }
-        List<FlatWorldLayers.Layer> dst = layersChanger.getLayersForControl();
-        dst.clear();
-        List<Pair<Long, FlatWorldLayers.Layer>> list = ada.getItemList();
-        for (int i = list.size() - 1; i >= 0; i--) {
-            dst.add(list.get(i).second);
-        }
-        if (!layersChanger.save(cbox.isChecked())) {
-            UiUtil.toast(this, "ERROR");
-            return;
-        }
-        Toast.makeText(this, R.string.editlayer_done, LENGTH_SHORT).show();
-        finish();
+        new SavingTask().execute();
     }
 
     private class MeowListener extends DragListView.DragListListenerAdapter {
@@ -218,10 +190,10 @@ public final class ActivityModifyFlat extends AppCompatActivity {
             holder.tv.setText(getString(
                     R.string.editlayers_entry_text,
                     layer.count,
-                    Names.getLocaleName(ind, locale)));
+                    BlockNames.getLocaleName(ind, locale)));
             holder.tvsub.setText(getString(
                     R.string.editlayers_entry_text2, ind,
-                    layer.data, Names.getName(ind)));
+                    layer.data, BlockNames.getName(ind)));
             holder.btndel.setTag(position);
             holder.btnadd.setTag(position);
             holder.itemView.setTag(position);
@@ -278,17 +250,11 @@ public final class ActivityModifyFlat extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-
-            //Bind views.
-            cbox = findViewById(R.id.checkbox);
-            cbox.setChecked(true);
-            tvVer = findViewById(R.id.text);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             //Load needed resources.
-            Names.loadBlockNames(FileUtil.getAssetText(getAssets(), "blox.json"));
             BlockIcons.load(getResources());
 
             //load level.dat
@@ -333,6 +299,38 @@ public final class ActivityModifyFlat extends AppCompatActivity {
             if (spref.getBoolean(SPREF_KEY_SHOW_EDIT_LAYERS_HELP, true)) {
                 //
             }*/
+        }
+    }
+
+    private class SavingTask extends AsyncTask<Void, Void, Boolean> {
+        @Override
+        protected void onPreExecute() {
+            AlertDialog dialog = new AlertDialog.Builder(ActivityModifyFlat.this)
+                    .setMessage(R.string.editlayers_loading)
+                    .setCancelable(false)
+                    .create();
+            dialog.show();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            List<FlatWorldLayers.Layer> dst = layersChanger.getLayersForControl();
+            dst.clear();
+            List<Pair<Long, FlatWorldLayers.Layer>> list = ada.getItemList();
+            for (int i = list.size() - 1; i >= 0; i--) {
+                dst.add(list.get(i).second);
+            }
+            return layersChanger.save(cbox.isChecked());
+        }
+
+        @Override
+        protected void onPostExecute(Boolean status) {
+            if (status) {
+                UiUtil.toast(ActivityModifyFlat.this, R.string.editlayer_done);
+                finish();
+            } else {
+                UiUtil.toast(ActivityModifyFlat.this, "ERROR");
+            }
         }
     }
 }

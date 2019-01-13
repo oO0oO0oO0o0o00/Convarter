@@ -14,13 +14,11 @@ import org.spout.nbt.LongTag;
 import org.spout.nbt.StringTag;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.regex.Pattern;
 
 import rbq2012.convarter.Constants;
 import rbq2012.convarter.FileUtil;
-import rbq2012.convarter.LevelDat;
+import rbq2012.convarter.data.LevelDat;
 import rbq2012.convarter.R;
 
 public final class ActivityCreateLevel extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package rbq2012.convarter;
+package rbq2012.convarter.data;
 
 import org.spout.nbt.CompoundTag;
 import org.spout.nbt.stream.NBTInputStream;

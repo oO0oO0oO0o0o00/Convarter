@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import rbq2012.convarter.R;
+import rbq2012.convarter.configguide.ActivityCoexistBlockSetup;
 import rbq2012.convarter.configguide.ActivityFlat;
 import rbq2012.convarter.configguide.ActivityJs;
 
@@ -26,7 +27,10 @@ public final class ActivityMain extends AppCompatActivity {
     private void setupCommands() {
         commands = getResources().getStringArray(R.array.main_list);
         targetActivities = new Class[]{
-                ActivityJs.class, ActivityFlat.class, ActivitySettings.class,
+                ActivityJs.class,
+                ActivityFlat.class,
+                ActivityCoexistBlockSetup.class,
+                ActivitySettings.class,
                 null, ActivityTest.class
         };
     }

@@ -1,6 +1,5 @@
 package rbq2012.convarter.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,19 +11,17 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import rbq2012.convarter.BlockIcons;
+import rbq2012.convarter.data.BlockIcons;
 import rbq2012.convarter.FileUtil;
 import rbq2012.convarter.R;
-import rbq2012.ldbchunk.Names;
+import rbq2012.convarter.data.BlockNames;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
@@ -40,8 +37,6 @@ public final class DialogPickBlock extends AppCompatActivity implements TextWatc
         setContentView(R.layout.dialog_pickblock);
 
         BlockIcons.load(getResources());
-        Names.loadBlockNames(FileUtil.getAssetText(getAssets(), "blox.json"));
-
 
         DisplayMetrics metrics = getResources().getDisplayMetrics();
         getWindow().setLayout(metrics.widthPixels, WRAP_CONTENT);
@@ -89,9 +84,9 @@ public final class DialogPickBlock extends AppCompatActivity implements TextWatc
             if (locale.equals("default")) locale = null;
 
             for (int i = 0; i < 256; i++) {
-                String name = Names.getNameIfValid(i);
+                String name = BlockNames.getNameIfValid(i);
                 if (name == null) continue;
-                Block blk = new Block(i, name, Names.getLocaleName(i, locale));
+                Block blk = new Block(i, name, BlockNames.getLocaleName(i, locale));
                 all.add(blk);
             }
         }

@@ -44,14 +44,13 @@ import java.util.concurrent.Semaphore;
 
 import rbq2012.convarter.Constants;
 import rbq2012.convarter.FileUtil;
-import rbq2012.convarter.FlatWorldLayers;
-import rbq2012.convarter.GameMapVersion;
-import rbq2012.convarter.LevelDat;
+import rbq2012.convarter.data.FlatWorldLayers;
+import rbq2012.convarter.data.GameMapVersion;
+import rbq2012.convarter.data.LevelDat;
 import rbq2012.convarter.MCUtils;
 import rbq2012.convarter.R;
 import rbq2012.convarter.configguide.FragmentBase;
 import rbq2012.ldbchunk.DB;
-import rbq2012.ldbchunk.Names;
 
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_CACHE_CHUNKS;
 import static rbq2012.convarter.configguide.FragmentJsothers.PREF_KEY_GENERATE_FLAT_LAYERS;
@@ -391,7 +390,6 @@ public final class ActivityRunJs extends AppCompatActivity implements View.OnCli
             {
                 String json = FileUtil.getAssetText(getAssets(), "blox.json");
                 if (json == null) return;
-                Names.loadBlockNames(json);
                 layers = FlatWorldLayers.newFlatWorldLayers(dat, db, version, true);
             }
 

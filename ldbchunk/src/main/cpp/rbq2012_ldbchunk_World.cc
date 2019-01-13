@@ -8,7 +8,7 @@
 #include <qstr.h>
 #include <macros.h>
 
-#define PTR_TO_WORLD(x) reinterpret_cast<World *>(x)
+#define PTR_TO_CHUNKSOURCE(x) reinterpret_cast<World *>(x)
 
 static jlong nativeBegin(JNIEnv *env, jclass clazz UNUSED, jstring dbpath) {
     const char *path = env->GetStringUTFChars(dbpath, 0);
@@ -18,12 +18,12 @@ static jlong nativeBegin(JNIEnv *env, jclass clazz UNUSED, jstring dbpath) {
 }
 
 static jint nativeOpenDb(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     return world->openDb();
 }
 
 static void nativeRegisterLayers(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jbyteArray data) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     jbyte *buf = env->GetByteArrayElements(data, 0);
     world->setLayers(static_cast<unsigned int>(env->GetArrayLength(data)),
                      reinterpret_cast<unsigned char *>(buf));
@@ -33,7 +33,7 @@ static void nativeRegisterLayers(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jb
 static jint
 nativeGetTile(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z,
               jint dim) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) return world->getTile(x, y, z, dim);
     return 0;
 }
@@ -41,7 +41,7 @@ nativeGetTile(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y
 static jint
 nativeGetData(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z,
               jint dim) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) return world->getData(x, y, z, dim);
     return 0;
 }
@@ -50,7 +50,7 @@ static void
 nativeSetTile(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z, jint dim,
               jint id,
               jint data) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr)
         world->setTile(x, y, z, dim, static_cast<byte>(id), static_cast<byte>(data));
 }
@@ -58,14 +58,14 @@ nativeSetTile(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y
 static void
 nativeSetBlock(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z, jint dim,
                jint block) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) world->setBlock(x, y, z, dim, static_cast<uint16_t>(block));
 }
 
 static jint
 nativeGetBlock(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z,
                jint dim) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) return world->getBlock(x, y, z, dim);
     return 0;
 }
@@ -74,7 +74,7 @@ static void
 nativeSetBlock3(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z,
                 jint dim, jint layer,
                 jint block) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) world->setBlock3(x, y, z, dim, layer, static_cast<uint16_t>(block));
 }
 
@@ -82,14 +82,14 @@ static jint
 nativeGetBlock3(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint x, jint y, jint z,
                 jint dim,
                 jint layer) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) return world->getBlock3(x, y, z, dim, layer);
     return 0;
 }
 
 static jint
 nativeSpecialOperation(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jint opcode, jintArray args) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) {
         jint *buf = env->GetIntArrayElements(args, 0);
         jint ret = world->specialOperation(opcode, buf);
@@ -101,17 +101,17 @@ nativeSpecialOperation(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jint opcode,
 
 static void
 nativeSetMaxChunksCount(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr, jint limit) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     world->setMaxChunksCount(static_cast<uint16_t>(limit));
 }
 
 static void nativeCloseDb(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     world->closeDb();
 }
 
 static void nativeEnd(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     if (world != nullptr) {
         delete world;
         LOGE("Database closed normally.");
@@ -121,7 +121,7 @@ static void nativeEnd(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr) {
 }
 
 static void nativeTest(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     LOGE("Running test.");
     const char *result = world->test();
     LOGE("%s", result);
@@ -129,7 +129,7 @@ static void nativeTest(JNIEnv *env UNUSED, jclass clazz UNUSED, jlong ptr) {
 }
 
 static void nativeChflat(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jbyteArray bnew) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     jbyte *buf = env->GetByteArrayElements(bnew, 0);
     world->changeFlatLayers(static_cast<unsigned int>(env->GetArrayLength(bnew)),
                             (unsigned char *) buf);
@@ -137,7 +137,7 @@ static void nativeChflat(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jbyteArray
 }
 
 static jbyteArray nativeGetRaw(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jbyteArray key) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     jbyte *buf = env->GetByteArrayElements(key, 0);
     qstr k{(unsigned int) env->GetArrayLength(key), (char *) buf};
     qstr v = world->getRaw(k);
@@ -150,7 +150,7 @@ static jbyteArray nativeGetRaw(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jbyt
 
 static void
 nativePutRaw(JNIEnv *env, jclass clazz UNUSED, jlong ptr, jbyteArray key, jbyteArray value) {
-    World *world = PTR_TO_WORLD(ptr);
+    World *world = PTR_TO_CHUNKSOURCE(ptr);
     jbyte *kb, *vb;
     kb = env->GetByteArrayElements(key, 0);
     vb = env->GetByteArrayElements(value, 0);
@@ -176,9 +176,9 @@ static JNINativeMethod sMethods[] =
         {"nativeGetData",           "(JIIII)I",              (void *) nativeGetData},
         {"nativeSetTile",           "(JIIIIII)V",            (void *) nativeSetTile},
         {"nativeSetBlock",          "(JIIIII)V",             (void *) nativeSetBlock},
-        {"nativeGetBlock3",         "(JIIIII)I",             (void *) nativeGetBlock},
+        {"nativeGetBlock",          "(JIIII)I",              (void *) nativeGetBlock},
         {"nativeSetBlock3",         "(JIIIIII)V",            (void *) nativeSetBlock3},
-        {"nativeGetBlock",          "(JIIII)I",              (void *) nativeGetBlock3},
+        {"nativeGetBlock3",         "(JIIIII)I",             (void *) nativeGetBlock3},
         {"nativeSpecialOperation",  "(JI[I)I",               (void *) nativeSpecialOperation},
         {"nativeSetMaxChunksCount", "(JI)V",                 (void *) nativeSetMaxChunksCount},
         {"nativeCloseDb",           "(J)V",                  (void *) nativeCloseDb},

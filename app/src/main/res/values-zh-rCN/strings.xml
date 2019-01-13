@@ -83,6 +83,7 @@
     <array name="main_list">
         <item>使用Javascript编辑存档</item>
         <item>自定义超平坦</item>
+        <item>设置两个方块共存</item>
         <item>设置</item>
         <item>别戳我</item>
         <item>测试工具</item>

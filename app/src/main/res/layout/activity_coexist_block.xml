@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="blockx"
+            type="Integer" />
+
+        <variable
+            name="blocky"
+            type="Integer" />
+
+        <variable
+            name="blockz"
+            type="Integer" />
+
+        <variable
+            name="apply_area"
+            type="boolean" />
+    </data>
+
+    <!--Begin Main-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--Begin Main+-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top|center"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!--Begin Coord H-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/coexist_blockat" />
+
+                <!--Begin Coord V-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/coexist_blockx" />
+
+                        <EditText
+                            android:id="@+id/et_blockx"
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"
+                            android:text="@{blockx==null?``:Integer.toString(blockx)}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/coexist_blocky" />
+
+                        <EditText
+                            android:id="@+id/et_blocky"
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"
+                            android:text="@{blocky==null?``:Integer.toString(blocky)}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/coexist_blockz" />
+
+                        <EditText
+                            android:id="@+id/et_blockz"
+                            android:layout_width="75dp"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"
+                            android:text="@{blockz==null?``:Integer.toString(blockz)}" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <!--End Coord V-->
+
+            </LinearLayout>
+            <!--End Coord H-->
+
+            <!--In Main-->
+
+            <CheckBox
+                android:id="@+id/cb_apply_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="@{apply_area}"
+                android:text="@string/coexist_applyarea" />
+
+            <!--Begin Blox H-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        android:id="@+id/block1"
+                        layout="@layout/include_coexist_block_block" />
+
+                    <include
+                        android:id="@+id/block2"
+                        layout="@layout/include_coexist_block_block" />
+
+
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="swap"
+                    android:padding="15dp"
+                    android:text="@string/coexist_blocksswap" />
+
+            </LinearLayout>
+            <!--End Blox H-->
+
+            <!--Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="deleteChunk"
+                android:text="@string/coexist_deletechunk" /-->
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="save"
+                android:text="@string/coexist_save" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="20dp"
+                android:text="@string/coexist_warn" />
+
+        </LinearLayout>
+        <!--End Main+-->
+
+    </ScrollView>
+    <!--End Main-->
+
+</layout>

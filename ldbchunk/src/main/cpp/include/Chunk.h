@@ -23,6 +23,8 @@
 
 class World;
 
+class ChunkSource;
+
 class Chunk {
 protected:
 
@@ -32,10 +34,14 @@ protected:
     //World the chunk belongs to.
     World *world;
 
+    ChunkSource *source;
+
 public:
     //Standard interface as a chunk.
 
     Chunk(World *world, mapkey_t key);
+
+    Chunk(ChunkSource *source, mapkey_t key);
 
     virtual ~Chunk() {};
 
@@ -56,7 +62,9 @@ public:
 
     void chflat(qustr old, qustr nwe);
 
-    virtual void save() {};
+    virtual int save() { return 0; };
+
+    virtual int saveTo(ChunkSource *source) { return 0; };
 };
 
 //Later to be found out not being used at all.
@@ -66,6 +74,8 @@ class PocketChunk : public Chunk {
 public:
 
     PocketChunk(World *world, mapkey_t key);
+
+    PocketChunk(ChunkSource *source, mapkey_t key);
 
     ~PocketChunk() {};
 
@@ -107,6 +117,8 @@ public:
 
     BedrockChunk(World *world, mapkey_t key);
 
+    BedrockChunk(ChunkSource *source, mapkey_t key);
+
     ~BedrockChunk();
 
     //Standard interface as a chunk.
@@ -130,7 +142,9 @@ public:
     ////Saving and Deinit.
 
     //////Save entrance, saves subchunks if modified.
-    void save() override;
+    int save() override;
+
+    int saveTo(ChunkSource *source) override;
 
     //Test entrance, useless.
     const char *test();

@@ -1,4 +1,4 @@
-package rbq2012.convarter;
+package rbq2012.convarter.data;
 
 /**
  * Created by barco on 2018/3/16.
